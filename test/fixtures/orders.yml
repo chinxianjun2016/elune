@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lading_no: MyString
+  customer: MyString
+  sales: MyString
+  address: MyString
+  telephone: MyString
+  phone: MyString
+  item_name: MyString
+  demand: MyString
+  purchase_date: 2016-12-20
+  count: 1
+  receiving_date: 2016-12-20
+  installation_date: 2016-12-20
+  inside_no: MyString
+  outlet_no: MyString
+  team: one
+
+two:
+  lading_no: MyString
+  customer: MyString
+  sales: MyString
+  address: MyString
+  telephone: MyString
+  phone: MyString
+  item_name: MyString
+  demand: MyString
+  purchase_date: 2016-12-20
+  count: 1
+  receiving_date: 2016-12-20
+  installation_date: 2016-12-20
+  inside_no: MyString
+  outlet_no: MyString
+  team: two
