@@ -1,4 +1,4 @@
-source 'https://gems.ruby-china.org'
+source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -46,13 +46,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-# User activeadmin
-gem 'activeadmin', github: 'activeadmin'
-gem 'devise'
-gem 'devise-i18n'
-gem 'inherited_resources', github: 'activeadmin/inherited_resources'
-gem 'active_admin_importable'
-
-# Use i18n
-gem 'rails-i18n', '~> 5.0.0'
