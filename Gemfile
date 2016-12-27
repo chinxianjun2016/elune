@@ -27,6 +27,8 @@ gem 'devise'
 gem 'high_voltage'
 gem 'pg'
 gem 'therubyracer', :platform=>:ruby
+gem "creek"
+
 group :development do
   gem 'better_errors'
   gem 'guard-bundler'

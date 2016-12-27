@@ -71,6 +71,9 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.3)
+    creek (1.1.2)
+      nokogiri (~> 1.6.0)
+      rubyzip (>= 1.0.0)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
@@ -277,6 +280,7 @@ DEPENDENCIES
   byebug
   capybara
   coffee-rails (~> 4.2)
+  creek
   database_cleaner
   devise
   factory_girl_rails
