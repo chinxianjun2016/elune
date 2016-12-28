@@ -27,7 +27,8 @@ gem 'devise'
 gem 'high_voltage'
 gem 'pg'
 gem 'therubyracer', :platform=>:ruby
-gem "creek"
+# Use importex for xls --- excel2000
+gem 'importex'
 
 group :development do
   gem 'better_errors'

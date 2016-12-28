@@ -71,9 +71,6 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.3)
-    creek (1.1.2)
-      nokogiri (~> 1.6.0)
-      rubyzip (>= 1.0.0)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
@@ -119,6 +116,8 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     high_voltage (3.0.0)
     i18n (0.7.0)
+    importex (0.1.1)
+      spreadsheet (>= 0.6.4.1)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -216,6 +215,7 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    ruby-ole (1.2.12)
     rubyzip (1.2.0)
     sass (3.4.23)
     sass-rails (5.0.6)
@@ -230,6 +230,8 @@ GEM
       websocket (~> 1.0)
     shellany (0.0.1)
     slop (3.6.0)
+    spreadsheet (1.1.4)
+      ruby-ole (>= 1.0)
     spring (2.0.0)
       activesupport (>= 4.2)
     spring-commands-rspec (1.0.4)
@@ -280,7 +282,6 @@ DEPENDENCIES
   byebug
   capybara
   coffee-rails (~> 4.2)
-  creek
   database_cleaner
   devise
   factory_girl_rails
@@ -289,6 +290,7 @@ DEPENDENCIES
   guard-rails
   guard-rspec
   high_voltage
+  importex
   jbuilder (~> 2.5)
   jquery-rails
   launchy
