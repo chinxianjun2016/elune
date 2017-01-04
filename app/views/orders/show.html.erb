@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lading no:</strong>
+  <%= @order.lading_no %>
+</p>
+
+<p>
+  <strong>Customer:</strong>
+  <%= @order.customer %>
+</p>
+
+<p>
+  <strong>Sales:</strong>
+  <%= @order.sales %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @order.address %>
+</p>
+
+<p>
+  <strong>Telephone:</strong>
+  <%= @order.telephone %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @order.phone %>
+</p>
+
+<p>
+  <strong>Item name:</strong>
+  <%= @order.item_name %>
+</p>
+
+<p>
+  <strong>Demand:</strong>
+  <%= @order.demand %>
+</p>
+
+<p>
+  <strong>Purchase date:</strong>
+  <%= @order.purchase_date %>
+</p>
+
+<p>
+  <strong>Count:</strong>
+  <%= @order.count %>
+</p>
+
+<p>
+  <strong>Receiving date:</strong>
+  <%= @order.receiving_date %>
+</p>
+
+<p>
+  <strong>Installation date:</strong>
+  <%= @order.installation_date %>
+</p>
+
+<p>
+  <strong>Inside no:</strong>
+  <%= @order.inside_no %>
+</p>
+
+<p>
+  <strong>Outlet no:</strong>
+  <%= @order.outlet_no %>
+</p>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>
