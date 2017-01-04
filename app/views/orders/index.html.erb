@@ -5,20 +5,20 @@
 <table>
   <thead>
     <tr>
-      <th>Lading no</th>
-      <th>Customer</th>
-      <th>Sales</th>
-      <th>Address</th>
-      <th>Telephone</th>
-      <th>Phone</th>
-      <th>Item name</th>
-      <th>Demand</th>
-      <th>Purchase date</th>
-      <th>Count</th>
-      <th>Receiving date</th>
-      <th>Installation date</th>
-      <th>Inside no</th>
-      <th>Outlet no</th>
+      <th>提货单号</th>
+      <th>客户姓名</th>
+      <th>销售部门</th>
+      <th>客户地址</th>
+      <th>住宅电话</th>
+      <th>备用电话</th>
+      <th>商品名称</th>
+      <th>客户要求</th>
+      <th>购买日期</th>
+      <th>收货数量</th>
+      <th>收货日期</th>
+      <th>安装日期</th>
+      <th>内机编码</th>
+      <th>外机编码</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -40,9 +40,9 @@
         <td><%= order.installation_date %></td>
         <td><%= order.inside_no %></td>
         <td><%= order.outlet_no %></td>
-        <td><%= link_to 'Show', order %></td>
-        <td><%= link_to 'Edit', edit_order_path(order) %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '查看', order %></td>
+        <td><%= link_to '编辑', edit_order_path(order) %></td>
+        <td><%= link_to '删除', order, method: :delete, data: { confirm: '确定要删除么?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -50,4 +50,4 @@
 
 <br>
 
-<%= link_to 'New Order', new_order_path %>
+<%= link_to '导入工单', new_order_path %>
