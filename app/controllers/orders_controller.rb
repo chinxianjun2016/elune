@@ -7,6 +7,12 @@ class OrdersController < ApplicationController
     @orders = Order.all
   end
 
+  # GET /orders/uploadFile
+  def uploadFile
+    post = DataFile.save(params[:upload])
+    render :text => "File has been uploaded successfully"
+  end
+
   # GET /orders/1
   # GET /orders/1.json
   def show
