@@ -1,8 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Orders</h1>
+<label class="control-label">选择导入的工单</label>
+<input id="input-1" type="file" class="file">
+<%= form_tag({:action => 'uploadFile'}, :multipart => true) do %>
+<p><label for="upload_file">选择导入的工单</label>
+<%= file_field 'upload', 'datafile' %></p>
+<%= submit_tag "导入" %>
+<% end %>
 
-<table>
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>提货单号</th>
@@ -19,7 +25,7 @@
       <th>安装日期</th>
       <th>内机编码</th>
       <th>外机编码</th>
-      <th colspan="3"></th>
+      <th colspan="3">操作</th>
     </tr>
   </thead>
 
@@ -47,7 +53,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to '导入工单', new_order_path %>
