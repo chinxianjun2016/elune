@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
   # GET /orders/uploadFile
   def uploadFile
     post = DataFile.save(params[:upload])
-    render :text => "File has been uploaded successfully"
+    render :text => "工单导入成功"
   end
 
   # GET /orders/1

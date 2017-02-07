@@ -29,6 +29,8 @@ gem 'pg'
 gem 'therubyracer', :platform=>:ruby
 # Use importex for xls --- excel2000
 gem 'importex'
+gem 'roo', '~> 2.7.0'
+gem 'roo-xls'
 
 group :development do
   gem 'better_errors'
