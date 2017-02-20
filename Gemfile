@@ -27,10 +27,11 @@ gem 'devise'
 gem 'high_voltage'
 gem 'pg'
 gem 'therubyracer', :platform=>:ruby
-# Use importex for xls --- excel2000
-gem 'importex'
+# For excel 2007+
 gem 'roo', '~> 2.7.0'
+# For excel 97~2003
 gem 'roo-xls'
+gem 'iconv'
 
 group :development do
   gem 'better_errors'

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :orders do
     collection do
-      get 'uploadFile'
+      post 'import'
     end
   end
   resources :items

@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+.container{
+  width: 100%;
+}
+.bg-inverse {
+  background-color: #025aa5 !important;
+}

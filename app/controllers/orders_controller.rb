@@ -7,10 +7,10 @@ class OrdersController < ApplicationController
     @orders = Order.all
   end
 
-  # GET /orders/uploadFile
-  def uploadFile
-    post = DataFile.save(params[:upload])
-    render :text => "工单导入成功"
+  # POST /orders/import
+  def import
+    Order.import(params[:file])
+    redirect_to orders_url, notice: 'Order was successfully created.'
   end
 
   # GET /orders/1
@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
+    @order = Order.new(params[:order_import])
 
     respond_to do |format|
       if @order.save

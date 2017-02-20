@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161231021300) do
+ActiveRecord::Schema.define(version: 20170219022323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,8 +41,28 @@ ActiveRecord::Schema.define(version: 20161231021300) do
     t.date     "installation_date"
     t.string   "inside_no"
     t.string   "outlet_no"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.date     "service_date"
+    t.date     "network_date"
+    t.date     "appointment"
+    t.string   "record_no"
+    t.string   "area"
+    t.integer  "received_count"
+    t.string   "network"
+    t.string   "installer"
+    t.string   "receipt_audit"
+    t.string   "reviewer"
+    t.string   "invoice_no"
+    t.integer  "year"
+    t.integer  "month"
+    t.string   "stage"
+    t.string   "card_audit"
+    t.string   "card_auditor"
+    t.string   "installer_s"
+    t.string   "completion_note"
+    t.string   "sub_file_no"
+    t.integer  "status",            default: 0
   end
 
   create_table "teams", force: :cascade do |t|

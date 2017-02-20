@@ -1,11 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<%= form_tag({:action => 'uploadFile'}, :multipart => true) do %>
-  <p>
-    <label for="upload_file">选择导入的工单</label>
-    <%= file_field 'upload', 'datafile' %>
-  </p>
-  <%= submit_tag "导入" %>
+<%= form_tag import_orders_path, multipart: true do |f| %>
+  <% if Order.new.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(Order.new.errors.count, "error") %> prohibited this import from completing:</h2>
+      <ul>
+        <% Order.new.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "导入工单" %>
+  <% end %>
 <% end %>
 
 <table class="table table-bordered">
@@ -23,8 +31,6 @@
       <th>收货数量</th>
       <th>收货日期</th>
       <th>安装日期</th>
-      <th>内机编码</th>
-      <th>外机编码</th>
       <th colspan="3">操作</th>
     </tr>
   </thead>
@@ -44,8 +50,6 @@
         <td><%= order.count %></td>
         <td><%= order.receiving_date %></td>
         <td><%= order.installation_date %></td>
-        <td><%= order.inside_no %></td>
-        <td><%= order.outlet_no %></td>
         <td><%= link_to '查看', order %></td>
         <td><%= link_to '编辑', edit_order_path(order) %></td>
         <td><%= link_to '删除', order, method: :delete, data: { confirm: '确定要删除么?' } %></td>

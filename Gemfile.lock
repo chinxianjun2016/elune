@@ -116,8 +116,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     high_voltage (3.0.0)
     i18n (0.7.0)
-    importex (0.1.1)
-      spreadsheet (>= 0.6.4.1)
+    iconv (1.0.4)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -297,7 +296,7 @@ DEPENDENCIES
   guard-rails
   guard-rspec
   high_voltage
-  importex
+  iconv
   jbuilder (~> 2.5)
   jquery-rails
   launchy
