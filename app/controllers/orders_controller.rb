@@ -13,6 +13,11 @@ class OrdersController < ApplicationController
     redirect_to orders_url, notice: 'Order was successfully created.'
   end
 
+  # GET /orders/baiduMap
+  def baiduMap
+    @orders = Order.all
+  end
+
   # GET /orders/1
   # GET /orders/1.json
   def show
