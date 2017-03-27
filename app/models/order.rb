@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  # belongs_to :team
 
   def imported_orders
     @imported_orders ||= load_imported_orders

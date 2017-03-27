@@ -1,2 +1,0 @@
-json.extract! order, :id, :lading_no, :customer, :sales, :address, :telephone, :phone, :item_name, :demand, :purchase_date, :count, :receiving_date, :installation_date, :inside_no, :outlet_no, :created_at, :updated_at
-json.url order_url(order, format: :json)

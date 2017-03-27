@@ -1,28 +1,64 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="zh" ng-csp="" ng-app="EluneApp"> <!--<![endif]-->
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Elune" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Elune" %>">
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Elune Tasks Manager</title>
+    <!-- mobile meta -->
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
-
-    <!-- Latest compiled and minified Locales -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+		<!--[if IE]>
+			<link rel="shortcut icon" href="favicon.ico">
+		<![endif]-->
+		<!-- or, set /favicon.ico for IE10 win -->
+		<meta name="msapplication-TileColor" content="#f01d4f">
     <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-  <body>
-    <header>
-      <%= render 'layouts/navigation' %>
-    </header>
-    <main role="main">
-       <%= render 'layouts/messages' %>
-       <%= yield %>
-    </main>
+
+  <body class="main-wrapper">
+    <!--[if lt IE 8]>
+		    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+    <div class="ui secondary pointing menu">
+      <a class="active item">首页 </a>
+      <a class="item">工单管理 </a>
+      <a class="item">安装队管理 </a>
+      <div class="right menu">
+        <a class="ui item">退出 </a>
+      </div>
+    </div>
+    <div class="ui bottom attached grid pushable">
+      <!--<div class="ui grid">-->
+      <div class="three wide column">
+        <!-- Sidebar -->
+        <div class="ui vertical menu">
+          <a class="teal item active" href="/orders">
+            工单列表
+            <div class="ui teal left pointing label">1</div>
+          </a>
+          <a class="item" href="/orders/baiduMap">
+            地图派工
+            <div class="ui label">51</div>
+          </a>
+          <a class="item">
+            已完工工单
+            <div class="ui label">1</div>
+          </a>
+        </div>
+      </div>
+      <!-- Main view for templates -->
+      <div data-ng-view="" class="thirteen wide stretched column">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

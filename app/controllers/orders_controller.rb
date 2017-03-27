@@ -15,7 +15,13 @@ class OrdersController < ApplicationController
 
   # GET /orders/baiduMap
   def baiduMap
-    @orders = Order.all
+    # order_today = Order.all.where(installation_date: Date.today)
+    order_today = Order.all
+    order_addr = ""
+    order_today.each do |order|
+      order_addr << order.address + ","
+    end
+    @order_address =  order_addr.chop!
   end
 
   # GET /orders/1
@@ -73,13 +79,13 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_order
+    @order = Order.find(params[:lading_no])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def order_params
-      params.require(:order).permit(:lading_no, :customer, :sales, :address, :telephone, :phone, :item_name, :demand, :purchase_date, :count, :receiving_date, :installation_date, :inside_no, :outlet_no)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def order_params
+    params.require(:order).permit(:lading_no, :customer, :sales, :address, :telephone, :phone, :item_name, :demand, :purchase_date, :count, :receiving_date, :installation_date, :inside_no, :outlet_no)
+  end
 end
