@@ -31,7 +31,7 @@
       <th>收货数量</th>
       <th>收货日期</th>
       <th>安装日期</th>
-      <th colspan="3">操作</th>
+      <th colspan="2">操作</th>
     </tr>
   </thead>
 
@@ -52,7 +52,7 @@
         <td><%= order.installation_date %></td>
         <td><%= link_to '查看', order %></td>
         <td><%= link_to '编辑', edit_order_path(order) %></td>
-        <td><%= link_to '删除', order, method: :delete, data: { confirm: '确定要删除么?' } %></td>
+        <td><%#= link_to '删除', order, method: :delete, data: { confirm: '确定要删除么?' } %></td>
       </tr>
     <% end %>
   </tbody>

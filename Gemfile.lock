@@ -41,6 +41,8 @@ GEM
     arel (7.1.4)
     autoprefixer-rails (6.7.7.1)
       execjs
+    baidu_map (0.2.1)
+      eat (~> 0.1.8)
     builder (3.2.3)
     byebug (9.0.6)
     coffee-rails (4.2.1)
@@ -53,11 +55,14 @@ GEM
     commonjs (0.2.7)
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.2)
+    eat (0.1.8)
+      httpclient
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.18)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    httpclient (2.8.3)
     i18n (0.8.1)
     iconv (1.0.4)
     jbuilder (2.6.3)
@@ -185,6 +190,7 @@ PLATFORMS
 
 DEPENDENCIES
   autoprefixer-rails
+  baidu_map
   byebug
   coffee-rails (~> 4.2)
   iconv

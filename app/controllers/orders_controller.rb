@@ -15,13 +15,15 @@ class OrdersController < ApplicationController
 
   # GET /orders/baiduMap
   def baiduMap
-    # order_today = Order.all.where(installation_date: Date.today)
-    order_today = Order.all
-    order_addr = ""
-    order_today.each do |order|
-      order_addr << order.address + ","
-    end
-    @order_address =  order_addr.chop!
+    # @orders = Order.all.where(installation_date: Date.today)
+    @orders = Order.all
+    respond_to :html, :json
+    # order_today = Order.all
+    # order_addr = ""
+    # order_today.each do |order|
+    #   order_addr << order.address + ","
+    # end
+    # @order_address =  order_addr.chop!
   end
 
   # GET /orders/1

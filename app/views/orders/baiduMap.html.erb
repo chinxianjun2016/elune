@@ -1,48 +1,55 @@
 <p id="notice"><%= notice %></p>
 <input name="address" id="address" value="<%= @order_address %>" hidden="hidden">
-<div id="baiduMap" style="height:300px;width:100%;"></div>
 <div id="r-result" style="width:100%;font-size:14px;line-height:20px;">
-  <input type="button" value="批量地址解析" onclick="bdGEO()" />
-  <div id="result"></div>
+
+  <select class="ui right" id="selectWorker">
+    <option value="00">Gender</option>
+    <option value="11">Male</option>
+    <option value="22">Female</option>
+  </select>
 </div>
+<div id="baiduMap" style="height:90%;width:100%;"></div>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=h0OaFcmnYuLbnm8fsm5unMQuh9Oluve3"></script>
 <script type="text/javascript">
+//  $(document).ready(function () {
+//      var map = new BMap.Map("baiduMap");            // 创建Map实例
+//      var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
+//      map.centerAndZoom(point,13);
+//      map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
+//      var index = 0;
+//      var myGeo = new BMap.Geocoder();
+//      $.getJSON("/orders/baiduMap", function(json){
+//          var objOrders = eval(json);
+//          alert(objOrders);
+//      });
+//
+//  });
   var map = new BMap.Map("baiduMap");            // 创建Map实例
   var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
   map.centerAndZoom(point,13);
   map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
-  var index = 0;
-  var myGeo = new BMap.Geocoder();
-  var adds = document.getElementById('address').value.split(',');
-//        alert(typeof addrs);
-//        alert(addrs[0]);
-  var offset = 0;
-  function bdGEO() {
-      var add = adds[index];
-      geocodeSearch(add);
-      index++;
-      offset += 0.0001;
-  }
 
-  function geocodeSearch(add) {
-      if(index < adds.length){
-          setTimeout(window.bdGEO,400);
-      }
-      myGeo.getPoint(add, function(point) {
-          if(point) {
-//              point.lng += offset;
-              point.lat += offset;
-              document.getElementById("result").interHTML +=
-                  index + "、" + add + ":" + point.lng + "," + point.lat + "</br>";
-              var address = new BMap.Point(point.lng, point.lat);
-              addMarker(address,new BMap.Label(index+":"+add,{offset:new BMap.Size(20,-10)}));
+  $.getJSON("/orders/baiduMap", function(json){
+      var pointOffset = 0.000001;
+      for(var i=0; i<json.length; i++){
+          var objOrders = eval(json);
+          var orderLng = parseFloat(objOrders[i].lng);
+          if(i>0){
+              if(objOrders[i-1].address == objOrders[i].address){
+                  var orderLat = objOrders[i].lat + pointOffset;
+                  pointOffset += 0.000001;
+//                  alert(orderLat);
+              }
+              else{
+                  var orderLat = objOrders[i].lat;
+              }
           }
-      }, "北京市");
-  }
-  // 编写自定义函数,创建标注
-  function addMarker(point,label){
-      var marker = new BMap.Marker(point);
-      map.addOverlay(marker);
-      marker.setLabel(label);
-  }
+          var point = new BMap.Point(orderLng, orderLat);
+          var label = (objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name;
+          var marker = new BMap.Marker(point);
+//          alert(label);
+          map.addOverlay(marker);
+          marker.setLabel(label);
+      }
+  });
 </script>

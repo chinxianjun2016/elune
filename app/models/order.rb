@@ -14,6 +14,8 @@ class Order < ApplicationRecord
       order = Order.find_by(lading_no: row["id"]) || Order.new
       # order = Order.new
       order.attributes = row.to_hash.slice(*row.to_hash.keys)
+      order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
+      order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
       order.save!
     end
   end
@@ -33,9 +35,11 @@ class Order < ApplicationRecord
     header2column = ["service_date", "network_date", "appointment", "record_no", "lading_no", "customer", "area", "sales", "address", "telephone", "phone", "purchase_date", "demand", "item_name", "count", "network", "installer", "received_count", "receiving_date", "receipt_audit", "reviewer", "installation_date", "inside_no", "outlet_no", "invoice_no", "year", "month", "stage", "card_audit", "card_auditor", "installer_s", "completion_note", "sub_file_no"]
     (2..spreadsheet.last_row).map do |i|
       row = Hash[[header2column, spreadsheet.row(i)].transpose]
-      order = Order.find_by(lading_no: row["id"]) || Order.new
+      order = Order.find_by(lading_no: row["lading_no"]) || Order.new
       # order = Order.new
       order.attributes = row.to_hash.slice(*row.to_hash.keys)
+      order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
+      order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
       order.save!
     end
   end

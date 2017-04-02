@@ -63,3 +63,5 @@ gem 'roo', '~> 2.7.0'
 # For excel 97~2003
 gem 'roo-xls'
 gem 'iconv'
+# BaiduMap
+gem 'baidu_map'
