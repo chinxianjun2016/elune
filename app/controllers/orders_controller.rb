@@ -16,14 +16,8 @@ class OrdersController < ApplicationController
   # GET /orders/baiduMap
   def baiduMap
     # @orders = Order.all.where(installation_date: Date.today)
-    @orders = Order.all
+    @orders = Order.order(address: :asc)
     respond_to :html, :json
-    # order_today = Order.all
-    # order_addr = ""
-    # order_today.each do |order|
-    #   order_addr << order.address + ","
-    # end
-    # @order_address =  order_addr.chop!
   end
 
   # GET /orders/1
@@ -70,6 +64,16 @@ class OrdersController < ApplicationController
     end
   end
 
+  def dispatch
+    respond_to do |format|
+      if @order.update(order_params)
+        format.json {render :baiduMap_orders_index_path, status: :ok, location: @order}
+      else
+        format.json {render json: @order.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /orders/1
   # DELETE /orders/1.json
   def destroy
@@ -83,7 +87,7 @@ class OrdersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_order
-    @order = Order.find(params[:lading_no])
+    @order = Order.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

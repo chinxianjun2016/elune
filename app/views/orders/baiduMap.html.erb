@@ -1,55 +1,115 @@
 <p id="notice"><%= notice %></p>
 <input name="address" id="address" value="<%= @order_address %>" hidden="hidden">
 <div id="r-result" style="width:100%;font-size:14px;line-height:20px;">
-
-  <select class="ui right" id="selectWorker">
-    <option value="00">Gender</option>
-    <option value="11">Male</option>
-    <option value="22">Female</option>
-  </select>
 </div>
 <div id="baiduMap" style="height:90%;width:100%;"></div>
+<div class="ui modal">
+  <div class="actions">
+    <div class="ui black deny button">
+      取消
+    </div>
+    <div class="ui positive right labeled icon button">
+      确定
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=h0OaFcmnYuLbnm8fsm5unMQuh9Oluve3"></script>
 <script type="text/javascript">
-//  $(document).ready(function () {
-//      var map = new BMap.Map("baiduMap");            // 创建Map实例
-//      var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
-//      map.centerAndZoom(point,13);
-//      map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
-//      var index = 0;
-//      var myGeo = new BMap.Geocoder();
-//      $.getJSON("/orders/baiduMap", function(json){
-//          var objOrders = eval(json);
-//          alert(objOrders);
-//      });
-//
-//  });
   var map = new BMap.Map("baiduMap");            // 创建Map实例
   var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
+//  var myIcon = new BMap.Icon("/location.png", new BMap.Size(50, 50), { anchor: new BMap.Size(10, 10)});
   map.centerAndZoom(point,13);
   map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
 
   $.getJSON("/orders/baiduMap", function(json){
-      var pointOffset = 0.000001;
+      var pointOffset = 0.00005;
       for(var i=0; i<json.length; i++){
           var objOrders = eval(json);
-          var orderLng = parseFloat(objOrders[i].lng);
           if(i>0){
               if(objOrders[i-1].address == objOrders[i].address){
+                  var orderLng = objOrders[i].lng + pointOffset;
                   var orderLat = objOrders[i].lat + pointOffset;
-                  pointOffset += 0.000001;
+                  pointOffset += 0.00005;
 //                  alert(orderLat);
               }
               else{
+                  var orderLng = objOrders[i].lng;
                   var orderLat = objOrders[i].lat;
               }
+
+          }
+          else{
+              var orderLng = objOrders[i].lng;
+              var orderLat = objOrders[i].lat;
           }
           var point = new BMap.Point(orderLng, orderLat);
-          var label = (objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name;
+          var label = new BMap.Label(i+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name), {offset:new BMap.Size(20, -10)});
           var marker = new BMap.Marker(point);
-//          alert(label);
           map.addOverlay(marker);
           marker.setLabel(label);
+          //左键信息框
+          var content = "安装工："+objOrders[i].team_name+"<br/>"+ "客户地址："+objOrders[i].address;
+          var opts = {
+              width: 250,
+              height: 100,
+              title: "工单信息"
+          };
+          addClickHandler(content, marker, opts);
+          //右键派工
+          var orderId = parseFloat(objOrders[i].id);
+          RightClickHandler(orderId, marker);
+//          RightClick();
       }
   });
+
+  //右键单击marker出现右键菜单事件
+  function RightClickHandler(orderId,marker){
+      var updateMarker = function(marker){//右键更新站名
+          if (confirm("要进行派工吗？")){
+              if(true){
+                  $(".ui.modal").modal("show");
+                  $("#teamName").checked.val();
+              }
+          }
+      };
+      var markerMenu=new BMap.ContextMenu();
+      markerMenu.addItem(new BMap.MenuItem('派工',updateMarker.bind(marker)));
+      marker.addContextMenu(markerMenu);//给标记添加右键菜单
+  }
+  //鼠标左键单击marker事件
+  function addClickHandler(content, marker, opts){
+      marker.addEventListener("click",function(e){
+          openInfo(content, e, opts)
+      });
+  }
+  //左键单击marker弹出窗口事件
+  function openInfo(content, e, opts){
+      var p = e.target;
+      var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+      var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+      map.openInfoWindow(infoWindow,point);                  //开启信息窗口
+  }
+  //派工
+  function update(){
+      var lading_no=$("#lading_no").val();//提货单号
+      var team_name=$(".AllTeam_name").val();//名字
+
+      var json={
+              "lading_no":lading_no,
+              "team_name":team_name
+      };
+
+      $.getJSON("/orders/dispatch",{json:JSON.stringify(json)},function(json){
+
+          if(json.result==true){
+              alert("工单"+lading_no+"派工完成！");
+              $(".AllUpdateMassage").hide();
+          }
+          else{
+              alert("派工失败！");
+          }
+      });
+
+  }
 </script>
