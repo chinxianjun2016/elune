@@ -1,0 +1,155 @@
+<p id="notice"><%= notice %></p>
+<input name="address" id="address" value="<%= @order_address %>" hidden="hidden">
+<div id="r-result" style="width:100%;font-size:14px;line-height:20px;">
+</div>
+<div id="baiduMap" style="height:90%;width:100%;"></div>
+<div class="ui modal">
+  <div class="header">派工</div>
+  <div class="ui form" id="dispatch">
+    <div class="grouped fields">
+      <% @teams.each do |team| %>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="team_name" value="<%= team.name %>">
+            <label><%= team.name %></label>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      取消
+    </div>
+    <div type="submit" class="ui positive right labeled icon button">
+      确定
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=h0OaFcmnYuLbnm8fsm5unMQuh9Oluve3"></script>
+<script type="text/javascript">
+  var map = new BMap.Map("baiduMap");            // 创建Map实例
+  var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
+  map.centerAndZoom(point,13);
+  map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
+
+  $.getJSON("/orders/baidu_map", function(json){
+      var pointOffset = 0.00005;
+      for(var i=0; i<json.length; i++){
+          var objOrders = eval(json);
+          if(i>0){
+              if(objOrders[i-1].address == objOrders[i].address){
+                  var orderLng = objOrders[i].lng + pointOffset;
+                  var orderLat = objOrders[i].lat + pointOffset;
+                  pointOffset += 0.00005;
+//                  alert(orderLat);
+              }
+              else{
+                  var orderLng = objOrders[i].lng;
+                  var orderLat = objOrders[i].lat;
+              }
+
+          }
+          else{
+              var orderLng = objOrders[i].lng;
+              var orderLat = objOrders[i].lat;
+          }
+          var point = new BMap.Point(orderLng, orderLat);
+          var label = new BMap.Label(i+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name), {offset:new BMap.Size(20, -10)});
+          var marker = new BMap.Marker(point);
+          map.addOverlay(marker);
+          marker.setLabel(label);
+          //右键信息框
+          var content = "安装工："+objOrders[i].team_name+"<br/>"+ "客户地址："+objOrders[i].address;
+          var opts = {
+              width: 250,
+              height: 100,
+              title: "工单信息"
+          };
+          RightClickHandler(content, marker, opts);
+//          RightClick();
+          //左键派工
+          var orderId = parseFloat(objOrders[i].id);
+          addClickHandler(orderId, marker);
+      }
+  });
+
+  //鼠标左键单击marker事件
+  function addClickHandler(orderId, marker){
+      marker.addEventListener("click",function(e){
+          $(".ui.modal")
+              .modal({
+                  closable: false,
+                  onDeny: function () {
+                      window.alert("是要放弃派工么？");
+                  },
+                  onApprove: function () {
+                      var team_name = $("input[name='team_name']:checked").val();
+                      var data = {order: {
+                          "status":1,
+                          "team_name":team_name
+                      }
+                      };
+
+                      $.ajax({
+                          async: false,
+                          url: "/orders/" + orderId,
+                          type: "PUT",
+                          data: data,
+                          dataType: "json",
+                          success: function (result) {
+                              window.alert(result);
+                          }
+                      })
+                  }
+              })
+              .modal("show");
+      });
+  }
+  //右键单击marker弹出窗口事件
+  function openInfo(content, e, opts){
+      var p = e.target;
+      var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+      var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+      map.openInfoWindow(infoWindow,point);                  //开启信息窗口
+  }
+
+  //右键单击marker出现右键菜单事件
+  function RightClickHandler(content, marker, opts){
+      var showMarker = function (marker) {
+//        if(confirm("要查看工单信息么?")){
+//            if(true){
+                openInfo(content, marker, opts);
+//            }
+//        }
+      };
+      var markerMenu=new BMap.ContextMenu();
+      markerMenu.addItem(new BMap.MenuItem(content,showMarker.bind(marker)));
+      marker.addContextMenu(markerMenu);//给标记添加右键菜单
+  }
+//  //派工
+//  function update(orderId){
+//      var team_name = $("input[name='team_name']:checked").val();
+//      alert(team_name);
+//      var json_date={
+//              "status":1,
+//              "team_name":team_name
+//      };
+//      alert(json_date);
+//      $.ajax({
+//          type: "PUT",
+//          url: "/orders/" + orderId + ".json",
+//          data: json_date,
+//          dataType: 'json',
+//          success: function(msg){
+//            if(msg.status=='ok'){
+//                alert("派工完成！");
+//            }
+//            else{
+//                alert("派工失败！");
+//            }
+//          }
+//      });
+//  }
+</script>

@@ -13,10 +13,11 @@ class OrdersController < ApplicationController
     redirect_to orders_url, notice: 'Order was successfully created.'
   end
 
-  # GET /orders/baiduMap
-  def baiduMap
+  # GET /orders/baidu_map
+  def baidu_map
     # @orders = Order.all.where(installation_date: Date.today)
     @orders = Order.order(address: :asc)
+    @teams = Team.order(name: :asc)
     respond_to :html, :json
   end
 
@@ -64,16 +65,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  def dispatch
-    respond_to do |format|
-      if @order.update(order_params)
-        format.json {render :baiduMap_orders_index_path, status: :ok, location: @order}
-      else
-        format.json {render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /orders/1
   # DELETE /orders/1.json
   def destroy
@@ -92,6 +83,6 @@ class OrdersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def order_params
-    params.require(:order).permit(:lading_no, :customer, :sales, :address, :telephone, :phone, :item_name, :demand, :purchase_date, :count, :receiving_date, :installation_date, :inside_no, :outlet_no)
+    params.require(:order).permit(:status, :team_name, :lading_no, :customer, :sales, :address, :telephone, :phone, :item_name, :demand, :purchase_date, :count, :receiving_date, :installation_date, :inside_no, :outlet_no)
   end
 end

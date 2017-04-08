@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :orders do
     collection do
       post 'import'
-      get 'baiduMap'
+      get 'baidu_map'
     end
   end
   # resources :items
