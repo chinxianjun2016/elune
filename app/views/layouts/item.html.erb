@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="zh" ng-csp="" ng-app="EluneApp"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Elune Tasks Manager</title>
+  <!-- mobile meta -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+  <!--[if IE]>
+  <link rel="shortcut icon" href="favicon.ico">
+  <![endif]-->
+  <!-- or, set /favicon.ico for IE10 win -->
+  <meta name="msapplication-TileColor" content="#f01d4f">
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body class="main-wrapper">
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class="ui secondary pointing menu">
+  <a href="/" class="<%= current_page?('/')? "active" : "" %> item">首页 </a>
+  <a href="/orders" class="<%= current_page?('/orders')? "active" : "" %> item">工单管理 </a>
+  <a href="/teams" class="<%= current_page?('/teams')? "active" : "" %> item">安装队管理 </a>
+  <div class="right menu">
+    <% if user_signed_in? %>
+        <%= link_to('退出', destroy_user_session_path, :method => :delete, class: "ui item") %>
+    <% else %>
+        <%= link_to('登录', new_user_session_path, class: "ui item")  %>
+    <% end %>
+  </div>
+</div>
+<div class="ui bottom attached grid pushable">
+  <!--<div class="ui grid">-->
+  <div class="three wide column">
+    <!-- Sidebar -->
+    <div class="ui vertical menu">
+      <a class="item <%= current_page?('/items')? " teal active" : "" %>" href="/items">
+        库存列表
+        <div class="ui label <%= current_page?('/items')? " teal left pointing" : "" %>">1</div>
+      </a>
+    </div>
+  </div>
+  <!-- Main view for templates -->
+  <div data-ng-view="" class="thirteen wide stretched column">
+    <%= yield %>
+  </div>
+</div>
+</body>
+</html>

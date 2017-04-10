@@ -65,3 +65,6 @@ gem 'roo-xls'
 gem 'iconv'
 # BaiduMap
 gem 'baidu_map'
+# Devise
+gem 'devise'
+gem 'devise-i18n'

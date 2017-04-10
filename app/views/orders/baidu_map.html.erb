@@ -56,7 +56,7 @@
               var orderLat = objOrders[i].lat;
           }
           var point = new BMap.Point(orderLng, orderLat);
-          var label = new BMap.Label(i+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name), {offset:new BMap.Size(20, -10)});
+          var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name), {offset:new BMap.Size(20, -10)});
           var marker = new BMap.Marker(point);
           map.addOverlay(marker);
           marker.setLabel(label);
@@ -71,12 +71,12 @@
 //          RightClick();
           //左键派工
           var orderId = parseFloat(objOrders[i].id);
-          addClickHandler(orderId, marker);
+          addClickHandler(i, orderId, marker);
       }
   });
 
   //鼠标左键单击marker事件
-  function addClickHandler(orderId, marker){
+  function addClickHandler(i, orderId, marker){
       marker.addEventListener("click",function(e){
           $(".ui.modal")
               .modal({
@@ -99,7 +99,8 @@
                           data: data,
                           dataType: "json",
                           success: function (result) {
-                              window.alert(result);
+                              var label = new BMap.Label((i+1) + ":" + team_name);
+                              marker.setLabel(label);
                           }
                       })
                   }
@@ -118,38 +119,10 @@
   //右键单击marker出现右键菜单事件
   function RightClickHandler(content, marker, opts){
       var showMarker = function (marker) {
-//        if(confirm("要查看工单信息么?")){
-//            if(true){
-                openInfo(content, marker, opts);
-//            }
-//        }
+        openInfo(content, marker, opts);
       };
       var markerMenu=new BMap.ContextMenu();
       markerMenu.addItem(new BMap.MenuItem(content,showMarker.bind(marker)));
       marker.addContextMenu(markerMenu);//给标记添加右键菜单
   }
-//  //派工
-//  function update(orderId){
-//      var team_name = $("input[name='team_name']:checked").val();
-//      alert(team_name);
-//      var json_date={
-//              "status":1,
-//              "team_name":team_name
-//      };
-//      alert(json_date);
-//      $.ajax({
-//          type: "PUT",
-//          url: "/orders/" + orderId + ".json",
-//          data: json_date,
-//          dataType: 'json',
-//          success: function(msg){
-//            if(msg.status=='ok'){
-//                alert("派工完成！");
-//            }
-//            else{
-//                alert("派工失败！");
-//            }
-//          }
-//      });
-//  }
 </script>

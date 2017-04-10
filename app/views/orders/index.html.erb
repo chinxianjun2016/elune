@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<%= form_tag import_orders_path, multipart: true do |f| %>
+<%= form_tag import_orders_path, multipart: true, html: {class: "ui form"} do |f| %>
   <% if Order.new.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(Order.new.errors.count, "error") %> prohibited this import from completing:</h2>
