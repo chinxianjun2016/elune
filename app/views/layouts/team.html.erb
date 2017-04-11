@@ -47,12 +47,12 @@
     <div class="ui vertical menu">
       <a class="item <%= current_page?('/teams')? " teal active" : "" %>" href="/teams">
         工人列表
-        <div class="ui label <%= current_page?('/teams')? " teal left pointing" : "" %>"><%= @teams.count %></div>
+
       </a>
     </div>
   </div>
   <!-- Main view for templates -->
-  <div data-ng-view="" class="thirteen wide stretched column">
+  <div data-ng-view="" class="thirteen wide column">
     <%= yield %>
   </div>
 </div>

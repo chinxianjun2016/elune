@@ -22,6 +22,7 @@
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=h0OaFcmnYuLbnm8fsm5unMQuh9Oluve3"></script>
 </head>
 
 <body class="main-wrapper">
@@ -52,12 +53,12 @@
         地图派工
       </a>
       <a class="item <%= current_page?('/orders/dispatch_list')? " teal active" : "" %>" href="/orders/dispatch_list">
-        派工单
+        派工单预览
       </a>
     </div>
   </div>
   <!-- Main view for templates -->
-  <div data-ng-view="" class="fourteen wide stretched column">
+  <div data-ng-view="" class="fourteen wide stretched column" onload="">
     <%= yield %>
   </div>
 </div>

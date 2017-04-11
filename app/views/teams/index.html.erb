@@ -1,4 +1,4 @@
-<table class="ui table table-bordered">
+<table class="ui selected celled table">
   <thead>
     <tr>
       <th>姓名</th>
@@ -23,8 +23,7 @@
       </tr>
     <% end %>
   </tbody>
+  <tfoot><%= link_to '添加安装队', new_team_path, class: "ui button" %></tfoot>
 </table>
 
-<br>
 
-<%= link_to '添加安装队', new_team_path %>
