@@ -8,8 +8,11 @@ Rails.application.routes.draw do
     collection do
       post 'import'
       get 'baidu_map'
+      get 'dispatch_list'
     end
   end
+
+  # get '/orders/dispatch/:id', to: 'orders#dispatch'
   # resources :items
   resources :teams
 

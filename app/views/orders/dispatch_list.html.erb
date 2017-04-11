@@ -1,0 +1,39 @@
+
+<% @orders.each do |order| %>
+  <h1>派工单</h1>
+  <table class="ui selectable celled table">
+    <tbody>
+        <tr>
+          <td>提货单号</td>
+          <td><%= order.lading_no %></td>
+          <td>商品名称</td>
+          <td><%= order.item_type %></td>
+        </tr>
+        <tr>
+          <td>客户姓名</td>
+          <td><%= order.customer %></td>
+          <td>详细地址</td>
+          <td><%= order.address %></td>
+        </tr>
+        <tr>
+          <td>联系电话</td>
+          <td><%= order.phone %></td>
+          <td>派工时间</td>
+          <td><%= order.updated_at %></td>
+        </tr>
+        <tr>
+          <td>经销商</td>
+          <td><%= order.sale_name %></td>
+          <td>安装工</td>
+          <td><%= order.team_name %></td>
+        </tr>
+        <tr>
+          <td>备注</td>
+          <td colspan="3"><%= order.note %></td>
+        </tr>
+    </tbody>
+    <tfoot>
+      <tr><th colspan="4">北京弘飞盛兴科技有限公司</th> </tr>
+    </tfoot>
+  </table>
+<% end %>

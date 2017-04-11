@@ -8,8 +8,13 @@ class Order < ApplicationRecord
   def load_imported_orders
     spreadsheet = open_spreadsheet
     header = spreadsheet.row(1)
-    header2column = ["service_date", "network_date", "appointment", "record_no", "lading_no", "customer", "area", "sales", "address", "telephone", "phone", "purchase_date", "demand", "item_name", "count", "network", "installer", "received_count", "receiving_date", "receipt_audit", "reviewer", "installation_date", "inside_no", "outlet_no", "invoice_no", "year", "month", "stage", "card_audit", "card_auditor", "installer_s", "completion_note", "sub_file_no"]
-    (2..spreadsheet.last_row).map do |i|
+    header2column = ["id", "info_no", "lading_no", "create_time", "customer", "area_code", "phone", "province", "city",
+                     "county", "street", "address", "category", "count", "uncount", "purchase_date", "customer_attribute",
+                     "sale_type", "sale_no", "sale_name", "expected_time", "create_network_no", "create_network",
+                     "service_date", "service_network_no", "service_network", "status", "note", "other_note",
+                     "finished_time", "item_type", "item_count", "item_price", "item_type2", "item_count2", "item_price2",
+                     "item_type3", "item_count3", "item_price3"]
+    (3..spreadsheet.last_row).map do |i|
       row = Hash[header2column, spreadsheet.row(i).transpose]
       order = Order.find_by(lading_no: row["id"]) || Order.new
       # order = Order.new
@@ -32,10 +37,15 @@ class Order < ApplicationRecord
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
     # header = spreadsheet.row(1)
-    header2column = ["service_date", "network_date", "appointment", "record_no", "lading_no", "customer", "area", "sales", "address", "telephone", "phone", "purchase_date", "demand", "item_name", "count", "network", "installer", "received_count", "receiving_date", "receipt_audit", "reviewer", "installation_date", "inside_no", "outlet_no", "invoice_no", "year", "month", "stage", "card_audit", "card_auditor", "installer_s", "completion_note", "sub_file_no"]
-    (2..spreadsheet.last_row).map do |i|
+    header2column = ["id", "info_no", "lading_no", "create_time", "customer", "area_code", "phone", "province", "city",
+                     "county", "street", "address", "category", "count", "uncount", "purchase_date", "customer_attribute",
+                     "sale_type", "sale_no", "sale_name", "expected_time", "create_network_no", "create_network",
+                     "service_date", "service_network_no", "service_network", "status", "note", "other_note",
+                     "finished_time", "item_type", "item_count", "item_price", "item_type2", "item_count2", "item_price2",
+                     "item_type3", "item_count3", "item_price3"]
+    (3..spreadsheet.last_row).map do |i|
       row = Hash[[header2column, spreadsheet.row(i)].transpose]
-      order = Order.find_by(lading_no: row["lading_no"]) || Order.new
+      order = Order.find_by(id: row["id"]) || Order.new
       # order = Order.new
       order.attributes = row.to_hash.slice(*row.to_hash.keys)
       order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
@@ -51,5 +61,9 @@ class Order < ApplicationRecord
       when  ".xlsx" then Roo::Excelx.new(file.path)
       else raise "Unknown file type: #{file.original_filename}"
     end
+  end
+
+  def self.dispatch
+    Order.where("status = '网点已派工'")
   end
 end

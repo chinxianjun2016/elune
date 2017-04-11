@@ -1,0 +1,31 @@
+<table class="ui selectable celled table">
+  <thead>
+  <tr>
+    <th>提货单号</th>
+    <th class="single line">客户姓名</th>
+    <th>客户地址</th>
+    <th>联系电话</th>
+    <th>客户要求</th>
+    <th>商品名称</th>
+    <th>销售单位</th>
+    <th>创建时间</th>
+    <th class="single line">安装工</th>
+    <th class="single line">派工状态</th>
+  </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td><%= @order.lading_no %></td>
+        <td><%= @order.customer %></td>
+        <td><%= @order.address %></td>
+        <td><%= @order.phone %></td>
+        <td><%= @order.note %></td>
+        <td><%= @order.item_type %></td>
+        <td><%= @order.sale_name %></td>
+        <td><%= @order.create_time %></td>
+        <td><%= @order.team_name %></td>
+        <td><%= @order.status %></td>
+      </tr>
+  </tbody>
+</table>

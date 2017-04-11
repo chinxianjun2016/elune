@@ -1,74 +1,56 @@
-<p id="notice"><%= notice %></p>
+<h4 class="ui horizontal divider header"><i class="tag icon"></i>工单信息</h4>
+<table class="ui definition table">
+  <tbody>
+  <tr>
+    <td>提货单号/销售单号</td>
+    <td><%= @order.lading_no %></td>
+    <td class="active">商品型号</td>
+    <td><%= @order.item_type %></td>
+  </tr>
+  <tr>
+    <td>销售部门</td>
+    <td><%= @order.sale_name %></td>
+    <td class="active">创建时间</td>
+    <td><%= @order.create_time %></td>
+  </tr>
+  <tr>
+    <td>创建网点</td>
+    <td><%= @order.create_network %></td>
+    <td class="active">服务网点</td>
+    <td><%= @order.service_network %></td>
+  </tr>
+  <tr>
+    <td>工单状态</td>
+    <td><%= @order.status %></td>
+    <td class="active">安装工</td>
+    <td><%= @order.team_name %></td>
+  </tr>
+  </tbody>
+</table>
+<h4 class="ui horizontal divider header"><i class="user icon"></i>客户信息 </h4>
+<table class="ui definition table">
+  <tbody>
+  <tr>
+    <td>客户姓名</td>
+    <td><%= @order.customer %></td>
+  </tr>
+  <tr>
+    <td>联系电话</td>
+    <td><%= @order.phone %></td>
+  </tr>
+  <tr>
+    <td>客户属性</td>
+    <td><%= @order.customer_attribute %></td>
+  </tr>
+  <tr>
+    <td>详细地址</td>
+    <td><%= @order.address %></td>
+  </tr>
+  <tr>
+    <td>备注</td>
+    <td><%= @order.note %></td>
+  </tr>
+  </tbody>
+</table>
 
-<p>
-  <strong>Lading no:</strong>
-  <%= @order.lading_no %>
-</p>
-
-<p>
-  <strong>Customer:</strong>
-  <%= @order.customer %>
-</p>
-
-<p>
-  <strong>Sales:</strong>
-  <%= @order.sales %>
-</p>
-
-<p>
-  <strong>Address:</strong>
-  <%= @order.address %>
-</p>
-
-<p>
-  <strong>Telephone:</strong>
-  <%= @order.telephone %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @order.phone %>
-</p>
-
-<p>
-  <strong>Item name:</strong>
-  <%= @order.item_name %>
-</p>
-
-<p>
-  <strong>Demand:</strong>
-  <%= @order.demand %>
-</p>
-
-<p>
-  <strong>Purchase date:</strong>
-  <%= @order.purchase_date %>
-</p>
-
-<p>
-  <strong>Count:</strong>
-  <%= @order.count %>
-</p>
-
-<p>
-  <strong>Receiving date:</strong>
-  <%= @order.receiving_date %>
-</p>
-
-<p>
-  <strong>Installation date:</strong>
-  <%= @order.installation_date %>
-</p>
-
-<p>
-  <strong>Inside no:</strong>
-  <%= @order.inside_no %>
-</p>
-
-<p>
-  <strong>Outlet no:</strong>
-  <%= @order.outlet_no %>
-</p>
-
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
+<%= link_to '返回', orders_path, class: "ui button" %>

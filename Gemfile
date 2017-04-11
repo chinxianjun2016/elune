@@ -68,3 +68,5 @@ gem 'baidu_map'
 # Devise
 gem 'devise'
 gem 'devise-i18n'
+# Kaminari
+gem 'kaminari'

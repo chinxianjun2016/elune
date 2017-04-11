@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.order(:create_time).page params[:page]
   end
 
   # POST /orders/import
@@ -36,6 +36,16 @@ class OrdersController < ApplicationController
   # GET /orders/1/edit
   def edit
   end
+
+  def dispatch_list
+    @orders = Order.where("status = '网点已派工'").page params[:page]
+    render layout: "print"
+  end
+
+  # def dispatch
+  #   @order = Order.find(:id).first
+  #   render layout: "print"
+  # end
 
   # POST /orders
   # POST /orders.json
@@ -85,6 +95,17 @@ class OrdersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def order_params
-    params.require(:order).permit(:status, :team_name, :lading_no, :customer, :sales, :address, :telephone, :phone, :item_name, :demand, :purchase_date, :count, :receiving_date, :installation_date, :inside_no, :outlet_no)
+
+    # t.datetime :dispatch_time #派工时间
+    # t.datetime :recall_time #回访时间
+    # t.stirng :recall_note #回访记录
+    # t.string :team_name #安装工名称
+    # t.string :team_phone #安装工电话
+    params.require(:order).permit(:info_no, :lading_no, :create_time, :customer, :area_code, :phone, :province, :city,
+                                  :county, :street, :address, :category, :count, :uncount, :purchase_date, :customer_attribute,
+                                  :sale_type, :sale_no, :sale_name, :expected_time, :create_network_no, :create_network,
+                                  :service_date, :service_network_no, :service_network, :status, :note, :other_note,
+                                  :finished_time, :item_type, :item_count, :item_price, :item_type2, :item_count2, :item_price2,
+                                  :item_type3, :item_count3, :item_price3, :team_name)
   end
 end

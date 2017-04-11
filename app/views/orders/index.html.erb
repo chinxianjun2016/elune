@@ -17,19 +17,17 @@
 <table class="ui selectable celled table">
   <thead>
     <tr>
-      <th>提货单号</th>
-      <th>客户姓名</th>
-      <th>销售部门</th>
+      <th>销售单号</th>
+      <th class="single line">客户姓名</th>
       <th>客户地址</th>
-      <th>住宅电话</th>
-      <th>备用电话</th>
-      <th>商品名称</th>
+      <th>联系电话</th>
       <th>客户要求</th>
-      <th>安装工</th>
-      <th>收货数量</th>
-      <th>收货日期</th>
-      <th>安装日期</th>
-      <th colspan="2">操作</th>
+      <th>商品名称</th>
+      <th>销售单位</th>
+      <th>创建时间</th>
+      <th class="single line">安装工</th>
+      <th>派工状态</th>
+      <th class="single line">操作</th>
     </tr>
   </thead>
 
@@ -38,36 +36,27 @@
       <tr>
         <td><%= order.lading_no %></td>
         <td><%= order.customer %></td>
-        <td><%= order.sales %></td>
         <td><%= order.address %></td>
-        <td><%= order.telephone %></td>
         <td><%= order.phone %></td>
-        <td><%= order.item_name %></td>
-        <td><%= order.demand %></td>
+        <td><%= order.note %></td>
+        <td><%= order.item_type %></td>
+        <td><%= order.sale_name %></td>
+        <td><%= order.create_time %></td>
         <td><%= order.team_name %></td>
-        <td><%= order.count %></td>
-        <td><%= order.receiving_date %></td>
-        <td><%= order.installation_date %></td>
+        <td><%= order.status %></td>
         <td><%= link_to '查看', order %></td>
-        <td><%= link_to '编辑', edit_order_path(order) %></td>
-        <td><%#= link_to '删除', order, method: :delete, data: { confirm: '确定要删除么?' } %></td>
+        <!--<td><%#= link_to '编辑', edit_order_path(order) %></td>-->
+        <!--<td><%#= link_to '删除', order, method: :delete, data: { confirm: '确定要删除么?' } %></td>-->
       </tr>
     <% end %>
   </tbody>
   <tfoot>
-    <tr><th colspan="15">
+    <tr>
+      <th colspan="11">
       <div class="ui right floated pagination menu">
-        <a class="icon item">
-          <i class="left chevron icon"></i>
-        </a>
-        <a class="item">1</a>
-        <a class="item">2</a>
-        <a class="item">3</a>
-        <a class="item">4</a>
-        <a class="icon item">
-          <i class="right chevron icon"></i>
-        </a>
+        <%= paginate @orders %>
       </div>
     </th>
-  </tr></tfoot>
+  </tr>
+  </tfoot>
 </table>

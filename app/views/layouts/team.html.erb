@@ -45,9 +45,9 @@
   <div class="three wide column">
     <!-- Sidebar -->
     <div class="ui vertical menu">
-      <a class="item <%= current_page?('/teams')? " teal active" : "" %>" href="/orders">
+      <a class="item <%= current_page?('/teams')? " teal active" : "" %>" href="/teams">
         工人列表
-        <div class="ui label <%= current_page?('/teams')? " teal left pointing" : "" %>">1</div>
+        <div class="ui label <%= current_page?('/teams')? " teal left pointing" : "" %>"><%= @teams.count %></div>
       </a>
     </div>
   </div>

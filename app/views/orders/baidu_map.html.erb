@@ -1,10 +1,6 @@
-<p id="notice"><%= notice %></p>
-<input name="address" id="address" value="<%= @order_address %>" hidden="hidden">
-<div id="r-result" style="width:100%;font-size:14px;line-height:20px;">
-</div>
-<div id="baiduMap" style="height:90%;width:100%;"></div>
+<div id="baiduMap" style="height:100%;width:100%;"></div>
 <div class="ui modal">
-  <div class="header">派工</div>
+  <div class="header">选择安装工</div>
   <div class="ui form" id="dispatch">
     <div class="grouped fields">
       <% @teams.each do |team| %>
@@ -39,7 +35,7 @@
       for(var i=0; i<json.length; i++){
           var objOrders = eval(json);
           if(i>0){
-              if(objOrders[i-1].address == objOrders[i].address){
+              if(objOrders[i-1].lng == objOrders[i].lng){
                   var orderLng = objOrders[i].lng + pointOffset;
                   var orderLat = objOrders[i].lat + pointOffset;
                   pointOffset += 0.00005;
@@ -48,6 +44,7 @@
               else{
                   var orderLng = objOrders[i].lng;
                   var orderLat = objOrders[i].lat;
+                  pointOffset = 0.00005;
               }
 
           }
@@ -87,7 +84,7 @@
                   onApprove: function () {
                       var team_name = $("input[name='team_name']:checked").val();
                       var data = {order: {
-                          "status":1,
+                          "status":"网点已派工",
                           "team_name":team_name
                       }
                       };
@@ -99,8 +96,11 @@
                           data: data,
                           dataType: "json",
                           success: function (result) {
-                              var label = new BMap.Label((i+1) + ":" + team_name);
-                              marker.setLabel(label);
+                              var l_clean = marker.getLabel();
+                              l_clean.setContent("");
+                              l_clean.setStyle({borderWidth:"0px"});
+                              var new_label = new BMap.Label((i+1) + ":" + team_name);
+                              marker.setLabel(new_label);
                           }
                       })
                   }
