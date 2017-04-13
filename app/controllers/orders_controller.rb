@@ -7,6 +7,9 @@ class OrdersController < ApplicationController
   # GET /orders.json
   def index
     @orders = Order.order(:create_time).page params[:page]
+    @order_all = Order.all.count
+    @dispatch_all = Order.where("status='网点已派工'").count
+    @undispatch_all = Order.where("status='待网点派工'").count
   end
 
   # POST /orders/import
@@ -20,12 +23,17 @@ class OrdersController < ApplicationController
     # @orders = Order.all.where(installation_date: Date.today)
     @orders = Order.order(address: :asc)
     @teams = Team.order(name: :asc)
+    @order_all = Order.all.count
+    @dispatch_all = Order.where("status='网点已派工'").count
+    @undispatch_all = Order.where("status='待网点派工'").count
     respond_to :html, :json
   end
 
   # GET /orders/1
   # GET /orders/1.json
   def show
+    @order_all = Order.all.count
+    @dispatch_all = Order.where("status='网点已派工'").count
   end
 
   # GET /orders/new
@@ -35,10 +43,17 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+    @order_all = Order.all.count
+    @dispatch_all = Order.where("status='网点已派工'").count
   end
 
   def dispatch_list
-    @orders = Order.where("status = '网点已派工'").page params[:page]
+    @orders = Order.where("status = '网点已派工'").order(team_name: :asc).page params[:page]
+    @order_all = Order.all.count
+    @dispatch_all = Order.where("status='网点已派工'").count
+    @undispatch_all = Order.where("status='待网点派工'").count
+    respond_to :html, :json
+
     render layout: "print"
   end
 

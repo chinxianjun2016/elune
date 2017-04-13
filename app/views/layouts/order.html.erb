@@ -43,22 +43,25 @@
 </div>
 <div class="ui bottom attached grid pushable">
   <!--<div class="ui grid">-->
-  <div class="two wide column">
+  <div class="three wide column">
     <!-- Sidebar -->
-    <div class="ui vertical menu" style="width: 11rem;">
+    <div class="ui vertical menu">
       <a class="item <%= current_page?('/orders')? " teal active" : "" %>" href="/orders">
         工单列表
+        <div class="ui <%= current_page?('/orders')? " teal left pointing " : "" %> label"><%= @order_all %></div>
       </a>
       <a class="item <%= current_page?('/orders/baidu_map')? " teal active" : "" %>" href="/orders/baidu_map">
         地图派工
+        <div class="ui <%= current_page?('/orders/baidu_map')? " teal left pointing " : "" %> label"><%= @undispatch_all %></div>
       </a>
-      <a class="item <%= current_page?('/orders/dispatch_list')? " teal active" : "" %>" href="/orders/dispatch_list">
-        派工单预览
+      <a class="item " href="/orders/dispatch_list">
+        已派工列表
+        <div class="ui <%= current_page?('/orders/dispatch_list')? " teal left pointing " : "" %> label"><%= @dispatch_all %></div>
       </a>
     </div>
   </div>
   <!-- Main view for templates -->
-  <div data-ng-view="" class="fourteen wide stretched column" onload="">
+  <div class="thirteen wide stretched column">
     <%= yield %>
   </div>
 </div>

@@ -1,39 +1,142 @@
 
-<% @orders.each do |order| %>
-  <h1>派工单</h1>
+  <a href="javascript:prints()" class="ui small button">打印全部</a>
   <table class="ui selectable celled table">
+    <!--<table class="ui selectable celled table" style="height: 9.31cm; width: 21.8cm">-->
+    <thead>
+    <tr>
+      <th class="single line">安装工</th>
+      <th>销售单号</th>
+      <th class="single line">客户姓名</th>
+      <th class="single line">联系电话</th>
+      <th>详细地址</th>
+      <th>商品型号</th>
+      <th>备注</th>
+      <th class="single line">操作</th>
+    </tr>
+    </thead>
     <tbody>
+      <% @orders.each do |order| %>
         <tr>
-          <td>提货单号</td>
-          <td><%= order.lading_no %></td>
-          <td>商品名称</td>
-          <td><%= order.item_type %></td>
-        </tr>
-        <tr>
-          <td>客户姓名</td>
-          <td><%= order.customer %></td>
-          <td>详细地址</td>
-          <td><%= order.address %></td>
-        </tr>
-        <tr>
-          <td>联系电话</td>
-          <td><%= order.phone %></td>
-          <td>派工时间</td>
-          <td><%= order.updated_at %></td>
-        </tr>
-        <tr>
-          <td>经销商</td>
-          <td><%= order.sale_name %></td>
-          <td>安装工</td>
           <td><%= order.team_name %></td>
+          <td><%= order.lading_no %></td>
+          <td><%= order.customer %></td>
+          <td><%= order.phone %></td>
+          <td><%= order.address %></td>
+          <td><%= order.item_type %></td>
+          <td><%= order.note %></td>
+          <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
         </tr>
-        <tr>
-          <td>备注</td>
-          <td colspan="3"><%= order.note %></td>
-        </tr>
+      <% end %>
     </tbody>
     <tfoot>
-      <tr><th colspan="4">北京弘飞盛兴科技有限公司</th> </tr>
-    </tfoot>
+      <tr>
+        <th colspan="11">
+          <div class="ui right floated pagination menu">
+            <%= paginate @orders %>
+          </div>
+        </th>
+      </tr>
+  </tfoot>
   </table>
-<% end %>
+
+<script>
+  var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
+  var oscript = document.createElement("script");
+  oscript.src = "http://localhost:8000/CLodopfuncs.js?priority=2";
+  head.insertBefore(oscript, head.firstChild);
+
+  function getLodop(oOBJECT,oEMBED) {
+      var LODOP;
+      try{
+          try{
+              LODOP=getCLodop();
+          } catch (err){};
+          if(!LODOP && document.readyState!=="complete"){
+              alert("C-Lodop没准备好，请稍候再试！");
+              return;
+          }
+          if(oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
+          if(oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
+
+          return LODOP;
+      } catch (err) {alert("getLodop出错：" + err);};
+  };
+
+  function needCLodop() {
+      return true;
+  };
+
+  var LODOP;
+  LODOP=getLodop();
+
+  function print(oid) {
+      $.getJSON("/orders/" + oid, function(json){
+              var objOrder = eval(json);
+              var lading_no = objOrder.lading_no;
+              var item_type = objOrder.item_type;
+              var customer = objOrder.customer;
+              var address = objOrder.address;
+              var phone = objOrder.phone;
+              var updated_at = objOrder.updated_at;
+              var sale_name = objOrder.sale_name;
+              var team_name = objOrder.team_name;
+              var note = (objOrder.note == null)? "" : objOrder.note;
+
+              LODOP.PRINT_INIT("");
+              LODOP.SET_PRINT_PAGESIZE(1,"241mm","93mm","派工单");
+              addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note);
+              LODOP.PREVIEW();
+      });
+  };
+
+  function prints() {
+      $.getJSON("/orders/dispatch_list", function(json){
+          for(var i=0; i<json.length; i++){
+              var objOrders = eval(json);
+              var lading_no = objOrders[i].lading_no;
+              var item_type = objOrders[i].item_type;
+              var customer = objOrders[i].customer;
+              var address = objOrders[i].address;
+              var phone = objOrders[i].phone;
+              var updated_at = objOrders[i].updated_at;
+              var sale_name = objOrders[i].sale_name;
+              var team_name = objOrders[i].team_name;
+              var note = (objOrders[i].note == null)? "" : objOrders[i].note;
+
+              LODOP.PRINT_INIT("");
+              LODOP.SET_PRINT_PAGESIZE(1,"241mm","93mm","派工单");
+              addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note);
+              LODOP.PRINT();
+          }
+      });
+  };
+
+  function addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note) {
+      LODOP.SET_PRINT_STYLE("FontColor",16711680);
+      LODOP.ADD_PRINT_RECT(31,16,459,217,0,1);
+      LODOP.SET_PRINT_STYLE("Underline", 1);
+      LODOP.ADD_PRINT_TEXT(5,337,431,25,"弘飞盛兴派工单");
+      LODOP.SET_PRINT_STYLEA(2,"FontName","隶书");
+      LODOP.SET_PRINT_STYLEA(2,"FontSize",18);
+      LODOP.SET_PRINT_STYLEA(2,"FontColor",0);
+      LODOP.ADD_PRINT_TEXT(45,37,731,25,"单号：" + lading_no + "         经销商："+ sale_name);
+      LODOP.SET_PRINT_STYLEA(3,"FontSize",14);
+      LODOP.SET_PRINT_STYLEA(3,"FontColor",0);
+      LODOP.ADD_PRINT_TEXT(72,37,731,25,"工人：" + team_name + "                      派工时间：" + updated_at);
+      LODOP.SET_PRINT_STYLEA(4,"FontSize",14);
+      LODOP.SET_PRINT_STYLEA(4,"FontColor",0);
+      LODOP.ADD_PRINT_TEXT(99,37,631,25,"姓名：" + customer + "                        电话：" + phone);
+      LODOP.SET_PRINT_STYLEA(5,"FontSize",14);
+      LODOP.SET_PRINT_STYLEA(5,"FontColor",0);
+      LODOP.ADD_PRINT_TEXT(126,37,631,25, "地址：" + address);
+      LODOP.SET_PRINT_STYLEA(6,"FontSize",14);
+      LODOP.SET_PRINT_STYLEA(6,"FontColor",0);
+      LODOP.ADD_PRINT_TEXT(154,37,631,25,"型号：" + item_type);
+      LODOP.SET_PRINT_STYLEA(7,"FontSize",14);
+      LODOP.SET_PRINT_STYLEA(7,"FontColor",0);
+      LODOP.ADD_PRINT_TEXT(181,37,631,25,"备注：" + note);
+      LODOP.SET_PRINT_STYLEA(8,"FontSize",14);
+      LODOP.SET_PRINT_STYLEA(8,"FontColor",0);
+  };
+
+</script>

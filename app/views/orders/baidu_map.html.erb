@@ -37,20 +37,20 @@
 //  window.onload = loadJScript;
 
   $.getJSON("/orders/baidu_map", function(json){
-      var pointOffset = 0.00005;
+      var pointOffset = 0.00007;
       for(var i=0; i<json.length; i++){
           var objOrders = eval(json);
           if(i>0){
               if(objOrders[i-1].lng == objOrders[i].lng){
                   var orderLng = objOrders[i].lng + pointOffset;
                   var orderLat = objOrders[i].lat + pointOffset;
-                  pointOffset += 0.00005;
+                  pointOffset += 0.00007;
 //                  alert(orderLat);
               }
               else{
                   var orderLng = objOrders[i].lng;
                   var orderLat = objOrders[i].lat;
-                  pointOffset = 0.00005;
+                  pointOffset = 0.00007;
               }
 
           }
@@ -66,7 +66,7 @@
           //右键信息框
           var content = "安装工："+objOrders[i].team_name+"<br/>"+ "客户地址："+objOrders[i].address;
           var opts = {
-              width: 250,
+              width: 300,
               height: 100,
               title: "工单信息"
           };
