@@ -1,5 +1,5 @@
 
-  <a href="javascript:prints()" class="ui small button">打印全部</a>
+  <a href="javascript:prints()" class="ui mini primary button">打印全部</a>
   <table class="ui selectable celled table">
     <!--<table class="ui selectable celled table" style="height: 9.31cm; width: 21.8cm">-->
     <thead>
@@ -11,7 +11,7 @@
       <th>详细地址</th>
       <th>商品型号</th>
       <th>备注</th>
-      <th class="single line">操作</th>
+      <th class="single line" colspan="2">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -25,21 +25,26 @@
           <td><%= order.item_type %></td>
           <td><%= order.note %></td>
           <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
+          <td><a href="#">完工</a></td>
         </tr>
       <% end %>
     </tbody>
-    <tfoot>
-      <tr>
-        <th colspan="11">
-          <div class="ui right floated pagination menu">
-            <%= paginate @orders %>
-          </div>
-        </th>
-      </tr>
-  </tfoot>
+    <!--<tfoot>-->
+      <!--<tr>-->
+        <!--<th colspan="11">-->
+          <!--<div class="ui right floated pagination menu">-->
+            <!--<%#= paginate @orders %>-->
+          <!--</div>-->
+        <!--</th>-->
+      <!--</tr>-->
+  <!--</tfoot>-->
   </table>
 
 <script>
+  $(document).ready(function () {
+      $('#orders').DataTable();
+  });
+
   var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
   var oscript = document.createElement("script");
   oscript.src = "http://localhost:8000/CLodopfuncs.js?priority=2";

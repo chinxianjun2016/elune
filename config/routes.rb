@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post 'import'
       get 'baidu_map'
       get 'dispatch_list'
+      get 'finished_list'
     end
   end
 

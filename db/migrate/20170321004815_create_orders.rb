@@ -26,7 +26,7 @@ class CreateOrders < ActiveRecord::Migration[5.0]
       t.datetime :service_date #首次派工时间
       t.string :service_network_no #服务网点编号
       t.string :service_network #服务网点名称
-      t.string :status #派工状态
+      t.string :status #派工状态: 待网点派工、网点已派工、待网点回访、派工已完工
       t.string :note #备注
       t.string :other_note #其他说明
       t.string :finished_time #完工时间

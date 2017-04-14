@@ -6,10 +6,13 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.order(:create_time).page params[:page]
+    # @orders = Order.order(:create_time).page params[:page]
+    @orders = Order.order(:create_time)
     @order_all = Order.all.count
     @dispatch_all = Order.where("status='网点已派工'").count
     @undispatch_all = Order.where("status='待网点派工'").count
+    # @recall_all = Order.where("status='待网点回访'").count
+    @finished_all = Order.where("status='派工已完工'").count
   end
 
   # POST /orders/import
@@ -20,12 +23,15 @@ class OrdersController < ApplicationController
 
   # GET /orders/baidu_map
   def baidu_map
-    # @orders = Order.all.where(installation_date: Date.today)
-    @orders = Order.order(address: :asc)
+    @orders = Order.where(install_date: Date.tomorrow)
+    # @orders = Order.order(address: :asc)
     @teams = Team.order(name: :asc)
     @order_all = Order.all.count
-    @dispatch_all = Order.where("status='网点已派工'").count
+
+    @dispatched_all = Order.where("status='网点已派工'").count
     @undispatch_all = Order.where("status='待网点派工'").count
+    @dispatching_all = @orders.count
+    @finished_all = Order.where("status='派工已完工'").count
     respond_to :html, :json
   end
 
@@ -48,13 +54,22 @@ class OrdersController < ApplicationController
   end
 
   def dispatch_list
-    @orders = Order.where("status = '网点已派工'").order(team_name: :asc).page params[:page]
+    # @orders = Order.where("status = '网点已派工'").order(team_name: :asc).page params[:page]
+    dispatching_date = Date.tomorrow
+    @orders = Order.where("status = '网点已派工'").order(team_name: :asc)
     @order_all = Order.all.count
-    @dispatch_all = Order.where("status='网点已派工'").count
     @undispatch_all = Order.where("status='待网点派工'").count
+    @dispatching_all = Order.where("install_date='#{dispatching_date}'").count
+    @dispatched_all = Order.where("status='网点已派工'").count
+    @finished_all = Order.where("status='派工已完工'").count
     respond_to :html, :json
 
     render layout: "print"
+  end
+
+  def finished_list
+    @orders = Order.where("status = '派工已完工'").order(:install_date)
+    respond_to :html, :json
   end
 
   # def dispatch
@@ -111,16 +126,12 @@ class OrdersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def order_params
 
-    # t.datetime :dispatch_time #派工时间
-    # t.datetime :recall_time #回访时间
-    # t.stirng :recall_note #回访记录
-    # t.string :team_name #安装工名称
-    # t.string :team_phone #安装工电话
     params.require(:order).permit(:info_no, :lading_no, :create_time, :customer, :area_code, :phone, :province, :city,
                                   :county, :street, :address, :category, :count, :uncount, :purchase_date, :customer_attribute,
                                   :sale_type, :sale_no, :sale_name, :expected_time, :create_network_no, :create_network,
                                   :service_date, :service_network_no, :service_network, :status, :note, :other_note,
                                   :finished_time, :item_type, :item_count, :item_price, :item_type2, :item_count2, :item_price2,
-                                  :item_type3, :item_count3, :item_price3, :team_name)
+                                  :item_type3, :item_count3, :item_price3, :team_name, :install_date, :operator, :dispatch_time,
+                                  :recall_time, :recall_note)
   end
 end

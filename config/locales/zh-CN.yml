@@ -146,6 +146,7 @@ zh-CN:
       team:
         name: "姓名"
         phone: "电话"
+        plate_no: "车牌号"
     page_entries_info:
       one_page:
         display_entries:

@@ -89,8 +89,11 @@
                   },
                   onApprove: function () {
                       var team_name = $("input[name='team_name']:checked").val();
+                      var date_now = new Date();
+                      var dispatch_time = date_now.toDateString();
                       var data = {order: {
                           "status":"网点已派工",
+                          "dispatch_time": dispatch_time,
                           "team_name":team_name
                       }
                       };

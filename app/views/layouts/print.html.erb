@@ -21,7 +21,11 @@
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <link rel="stylesheet" media="all" href="https://cdn.datatables.net/1.10.13/css/dataTables.semanticui.min.css" >
+
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.semanticui.min.js"></script>
 </head>
 
 <body class="main-wrapper">
@@ -46,16 +50,20 @@
     <!-- Sidebar -->
     <div class="ui vertical menu">
       <a class="item <%= current_page?('/orders')? " teal active" : "" %>" href="/orders">
-        工单列表
+        待派工列表
         <div class="ui <%= current_page?('/orders')? " teal left pointing " : "" %> label"><%= @order_all %></div>
       </a>
       <a class="item <%= current_page?('/orders/baidu_map')? " teal active" : "" %>" href="/orders/baidu_map">
         地图派工
-        <div class="ui <%= current_page?('/orders/baidu_map')? " teal left pointing " : "" %> label"><%= @undispatch_all %></div>
+        <div class="ui <%= current_page?('/orders/baidu_map')? " teal left pointing " : "" %> label"><%= @dispatching_all %></div>
       </a>
       <a class="item " href="/orders/dispatch_list">
         已派工列表
-        <div class="ui <%= current_page?('/orders/dispatch_list')? " teal left pointing " : "" %> label"><%= @dispatch_all %></div>
+        <div class="ui <%= current_page?('/orders/dispatch_list')? " teal left pointing " : "" %> label"><%= @dispatched_all %></div>
+      </a>
+      <a class="item " href="/orders/finished_list">
+        已完工列表
+        <div class="ui <%= current_page?('/orders/finished_list')? " teal left pointing " : "" %> label"><%= @finished_all %></div>
       </a>
     </div>
   </div>
@@ -64,7 +72,6 @@
     <%= yield %>
   </div>
 </div>
-
 </body>
 </html>
 
