@@ -7,11 +7,10 @@ class OrdersController < ApplicationController
   # GET /orders.json
   def index
     # @orders = Order.order(:create_time).page params[:page]
-    @orders = Order.order(:create_time)
-    @order_all = Order.all.count
-    @dispatch_all = Order.where("status='网点已派工'").count
-    @undispatch_all = Order.where("status='待网点派工'").count
-    # @recall_all = Order.where("status='待网点回访'").count
+    @orders = Order.where("status='待网点派工'").order(:create_time)
+    @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
+    @dispatched_all = Order.where("status='网点已派工'").count
+    @undispatch_all = @orders.count
     @finished_all = Order.where("status='派工已完工'").count
   end
 
@@ -23,8 +22,9 @@ class OrdersController < ApplicationController
 
   # GET /orders/baidu_map
   def baidu_map
-    @orders = Order.where(install_date: Date.tomorrow)
     # @orders = Order.order(address: :asc)
+
+    @orders = Order.where(install_date: Date.tomorrow)
     @teams = Team.order(name: :asc)
     @order_all = Order.all.count
 
@@ -49,18 +49,14 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
-    @order_all = Order.all.count
-    @dispatch_all = Order.where("status='网点已派工'").count
   end
 
   def dispatch_list
     # @orders = Order.where("status = '网点已派工'").order(team_name: :asc).page params[:page]
-    dispatching_date = Date.tomorrow
     @orders = Order.where("status = '网点已派工'").order(team_name: :asc)
-    @order_all = Order.all.count
     @undispatch_all = Order.where("status='待网点派工'").count
-    @dispatching_all = Order.where("install_date='#{dispatching_date}'").count
-    @dispatched_all = Order.where("status='网点已派工'").count
+    @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
+    @dispatched_all = @orders.count
     @finished_all = Order.where("status='派工已完工'").count
     respond_to :html, :json
 
@@ -69,13 +65,12 @@ class OrdersController < ApplicationController
 
   def finished_list
     @orders = Order.where("status = '派工已完工'").order(:install_date)
+    @undispatch_all = Order.where("status='待网点派工'").count
+    @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
+    @dispatched_all = Order.where("status='派工已派工'").count
+    @finished_all = @orders.count
     respond_to :html, :json
   end
-
-  # def dispatch
-  #   @order = Order.find(:id).first
-  #   render layout: "print"
-  # end
 
   # POST /orders
   # POST /orders.json

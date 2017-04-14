@@ -1,10 +1,14 @@
-<table id="orders" class="ui selectable celled table">
+<table id="orders"
+       data-toggle="table"
+       data-search="true"
+       data-pagination="true"
+       data-side-pagination="server">
   <thead>
     <tr>
       <!--<th>销售单号</th>-->
       <th class="single line">客户姓名</th>
-      <th>客户地址</th>
       <th>联系电话</th>
+      <th>客户地址</th>
       <th>商品型号</th>
       <th>销售单位</th>
       <th class="single line">安装时间</th>
@@ -18,16 +22,13 @@
       <tr>
         <!--<td><%#= order.lading_no %></td>-->
         <td><%= order.customer %></td>
-        <td><%= order.address %></td>
         <td><%= order.phone %></td>
+        <td><%= order.address %></td>
         <td><%= order.item_type %></td>
         <td><%= order.sale_name %></td>
         <td><%= order.install_date %></td>
         <!--<td><%#= order.team_name %></td>-->
         <td><%= order.status %></td>
-        <!--<td><%#= link_to '查看', order %></td>-->
-        <!--<td><%#= link_to '编辑', edit_order_path(order) %></td>-->
-        <!--<td><%#= link_to '删除', order, method: :delete, data: { confirm: '确定要删除么?' } %></td>-->
       </tr>
     <% end %>
   </tbody>
@@ -43,7 +44,138 @@
 </table>
 
 <script>
-    $(document).ready(function () {
-        $('#orders').DataTable();
-    });
+  var $table = $("#orders"),
+      selections = [];
+  function initTable() {
+      $table.bootstrapTable({
+          height:getHeight(),
+          columns: [
+              {
+                  field: 'customer',
+                  title: '客户',
+                  sortable: true
+              },{
+                  field: 'phone',
+                  title: '电话',
+                  sortable: true,
+                  editable: true
+              },{
+                  field: 'address',
+                  title: '地址',
+                  sortable: true,
+                  editable: true
+              },{
+                  field: 'item_type',
+                  title: '型号',
+                  sortable: true,
+                  editable: true
+              }, {
+                  field: 'sale_name',
+                  title: '经销商',
+                  sortable: true,
+                  editable: true
+              }, {
+                  field: 'install_date',
+                  title: '安装日期',
+                  sortable: true,
+                  editable: true
+              }, {
+                  field: 'status',
+                  title: '派工状态',
+                  sortable: true,
+                  editable: true
+              }
+          ]
+      });
+      // sometimes footer render error.
+      setTimeout(function () {
+          $table.bootstrapTable('resetView');
+      }, 200);
+      $table.on('check.bs.table uncheck.bs.table ' +
+          'check-all.bs.table uncheck-all.bs.table', function () {
+          $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
+          // save your data, here just save the current page
+          selections = getIdSelections();
+          // push or splice the selections if you want to save all data selections
+      });
+      $table.on('expand-row.bs.table', function (e, index, row, $detail) {
+          if (index % 2 == 1) {
+              $detail.html('Loading from ajax request...');
+              $.get('LICENSE', function (res) {
+                  $detail.html(res.replace(/\n/g, '<br>'));
+              });
+          }
+      });
+      $table.on('all.bs.table', function (e, name, args) {
+          console.log(name, args);
+      });
+      $remove.click(function () {
+          var ids = getIdSelections();
+          $table.bootstrapTable('remove', {
+              field: 'id',
+              values: ids
+          });
+          $remove.prop('disabled', true);
+      });
+      $(window).resize(function () {
+          $table.bootstrapTable('resetView', {
+              height: getHeight()
+          });
+      });
+  }
+  function getIdSelections() {
+      return $.map($table.bootstrapTable('getSelections'), function (row) {
+          return row.id
+      });
+  }
+  function responseHandler(res) {
+      $.each(res.rows, function (i, row) {
+          row.state = $.inArray(row.id, selections) !== -1;
+      });
+      return res;
+  }
+  function detailFormatter(index, row) {
+      var html = [];
+      $.each(row, function (key, value) {
+          html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+      });
+      return html.join('');
+  }
+  function operateFormatter(value, row, index) {
+      return [
+          '<a class="like" href="javascript:void(0)" title="Like">',
+          '<i class="glyphicon glyphicon-heart"></i>',
+          '</a>  ',
+          '<a class="remove" href="javascript:void(0)" title="Remove">',
+          '<i class="glyphicon glyphicon-remove"></i>',
+          '</a>'
+      ].join('');
+  }
+  window.operateEvents = {
+      'click .like': function (e, value, row, index) {
+          alert('You click like action, row: ' + JSON.stringify(row));
+      },
+      'click .remove': function (e, value, row, index) {
+          $table.bootstrapTable('remove', {
+              field: 'id',
+              values: [row.id]
+          });
+      }
+  };
+  function totalTextFormatter(data) {
+      return 'Total';
+  }
+  function totalNameFormatter(data) {
+      return data.length;
+  }
+  function totalPriceFormatter(data) {
+      var total = 0;
+      $.each(data, function (i, row) {
+          total += +(row.price.substring(1));
+      });
+      return '$' + total;
+  }
+  function getHeight() {
+      return $(window).height() - $('h1').outerHeight(true);
+  }
 </script>

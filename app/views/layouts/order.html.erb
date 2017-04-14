@@ -20,12 +20,18 @@
   <meta name="msapplication-TileColor" content="#f01d4f">
   <%= csrf_meta_tags %>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <link rel="stylesheet" media="all" href="https://cdn.datatables.net/1.10.13/css/dataTables.semanticui.min.css" >
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <!-- Latest compiled and minified CSS -->
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
 
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.semanticui.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+  <!-- Latest compiled and minified Locales -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/editable/bootstrap-table-editable.js"></script>
   <!-- production env -->
   <!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=h0OaFcmnYuLbnm8fsm5unMQuh9Oluve3"></script>-->
   <!-- develop env -->
@@ -55,7 +61,7 @@
     <div class="ui vertical menu">
       <a class="item <%= current_page?('/orders')? " teal active" : "" %>" href="/orders">
         待派工列表
-        <div class="ui <%= current_page?('/orders')? " teal left pointing " : "" %> label"><%= @order_all %></div>
+        <div class="ui <%= current_page?('/orders')? " teal left pointing " : "" %> label"><%= @undispatch_all %></div>
       </a>
       <a class="item <%= current_page?('/orders/baidu_map')? " teal active" : "" %>" href="/orders/baidu_map">
         地图派工
@@ -85,7 +91,7 @@
                   </div>
               <% else %>
                   <%= file_field_tag :file %>
-                  <%= submit_tag "导入工单" %>
+                  <%= submit_tag "导入格力工单", class: "ui mini green button" %>
               <% end %>
           <% end %>
         </div>
