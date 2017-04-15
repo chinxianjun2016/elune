@@ -1,21 +1,20 @@
 <table id="orders" data-toggle="table"
+                   data-sort-class="true"
                    data-show-columns="true"
-                   data-mobile-responsive="true"
                    data-pagination="true"
-                   data-show-export="true"
                    data-search="true">
   <thead>
     <tr>
       <th>ID</th>
-      <th>销售单号</th>
-      <th class="single line">客户姓名</th>
+      <th>客户姓名</th>
       <th>联系电话</th>
       <th>客户地址</th>
-      <th>商品型号</th>
-      <th>销售单位</th>
-      <th class="single line">安装时间</th>
+      <th>安装时间</th>
       <!--<th class="single line">安装工</th>-->
       <th>备注</th>
+      <th>销售单位</th>
+      <th>商品型号</th>
+      <th>销售单号</th>
     </tr>
   </thead>
 
@@ -23,15 +22,40 @@
     <% @orders.each do |order| %>
       <tr>
         <td><%= order.id %></td>
-        <td><%= order.lading_no %></td>
-        <td><a href="javascript:void(0)" data-name="customer" data-pk="bootstrap-table" data-value="<%= order.customer %>" class="editable editable-click"><%= order.customer %></a></td>
-        <td><a href="javascript:void(0)" data-name="phone" data-pk="bootstrap-table" data-value="<%= order.phone %>" class="editable editable-click"><%= order.phone %></a></td>
-        <td><a href="javascript:void(0)" data-name="address" data-pk="bootstrap-table" data-value="<%= order.address %>" class="editable editable-click"><%= order.address %></a></td>
-        <td><%= order.item_type %></td>
-        <td><%= order.sale_name %></td>
-        <td><a href="javascript:void(0)" data-name="install_date" data-type="combodate" data-pk="bootstrap-table" data-value="<%= order.install_date %>" class="editable editable-click"><%= order.install_date %></a></td>
+        <td>
+          <a href="#" data-name="customer" data-type="text" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.customer %>"
+             class="customer-click"><%= order.customer %>
+          </a>
+        </td>
+        <td>
+          <a href="#" data-name="phone" data-type="text" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.phone %>"
+             class="phone-click"><%= order.phone %>
+          </a>
+        </td>
+        <td>
+          <a href="#" data-name="address" data-type="textarea" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.address %>"
+             class="address-click"><%= order.address %>
+          </a>
+        </td>
+        <td>
+          <a href="#" data-name="install_date" data-type="date" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.install_date %>"
+             data-title="选择日期" class="install_date-click" style="z-index: 10000;"><%= order.install_date %>
+          </a>
+        </td>
         <!--<td><%#= order.team_name %></td>-->
-        <td><a href="javascript:void(0)" data-name="note" data-pk="bootstrap-table" data-value="<%= order.note %>" class="editable editable-click"><%= order.note %></a></td>
+        <td>
+          <a href="#" data-name="note" data-type="textarea" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.note %>"
+             class="note-click"><%= order.note %>
+          </a>
+        </td>
+        <td><%= order.sale_name %></td>
+        <td><%= order.item_type %></td>
+        <td><%= order.lading_no %></td>
       </tr>
     <% end %>
   </tbody>
@@ -39,87 +63,23 @@
 
 <script>
     $(function () {
+        $.fn.bootstrapTable.defaults;
 
         $("#orders").on('click-row.bs.table', function (e, row, $element) {
             $('.success').removeClass('success');
             $($element).addClass('success');
         });
 
-        $("#orders").bootstrapTable({
-            idField: "id",
-            url: "/orders",
-            columns: [{
-                field: 'id',
-                title: 'ID',
-                align: 'center'
-            },
-            {
-                field: 'lading_no',
-                title: '销售单号',
-                align: 'center'
-            }, {
-                field: 'customer',
-                title: '客户姓名',
-                align: 'center',
-                editable: {
-                    type: 'text',
-                    title: '客户姓名',
-                    validate: function (v) {
-                        if(!v) return '客户姓名不能为空';
-                    }
-                }
-            },
-            {
-                field: 'phone',
-                title: '联系电话',
-                align: 'center',
-                editable: {
-                    type: 'text',
-                    title: '联系电话',
-                    validate: function (v) {
-                        if(!v) return '联系电话不能为空';
-                    }
-                }
-            },
-            {
-                field: 'address',
-                title: '详细地址',
-                align: 'center',
-                editable: {
-                    type: 'text',
-                    title: '详细地址',
-                    validate: function (v) {
-                        if(!v) return '详细地址不能为空';
-                    }
-                }
-            },
-            {
-                field: 'item_type',
-                title: '商品型号',
-                align: 'center'
-            },
-            {
-                field: 'sale_name',
-                title: '经销商',
-                align: 'center'
-            },
-            {
-                field: 'install_date',
-                title: '安装日期',
-                align: 'center',
-                editable: {
-                    type: 'combodate',
-                    title: '安装日期'
-                }
-            },
-            {
-                field: 'note',
-                title: '备注',
-                align: 'center',
-                editable: {
-                    type: 'date'
-                }
-            }]
-        })
+        $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
+        $('.customer-click').editable();
+        $('.phone-click').editable();
+        $('.address-click').editable({mode: "inline"});
+        $('.install_date-click').editable({
+            format: 'yyyy/mm/dd',
+            viewformat: 'yyyy-mm-dd'
+        });
+        $('.note-click').editable({
+            mode: 'inline'
+        });
     });
 </script>

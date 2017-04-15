@@ -1,13 +1,16 @@
 
   <a href="javascript:prints()" class="ui mini primary button">打印全部</a>
-  <table class="ui selectable celled table">
-    <!--<table class="ui selectable celled table" style="height: 9.31cm; width: 21.8cm">-->
+  <table id="orders" data-toggle="table"
+         data-show-refresh="true"
+         data-show-columns="true"
+         data-pagination="true"
+         data-search="true">
     <thead>
     <tr>
-      <th class="single line">安装工</th>
+      <th>安装工</th>
       <th>销售单号</th>
-      <th class="single line">客户姓名</th>
-      <th class="single line">联系电话</th>
+      <th>客户姓名</th>
+      <th>联系电话</th>
       <th>详细地址</th>
       <th>商品型号</th>
       <th>备注</th>

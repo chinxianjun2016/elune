@@ -21,13 +21,18 @@
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <link rel="stylesheet" media="all" href="https://cdn.datatables.net/1.10.13/css/dataTables.semanticui.min.css" >
+  <!--<link rel="stylesheet" media="all" href="https://cdn.datatables.net/1.10.13/css/dataTables.semanticui.min.css" >-->
 
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.semanticui.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.semanticui.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>-->
+
+  <!-- production env -->
+  <!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=h0OaFcmnYuLbnm8fsm5unMQuh9Oluve3"></script>-->
+  <!-- develop env -->
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=P76vLiV6EWwzm109FtNDZ7ttbMBR4SOx"></script>
 
 </head>
 
@@ -77,4 +82,3 @@
 </div>
 </body>
 </html>
-

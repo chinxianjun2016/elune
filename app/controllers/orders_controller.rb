@@ -12,6 +12,7 @@ class OrdersController < ApplicationController
     @dispatched_all = Order.where("status='网点已派工'").count
     @undispatch_all = @orders.count
     @finished_all = Order.where("status='派工已完工'").count
+
   end
 
   # POST /orders/import
@@ -26,13 +27,14 @@ class OrdersController < ApplicationController
 
     @orders = Order.where(install_date: Date.tomorrow)
     @teams = Team.order(name: :asc)
-    @order_all = Order.all.count
 
-    @dispatched_all = Order.where("status='网点已派工'").count
     @undispatch_all = Order.where("status='待网点派工'").count
+    @dispatched_all = Order.where("status='网点已派工'").count
     @dispatching_all = @orders.count
     @finished_all = Order.where("status='派工已完工'").count
     respond_to :html, :json
+
+    render layout: "ordersemantic"
   end
 
   # GET /orders/1
@@ -70,6 +72,8 @@ class OrdersController < ApplicationController
     @dispatched_all = Order.where("status='派工已派工'").count
     @finished_all = @orders.count
     respond_to :html, :json
+
+    # render layout: "ordersemantic"
   end
 
   # POST /orders
@@ -91,6 +95,13 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
+
+    unless params["order"]
+      if (params["name"] && params["value"])
+        params["order"] = { "#{params['name']}":params['value']  }
+      end
+    end
+
     respond_to do |format|
       if @order.update(order_params)
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
