@@ -43,7 +43,7 @@
         <td>
           <a href="#" data-name="install_date" data-type="date" data-pk="<%= order.id %>"
              data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.install_date %>"
-             data-title="选择日期" class="install_date-click" style="z-index: 10000;"><%= order.install_date %>
+             class="install_date-click" style="z-index: 10000;"><%= order.install_date %>
           </a>
         </td>
         <!--<td><%#= order.team_name %></td>-->
@@ -63,7 +63,7 @@
 
 <script>
     $(function () {
-        $.fn.bootstrapTable.defaults;
+//        $.fn.bootstrapTable.defaults;
 
         $("#orders").on('click-row.bs.table', function (e, row, $element) {
             $('.success').removeClass('success');
