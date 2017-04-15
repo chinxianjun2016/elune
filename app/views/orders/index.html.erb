@@ -1,11 +1,13 @@
-<table id="orders"
-       data-toggle="table"
-       data-search="true"
-       data-pagination="true"
-       data-side-pagination="server">
+<table id="orders" data-toggle="table"
+                   data-show-columns="true"
+                   data-mobile-responsive="true"
+                   data-pagination="true"
+                   data-show-export="true"
+                   data-search="true">
   <thead>
     <tr>
-      <!--<th>销售单号</th>-->
+      <th>ID</th>
+      <th>销售单号</th>
       <th class="single line">客户姓名</th>
       <th>联系电话</th>
       <th>客户地址</th>
@@ -13,169 +15,111 @@
       <th>销售单位</th>
       <th class="single line">安装时间</th>
       <!--<th class="single line">安装工</th>-->
-      <th>派工状态</th>
+      <th>备注</th>
     </tr>
   </thead>
 
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <!--<td><%#= order.lading_no %></td>-->
-        <td><%= order.customer %></td>
-        <td><%= order.phone %></td>
-        <td><%= order.address %></td>
+        <td><%= order.id %></td>
+        <td><%= order.lading_no %></td>
+        <td><a href="javascript:void(0)" data-name="customer" data-pk="bootstrap-table" data-value="<%= order.customer %>" class="editable editable-click"><%= order.customer %></a></td>
+        <td><a href="javascript:void(0)" data-name="phone" data-pk="bootstrap-table" data-value="<%= order.phone %>" class="editable editable-click"><%= order.phone %></a></td>
+        <td><a href="javascript:void(0)" data-name="address" data-pk="bootstrap-table" data-value="<%= order.address %>" class="editable editable-click"><%= order.address %></a></td>
         <td><%= order.item_type %></td>
         <td><%= order.sale_name %></td>
-        <td><%= order.install_date %></td>
+        <td><a href="javascript:void(0)" data-name="install_date" data-type="combodate" data-pk="bootstrap-table" data-value="<%= order.install_date %>" class="editable editable-click"><%= order.install_date %></a></td>
         <!--<td><%#= order.team_name %></td>-->
-        <td><%= order.status %></td>
+        <td><a href="javascript:void(0)" data-name="note" data-pk="bootstrap-table" data-value="<%= order.note %>" class="editable editable-click"><%= order.note %></a></td>
       </tr>
     <% end %>
   </tbody>
-  <!--<tfoot>-->
-    <!--<tr>-->
-      <!--<th colspan="11">-->
-      <!--<div class="ui right floated pagination menu">-->
-        <!--<%#= paginate @orders %>-->
-      <!--</div>-->
-    <!--</th>-->
-  <!--</tr>-->
-  <!--</tfoot>-->
 </table>
 
 <script>
-  var $table = $("#orders"),
-      selections = [];
-  function initTable() {
-      $table.bootstrapTable({
-          height:getHeight(),
-          columns: [
-              {
-                  field: 'customer',
-                  title: '客户',
-                  sortable: true
-              },{
-                  field: 'phone',
-                  title: '电话',
-                  sortable: true,
-                  editable: true
-              },{
-                  field: 'address',
-                  title: '地址',
-                  sortable: true,
-                  editable: true
-              },{
-                  field: 'item_type',
-                  title: '型号',
-                  sortable: true,
-                  editable: true
-              }, {
-                  field: 'sale_name',
-                  title: '经销商',
-                  sortable: true,
-                  editable: true
-              }, {
-                  field: 'install_date',
-                  title: '安装日期',
-                  sortable: true,
-                  editable: true
-              }, {
-                  field: 'status',
-                  title: '派工状态',
-                  sortable: true,
-                  editable: true
-              }
-          ]
-      });
-      // sometimes footer render error.
-      setTimeout(function () {
-          $table.bootstrapTable('resetView');
-      }, 200);
-      $table.on('check.bs.table uncheck.bs.table ' +
-          'check-all.bs.table uncheck-all.bs.table', function () {
-          $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
-          // save your data, here just save the current page
-          selections = getIdSelections();
-          // push or splice the selections if you want to save all data selections
-      });
-      $table.on('expand-row.bs.table', function (e, index, row, $detail) {
-          if (index % 2 == 1) {
-              $detail.html('Loading from ajax request...');
-              $.get('LICENSE', function (res) {
-                  $detail.html(res.replace(/\n/g, '<br>'));
-              });
-          }
-      });
-      $table.on('all.bs.table', function (e, name, args) {
-          console.log(name, args);
-      });
-      $remove.click(function () {
-          var ids = getIdSelections();
-          $table.bootstrapTable('remove', {
-              field: 'id',
-              values: ids
-          });
-          $remove.prop('disabled', true);
-      });
-      $(window).resize(function () {
-          $table.bootstrapTable('resetView', {
-              height: getHeight()
-          });
-      });
-  }
-  function getIdSelections() {
-      return $.map($table.bootstrapTable('getSelections'), function (row) {
-          return row.id
-      });
-  }
-  function responseHandler(res) {
-      $.each(res.rows, function (i, row) {
-          row.state = $.inArray(row.id, selections) !== -1;
-      });
-      return res;
-  }
-  function detailFormatter(index, row) {
-      var html = [];
-      $.each(row, function (key, value) {
-          html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-      });
-      return html.join('');
-  }
-  function operateFormatter(value, row, index) {
-      return [
-          '<a class="like" href="javascript:void(0)" title="Like">',
-          '<i class="glyphicon glyphicon-heart"></i>',
-          '</a>  ',
-          '<a class="remove" href="javascript:void(0)" title="Remove">',
-          '<i class="glyphicon glyphicon-remove"></i>',
-          '</a>'
-      ].join('');
-  }
-  window.operateEvents = {
-      'click .like': function (e, value, row, index) {
-          alert('You click like action, row: ' + JSON.stringify(row));
-      },
-      'click .remove': function (e, value, row, index) {
-          $table.bootstrapTable('remove', {
-              field: 'id',
-              values: [row.id]
-          });
-      }
-  };
-  function totalTextFormatter(data) {
-      return 'Total';
-  }
-  function totalNameFormatter(data) {
-      return data.length;
-  }
-  function totalPriceFormatter(data) {
-      var total = 0;
-      $.each(data, function (i, row) {
-          total += +(row.price.substring(1));
-      });
-      return '$' + total;
-  }
-  function getHeight() {
-      return $(window).height() - $('h1').outerHeight(true);
-  }
+    $(function () {
+
+        $("#orders").on('click-row.bs.table', function (e, row, $element) {
+            $('.success').removeClass('success');
+            $($element).addClass('success');
+        });
+
+        $("#orders").bootstrapTable({
+            idField: "id",
+            url: "/orders",
+            columns: [{
+                field: 'id',
+                title: 'ID',
+                align: 'center'
+            },
+            {
+                field: 'lading_no',
+                title: '销售单号',
+                align: 'center'
+            }, {
+                field: 'customer',
+                title: '客户姓名',
+                align: 'center',
+                editable: {
+                    type: 'text',
+                    title: '客户姓名',
+                    validate: function (v) {
+                        if(!v) return '客户姓名不能为空';
+                    }
+                }
+            },
+            {
+                field: 'phone',
+                title: '联系电话',
+                align: 'center',
+                editable: {
+                    type: 'text',
+                    title: '联系电话',
+                    validate: function (v) {
+                        if(!v) return '联系电话不能为空';
+                    }
+                }
+            },
+            {
+                field: 'address',
+                title: '详细地址',
+                align: 'center',
+                editable: {
+                    type: 'text',
+                    title: '详细地址',
+                    validate: function (v) {
+                        if(!v) return '详细地址不能为空';
+                    }
+                }
+            },
+            {
+                field: 'item_type',
+                title: '商品型号',
+                align: 'center'
+            },
+            {
+                field: 'sale_name',
+                title: '经销商',
+                align: 'center'
+            },
+            {
+                field: 'install_date',
+                title: '安装日期',
+                align: 'center',
+                editable: {
+                    type: 'combodate',
+                    title: '安装日期'
+                }
+            },
+            {
+                field: 'note',
+                title: '备注',
+                align: 'center',
+                editable: {
+                    type: 'date'
+                }
+            }]
+        })
+    });
 </script>

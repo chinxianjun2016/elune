@@ -45,12 +45,13 @@ class Order < ApplicationRecord
                      "item_type3", "item_count3", "item_price3"]
     (3..spreadsheet.last_row).map do |i|
       row = Hash[[header2column, spreadsheet.row(i)].transpose]
-      order = Order.find_by(id: row["id"]) || Order.new
-      # order = Order.new
-      order.attributes = row.to_hash.slice(*row.to_hash.keys)
-      order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
-      order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
-      order.save!
+      unless Order.find_by(id: row["id"])
+        order = Order.new
+        order.attributes = row.to_hash.slice(*row.to_hash.keys)
+        order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
+        order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
+        order.save!
+      end
     end
   end
 

@@ -52,4 +52,5 @@ production:
   <<: *default
   database: elune_prod
   username: postgres
-  password: Elune 2017!
+#  password: Elune 2017!
+  password: kcb 2016
