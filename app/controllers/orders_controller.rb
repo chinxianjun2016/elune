@@ -6,8 +6,8 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    # @orders = Order.where("status = '待网点派工'").order(create_time: :asc).page params[:page]
-    @orders = Order.where("status = '待网点派工'").order(create_time: :asc)
+    @orders = Order.where("status = '待网点派工'").order(create_time: :asc).page params[:page]
+    # @orders = Order.where("status = '待网点派工'").order(create_time: :asc)
 
     @undispatch_all = Order.where("status = '待网点派工'").count
     @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
