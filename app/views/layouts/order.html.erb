@@ -22,15 +22,13 @@
 
   <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>  <!-- Latest compiled and minified CSS -->
   <link href="https://cdn.bootcss.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet" >
   <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
   <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-
-  <!-- Latest compiled and minified Locales -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
   <!--<script src="/assets/bootstrap-table-editable.js"></script>-->
@@ -160,13 +158,8 @@
     bottom: 0;
   }
 
-  iframe {
-    border: 0;
-  }
-
-  .dropdown-menu {
-    max-height: 500px;
-    overflow: auto;
+  .fixed-table-body {
+    height: auto;
   }
 </style>
 </head>
@@ -242,13 +235,45 @@
       <%= yield %>
     </div>
 </div>
-<script>
+<!--<nav class="navbar navbar-inverse navbar-fixed-bottom"><h5>power by elune.info</h5></nav>-->
 
+<script>
   $('.ui.dropdown')
       .dropdown({
           on: 'hover',
           action: 'hide'
-      })
+      });
+
+
+    $(function () {
+//        $.fn.bootstrapTable.defaults;
+
+        $("#orders").on('click-row.bs.table', function (e, row, $element) {
+            $('.success').removeClass('success');
+            $($element).addClass('success');
+        });
+
+        $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
+        $('.customer-click').editable();
+        $('.phone-click').editable();
+        $('.address-click').editable({mode: "inline"});
+        $('.install_date-click').editable({
+            format: 'yyyy/mm/dd',
+            viewformat: 'yyyy-mm-dd'
+        });
+        $('.note-click').editable({
+            mode: 'inline'
+        });
+
+        function detailFormatter(index, row) {
+            var html = [];
+            $.each(row, function (key, value) {
+                console.log(key);
+                html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+            });
+            return html.join('');
+        }
+    });
 </script>
 </body>
 </html>
