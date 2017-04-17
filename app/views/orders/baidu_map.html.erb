@@ -1,9 +1,12 @@
-<%= month_calendar do |date| %>
-    <%= date %>
-<% end %>
+<%#= month_calendar do |date| %>
+    <%#= date %>
+<%# end %>
 <div id="baiduMap" style="height:100%;width:100%;"></div>
-<div class="ui modal">
-  <div class="header">选择安装工</div>
+<div id="select-team" class="ui modal">
+  <i class="close icon"></i>
+  <div class="ui header">选择安装工</div>
+
+
   <div class="ui form" id="dispatch">
     <div class="grouped fields">
       <% @teams.each do |team| %>
@@ -26,6 +29,7 @@
     </div>
   </div>
 </div>
+
 <script type="text/javascript">
 
   var map = new BMap.Map("baiduMap", {minZoom:10});            // 创建Map实例
@@ -78,9 +82,9 @@
   //鼠标左键单击marker事件
   function addClickHandler(i, orderId, marker){
       marker.addEventListener("click",function(e){
-          $(".ui.modal")
+          $("#select-team")
               .modal({
-                  closable: false,
+                  closable: true,
                   onDeny: function () {
                       window.alert("是要放弃派工么？");
                   },

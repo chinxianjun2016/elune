@@ -46,7 +46,7 @@ class OrdersController < ApplicationController
     @finished_all = Order.where("status='派工已完工'").count
     respond_to :html, :json
 
-    # render layout: "ordersemantic"
+    render layout: "ordersemantic"
   end
 
   # GET /orders/1
