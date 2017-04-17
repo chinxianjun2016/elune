@@ -1,4 +1,22 @@
-<table id="orders" class="ui selectable celled table">
+<%= form_tag "/orders", method: "get" do %>
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-lg-2">
+        <div class="input-group">
+          <%= search_field_tag "like", nil, class: "form-control" %>
+          <span class="input-group-btn">
+            <%= submit_tag "搜", class: "btn btn-default" %>
+          </span>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<table id="orders"
+       data-toggle="table"
+       data-detail-view="true"
+       data-detail-formatter="detailFormatter"
+       data-minimum-count-columns="2"
+       data-id-field="id">
   <thead>
   <tr>
     <th>销售单号</th>
@@ -31,19 +49,19 @@
       </tr>
   <% end %>
   </tbody>
-  <!--<tfoot>-->
-  <!--<tr>-->
-  <!--<th colspan="11">-->
-  <!--<div class="ui right floated pagination menu">-->
-  <!--<%#= paginate @orders %>-->
-  <!--</div>-->
-  <!--</th>-->
-  <!--</tr>-->
-  <!--</tfoot>-->
+  <tfoot>
+    <tr>
+      <th colspan="11">
+        <div class="ui right floated pagination menu">
+          <%= paginate @orders %>
+        </div>
+      </th>
+    </tr>
+  </tfoot>
 </table>
 
 <script>
-    $(document).ready(function () {
-        $('#orders').DataTable();
-    });
+//    $(document).ready(function () {
+//        $('#orders').DataTable();
+//    });
 </script>

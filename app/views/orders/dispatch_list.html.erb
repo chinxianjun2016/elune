@@ -1,5 +1,18 @@
-
-  <a href="javascript:prints()" class="ui mini primary button">打印全部</a>
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col-lg-2">
+    <%= form_tag "/orders", method: "get" do %>
+      <div class="input-group">
+        <%= search_field_tag "like", nil, class: "form-control" %>
+        <span class="input-group-btn">
+          <%= submit_tag "搜", class: "btn btn-default" %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-lg-2">
+    <a href="javascript:prints()" class="btn btn-default">打印全部</a>
+  </div>
+</div>
   <table id="orders" data-toggle="table"
          data-show-refresh="true"
          data-show-columns="true"
@@ -32,21 +45,21 @@
         </tr>
       <% end %>
     </tbody>
-    <!--<tfoot>-->
-      <!--<tr>-->
-        <!--<th colspan="11">-->
-          <!--<div class="ui right floated pagination menu">-->
-            <!--<%#= paginate @orders %>-->
-          <!--</div>-->
-        <!--</th>-->
-      <!--</tr>-->
-  <!--</tfoot>-->
+    <tfoot>
+      <tr>
+        <th colspan="11">
+          <div class="ui right floated pagination menu">
+            <%= paginate @orders %>
+          </div>
+        </th>
+      </tr>
+    </tfoot>
   </table>
 
 <script>
-  $(document).ready(function () {
-      $('#orders').DataTable();
-  });
+//  $(document).ready(function () {
+//      $('#orders').DataTable();
+//  });
 
   var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
   var oscript = document.createElement("script");

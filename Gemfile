@@ -73,3 +73,5 @@ gem 'devise'
 gem 'devise-i18n'
 # Kaminari
 gem 'kaminari'
+# calendar
+gem "simple_calendar", "~> 2.0"

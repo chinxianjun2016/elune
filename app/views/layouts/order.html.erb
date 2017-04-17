@@ -5,13 +5,13 @@
 <!--[if gt IE 8]><!--> <html lang="zh" ng-csp="" ng-app="EluneApp"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elune Tasks Manager</title>
   <!-- mobile meta -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <!--[if IE]>
   <link rel="shortcut icon" href="favicon.ico">
@@ -36,6 +36,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.zh-CN.min.js"></script>
   <!--<script src="https://cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js"></script>-->
   <!--<script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>-->
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=P76vLiV6EWwzm109FtNDZ7ttbMBR4SOx"></script>
 
 <style type="text/css">
   body {
@@ -171,7 +172,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <a href="/" class="<%= current_page?('/')? "active" : "" %> navbar-text">首页 </a>
-    <a href="/orders" class="<%= current_page?(controller: 'orders')? "active" : "" %> navbar-text">工单管理 </a>
+    <a href="/orders" class="<%= current_page?('/orders')? "active" : "" %> navbar-text">工单管理 </a>
     <a href="/teams" class="<%= current_page?('/teams')? "active" : "" %> navbar-text">安装队管理 </a>
     <div class="right menu">
       <% if user_signed_in? %>
