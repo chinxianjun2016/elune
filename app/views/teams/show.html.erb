@@ -1,29 +1,29 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>姓名:</strong>
   <%= @team.name %>
 </p>
 
 <p>
-  <strong>Phone:</strong>
+  <strong>电话:</strong>
   <%= @team.phone %>
 </p>
 
 <p>
-  <strong>Area:</strong>
+  <strong>区域:</strong>
   <%= @team.area %>
 </p>
 
 <p>
-  <strong>Status:</strong>
+  <strong>状态:</strong>
   <%= @team.status %>
 </p>
 
 <p>
-  <strong>Address:</strong>
+  <strong>地址:</strong>
   <%= @team.address %>
 </p>
 
-<%= link_to 'Edit', edit_team_path(@team) %> |
-<%= link_to 'Back', teams_path %>
+<%= link_to '编辑', edit_team_path(@team) %> |
+<%= link_to '返回', teams_path %>

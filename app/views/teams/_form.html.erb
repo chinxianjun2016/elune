@@ -1,4 +1,4 @@
-<%= form_for(team) do |f| %>
+<%= form_for(team, html: {class: "ui form"}) do |f| %>
   <% if team.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
@@ -17,23 +17,13 @@
   </div>
 
   <div class="field">
+    <%= f.label :plate_no %>
+    <%= f.text_field :plate_no %>
+  </div>
+
+  <div class="field">
     <%= f.label :phone %>
     <%= f.text_field :phone %>
-  </div>
-
-  <div class="field">
-    <%= f.label :area %>
-    <%= f.text_field :area %>
-  </div>
-
-  <div class="field">
-    <%= f.label :status %>
-    <%= f.text_field :status %>
-  </div>
-
-  <div class="field">
-    <%= f.label :address %>
-    <%= f.text_field :address %>
   </div>
 
   <div class="actions">

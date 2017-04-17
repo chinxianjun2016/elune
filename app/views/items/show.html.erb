@@ -6,28 +6,23 @@
 </p>
 
 <p>
+  <strong>Number:</strong>
+  <%= @item.number %>
+</p>
+
+<p>
+  <strong>Unit:</strong>
+  <%= @item.unit %>
+</p>
+
+<p>
   <strong>Model:</strong>
   <%= @item.model %>
 </p>
 
 <p>
-  <strong>Count:</strong>
-  <%= @item.count %>
-</p>
-
-<p>
-  <strong>Serial:</strong>
-  <%= @item.serial %>
-</p>
-
-<p>
   <strong>Price:</strong>
   <%= @item.price %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @item.description %>
 </p>
 
 <%= link_to 'Edit', edit_item_path(@item) %> |

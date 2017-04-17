@@ -6,13 +6,13 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '85cb276c34ae30f89b568b22ea9fa6d6db469e6e984c2855bd720a33713a7bfb390634c595f5eea40e754a7a09541eb771cb3bf766825bd72e226dc72a0d06ab'
+  # config.secret_key = '879606414ad7fa98ceec68803d56a95d2253cac0e33df8688d6b5c8d8d19cf158f443a9910ffeaec59314393c406bb400577785edc839d1e8cf1dfeac0bb5429'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'no-reply@' + Rails.application.secrets.domain_name
+  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -34,7 +34,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:email]
+  config.authentication_keys = [:login]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -108,7 +108,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '0c6a703cf9e5db0d4b240ffba7ceb583cd642f7e170264626e48ebb685a57efa1c8f18e783f3d299a3a515f0a411701dc66bb323bdd2d32403e426d57bf52cf3'
+  # config.pepper = 'e958abcef8b841fb1f84eb202f94b907b6048a4a736660d263bd9ba32e737d3d4af29af34fa51be483ffc7fd0123beb163084754e71292e1bf46011ab45594b5'
 
   # Send a notification email when the user's password is changed
   # config.send_password_change_notification = false
@@ -136,7 +136,7 @@ Devise.setup do |config|
   config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
-  # config.confirmation_keys = [:email]
+  config.confirmation_keys = [:username]
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
@@ -195,7 +195,7 @@ Devise.setup do |config|
   # ==> Configuration for :recoverable
   #
   # Defines which key will be used when recovering the password for an account
-  # config.reset_password_keys = [:email]
+  config.reset_password_keys = [:username]
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
@@ -220,7 +220,7 @@ Devise.setup do |config|
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
-  # config.scoped_views = false
+  config.scoped_views = true
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).
@@ -271,4 +271,5 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+  config.secret_key = 'de2c6f9adc9e0f218391c11d602117a0c46cf890d67f304b748fb31e2ce5021d98c66507e3a988fd2d7de4139f62494cde382cc700793e8d5b48624f4b253751'
 end
