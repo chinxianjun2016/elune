@@ -56,6 +56,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'less-rails-semantic_ui', '~> 2.2.9'
 gem 'autoprefixer-rails'
 
+# Bootstrap assets
+gem 'bootstrap-sass', '~> 3.3.6'
+
 # Postgresql
 gem 'pg'
 # For excel 2007+
