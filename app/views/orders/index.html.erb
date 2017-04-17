@@ -1,12 +1,20 @@
+<%= form_tag "/orders", method: "get" do %>
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-lg-2">
+        <div class="input-group">
+          <%= search_field_tag "like", nil, class: "form-control" %>
+          <span class="input-group-btn">
+            <%= submit_tag "搜", class: "btn btn-default" %>
+          </span>
+        </div>
+      </div>
+    </div>
+<% end %>
+
 <table id="orders"
        data-toggle="table"
-       data-toolbar="#toolbar"
-       data-search="true"
-       data-show-columns="true"
        data-detail-view="true"
        data-detail-formatter="detailFormatter"
-       data-pagination="true"
-       data-side-pagination="client"
        data-minimum-count-columns="2"
        data-id-field="id">
   <thead>
@@ -76,231 +84,6 @@
   </tfoot>
 </table>
 
-
-<!--<table id="table"-->
-       <!--data-toolbar="#toolbar"-->
-       <!--data-search="true"-->
-       <!--data-show-refresh="true"-->
-       <!--data-show-toggle="true"-->
-       <!--data-show-columns="true"-->
-       <!--data-show-export="true"-->
-       <!--data-detail-view="true"-->
-       <!--data-detail-formatter="detailFormatter"-->
-       <!--data-minimum-count-columns="2"-->
-       <!--data-show-pagination-switch="true"-->
-       <!--data-pagination="true"-->
-       <!--data-id-field="id"-->
-       <!--data-page-list="[10, 25, 50, 100, ALL]"-->
-       <!--data-show-footer="false"-->
-       <!--data-side-pagination="server"-->
-       <!--data-url="/orders"-->
-       <!--data-response-handler="responseHandler">-->
-<!--</table>-->
-
-<script>
-//    var $table = $('#table'),
-//        $remove = $('#remove'),
-//        selections = [];
-//
-//    function initTable() {
-//        $table.bootstrapTable({
-//            height: getHeight(),
-//            columns: [
-//                {
-//                    title: 'ID',
-//                    field: 'id',
-//                    align: 'center',
-//                    sortable: true
-//                },{
-//                    field: 'customer',
-//                    title: '客户姓名',
-//                    sortable: true,
-//                    editable: true,
-//                    align: 'center'
-//                }, {
-//                    field: 'phone',
-//                    title: '联系电话',
-//                    sortable: true,
-//                    align: 'center',
-//                    editable: true
-//                }, {
-//                    field: 'address',
-//                    title: '详细地址',
-//                    sortable: true,
-//                    align: 'center',
-//                    editable: true
-//                }, {
-//                    field: 'install_date',
-//                    title: '安装日期',
-//                    sortable: true,
-//                    align: 'center',
-//                    editable: true
-//                }, {
-//                    field: 'note',
-//                    title: '备注',
-//                    sortable: true,
-//                    align: 'center',
-//                    editable: true
-//                }, {
-//                    field: 'sale_name',
-//                    title: '经销商',
-//                    align: 'center',
-//                    sortable: true
-//                }, {
-//                    field: 'item_type',
-//                    title: '商品型号',
-//                    align: 'center',
-//                    sortable: true
-//                }, {
-//                    field: 'lading_no',
-//                    title: '销售单号',
-//                    align: 'center',
-//                    sortable: true
-//                }
-//            ]
-//        });
-//        // sometimes footer render error.
-//        setTimeout(function () {
-//            $table.bootstrapTable('resetView');
-//        }, 200);
-//
-//        $(window).resize(function () {
-//            $table.bootstrapTable('resetView', {
-//                height: getHeight()
-//            });
-//        });
-//    }
-//    function getIdSelections() {
-//        return $.map($table.bootstrapTable('getSelections'), function (row) {
-//            return row.id
-//        });
-//    }
-//    function responseHandler(res) {
-//        $.each(res, function (i, row) {
-//            row.state = $.inArray(row.id, selections) !== -1;
-//        });
-////        $.each(res, function (i, row) {
-////            console.log(row.id);
-////            console.log(row.customer);
-////        });
-////        console.log(res);
-//        return res;
-//    }
-//    function detailFormatter(index, row) {
-//        var html = [];
-//        $.each(row, function (key, value) {
-//            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-//        });
-//        return html.join('');
-//    }
-//    function operateFormatter(value, row, index) {
-//        return [
-//            '<a class="like" href="javascript:void(0)" title="Like">',
-//            '<i class="glyphicon glyphicon-heart"></i>',
-//            '</a>  ',
-//            '<a class="remove" href="javascript:void(0)" title="Remove">',
-//            '<i class="glyphicon glyphicon-remove"></i>',
-//            '</a>'
-//        ].join('');
-//    }
-//    window.operateEvents = {
-//        'click .like': function (e, value, row, index) {
-//            alert('You click like action, row: ' + JSON.stringify(row));
-//        },
-//        'click .remove': function (e, value, row, index) {
-//            $table.bootstrapTable('remove', {
-//                field: 'id',
-//                values: [row.id]
-//            });
-//        }
-//    };
-//    function totalIdFormatter(data) {
-//        console.log(date);
-//        return data.id;
-//    }
-//    function totalCustomerFormatter(data) {
-//        return data.customer;
-//    }
-//    function totalPhoneFormatter(data) {
-//        return data.phone;
-//    }
-//    function totalAddressFormatter(data) {
-//        return data.address;
-//    }
-//    function totalInstallDateFormatter(data) {
-//        return data.install_date;
-//    }
-//    function totalNoteFormatter(data) {
-//        return data.note;
-//    }
-//    function totalSaleNameFormatter(data) {
-//        return data.sale_name;
-//    }
-//    function totalItemTypeFormatter(data) {
-//        return data.item_type;
-//    }
-//    function totalLadingNoFormatter(data) {
-//        return data.lading_no;
-//    }
-//    function getHeight() {
-//        return $(window).height() - $('h1').outerHeight(true);
-//    }
-//    $(function () {
-//        var scripts = [
-//                location.search.substring(1) || 'https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js',
-//                'https://cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js',
-//                'http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js',
-//                'https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js',
-//                'http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js'
-//            ],
-//            eachSeries = function (arr, iterator, callback) {
-//                callback = callback || function () {};
-//                if (!arr.length) {
-//                    return callback();
-//                }
-//                var completed = 0;
-//                var iterate = function () {
-//                    iterator(arr[completed], function (err) {
-//                        if (err) {
-//                            callback(err);
-//                            callback = function () {};
-//                        }
-//                        else {
-//                            completed += 1;
-//                            if (completed >= arr.length) {
-//                                callback(null);
-//                            }
-//                            else {
-//                                iterate();
-//                            }
-//                        }
-//                    });
-//                };
-//                iterate();
-//            };
-//        eachSeries(scripts, getScript, initTable);
-//    });
-//    function getScript(url, callback) {
-//        var head = document.getElementsByTagName('head')[0];
-//        var script = document.createElement('script');
-//        script.src = url;
-//        var done = false;
-//        // Attach handlers for all browsers
-//        script.onload = script.onreadystatechange = function() {
-//            if (!done && (!this.readyState ||
-//                this.readyState == 'loaded' || this.readyState == 'complete')) {
-//                done = true;
-//                if (callback)
-//                    callback();
-//                // Handle memory leak in IE
-//                script.onload = script.onreadystatechange = null;
-//            }
-//        };
-//        head.appendChild(script);
-//        // We handle everything using the script element injection
-//        return undefined;
-//    }
-</script>
 
 <script>
     $(function () {

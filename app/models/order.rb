@@ -34,6 +34,11 @@ class Order < ApplicationRecord
     end
   end
 
+  def self.like(status, like)
+    Order.where("status=? lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR address LIKE ? OR phone ? OR note LIKE ?",
+                status, "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
+  end
+
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
     # header = spreadsheet.row(1)

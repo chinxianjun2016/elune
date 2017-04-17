@@ -6,7 +6,16 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.where("status = '待网点派工'").order(create_time: :asc).page params[:page]
+    if params["like"]
+      like = params["like"]
+    else
+      like = ""
+    end
+
+    @orders = Order.where("status = ? AND lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ?
+                           OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "待网点派工", "%#{like}%", "%#{like}%", "%#{like}%",
+                          "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%").order(create_time: :asc).page params[:page]
+
     # @orders = Order.where("status = '待网点派工'").order(create_time: :asc)
 
     @undispatch_all = Order.where("status = '待网点派工'").count
