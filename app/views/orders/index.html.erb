@@ -4,7 +4,7 @@
         <div class="input-group">
           <%= search_field_tag "like", nil, class: "form-control" %>
           <span class="input-group-btn">
-            <%= submit_tag "搜", class: "btn btn-default" %>
+            <%= submit_tag "查询", class: "btn btn-default" %>
           </span>
         </div>
       </div>
@@ -99,12 +99,12 @@
         $('.phone-click').editable();
         $('.address-click').editable({mode: "inline"});
         $('.install_date-click').editable({
+            placement:'left',
+            clear: false,
             format: 'yyyy/mm/dd',
             viewformat: 'yyyy-mm-dd'
         });
-        $('.note-click').editable({
-            mode: 'inline'
-        });
+        $('.note-click').editable({mode: "inline"});
 
         function detailFormatter(index, row) {
             var html = [];

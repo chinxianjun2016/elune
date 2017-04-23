@@ -1,6 +1,6 @@
 <div class="row" style="margin-bottom: 10px;">
   <div class="col-lg-2">
-    <%= form_tag "/orders", method: "get" do %>
+    <%= form_tag "/orders/dispatch_list", method: "get" do %>
       <div class="input-group">
         <%= search_field_tag "like", nil, class: "form-control" %>
         <span class="input-group-btn">
@@ -13,11 +13,12 @@
     <a href="javascript:prints()" class="btn btn-default">打印全部</a>
   </div>
 </div>
-  <table id="orders" data-toggle="table"
-         data-show-refresh="true"
-         data-show-columns="true"
-         data-pagination="true"
-         data-search="true">
+  <table id="orders"
+         data-toggle="table"
+         data-detail-view="true"
+         data-detail-formatter="detailFormatter"
+         data-minimum-count-columns="2"
+         data-id-field="id">
     <thead>
     <tr>
       <th>安装工</th>

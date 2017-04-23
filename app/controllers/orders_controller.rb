@@ -12,9 +12,11 @@ class OrdersController < ApplicationController
       like = ""
     end
 
-    @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ?
+    @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
                            OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
-                          "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%").where("status = '待网点派工'").order(create_time: :asc).page params[:page]
+                          "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
+                  .where("status = '待网点派工'")
+                  .order(create_time: :asc).page params[:page]
 
     # @orders = Order.where("status = '待网点派工'").order(create_time: :asc)
 
@@ -73,9 +75,11 @@ class OrdersController < ApplicationController
       like = ""
     end
 
-    @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ?
-                           OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
-                          "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%").where("status = '网点已派工'").order(team_name: :asc).page params[:page]
+    @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
+                           OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%",
+                          "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
+                  .where("status = '网点已派工'")
+                  .order(team_name: :asc).page params[:page]
 
     @undispatch_all = Order.where("status='待网点派工'").count
     @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count

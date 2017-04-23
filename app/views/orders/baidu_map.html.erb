@@ -34,6 +34,10 @@
 
   var map = new BMap.Map("baiduMap", {minZoom:10});            // 创建Map实例
   var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
+  var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
+      offset: new BMap.Size(10, 25),
+      imageOffset: new BMap.Size(0, 0 - 10 * 25)
+  });
   map.centerAndZoom(point,13);
   map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
 
@@ -61,7 +65,12 @@
           }
           var point = new BMap.Point(orderLng, orderLat);
           var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name), {offset:new BMap.Size(20, -10)});
-          var marker = new BMap.Marker(point);
+
+          if(objOrders[i].team_name == null) {
+              var marker = new BMap.Marker(point);
+          } else {
+              var marker = new BMap.Marker(point, {icon:myIcon});
+          }
           map.addOverlay(marker);
           marker.setLabel(label);
           //右键信息框
@@ -84,10 +93,10 @@
       marker.addEventListener("click",function(e){
           $("#select-team")
               .modal({
-                  closable: true,
-                  onDeny: function () {
-                      window.alert("是要放弃派工么？");
-                  },
+//                  closable: true,
+//                  onDeny: function () {
+//                      window.alert("是要放弃派工么？");
+//                  },
                   onApprove: function () {
                       var team_name = $("input[name='team_name']:checked").val();
                       var date_now = new Date();
@@ -110,7 +119,13 @@
                               l_clean.setContent("");
                               l_clean.setStyle({borderWidth:"0px"});
                               var new_label = new BMap.Label((i+1) + ":" + team_name);
+                              var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
+                                  offset: new BMap.Size(10, 25),
+                                  imageOffset: new BMap.Size(0, 0 - 10 * 25)
+                              });
+                              marker.setIcon({icon:myIcon});
                               marker.setLabel(new_label);
+                              location.reload();
                           }
                       })
                   }
