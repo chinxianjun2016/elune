@@ -39,10 +39,20 @@
           <td><%= order.customer %></td>
           <td><%= order.phone %></td>
           <td><%= order.address %></td>
-          <td><%= order.install_date %></td>
+          <td>
+            <a href="#" data-name="install_date" data-type="date" data-pk="<%= order.id %>"
+               data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.install_date %>"
+               class="install_date-click"><%= order.install_date %>
+            </a>
+          </td>
           <td><%= order.item_type %></td>
           <td><%= order.lading_no %></td>
-          <td><%= order.note %></td>
+          <td>
+            <a href="#" data-name="note" data-type="textarea" data-pk="<%= order.id %>"
+               data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.note %>"
+               class="note-click"><%= order.note %>
+            </a>
+          </td>
           <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
           <td><a href="#">完工</a></td>
         </tr>
@@ -162,5 +172,34 @@
       LODOP.SET_PRINT_STYLEA(8,"FontSize",14);
       LODOP.SET_PRINT_STYLEA(8,"FontColor",0);
   };
+
+
+  $(function () {
+  //        $.fn.bootstrapTable.defaults;
+
+      $("#orders").on('click-row.bs.table', function (e, row, $element) {
+          $('.success').removeClass('success');
+          $($element).addClass('success');
+      });
+
+      $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
+
+      $('.install_date-click').editable({
+          placement:'left',
+          clear: false,
+          format: 'yyyy/mm/dd',
+          viewformat: 'yyyy-mm-dd'
+      });
+      $('.note-click').editable({mode: "inline"});
+
+      function detailFormatter(index, row) {
+          var html = [];
+          $.each(row, function (key, value) {
+              console.log(key);
+              html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+          });
+          return html.join('');
+      }
+  });
 
 </script>

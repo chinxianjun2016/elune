@@ -6,7 +6,8 @@ capybara-*.html
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /public/system
-/public/assets
+/public/assets/*.css
+/public/assets/*.js
 /coverage/
 /spec/tmp
 **.orig

@@ -21,14 +21,149 @@
   <meta name="msapplication-TileColor" content="#f01d4f">
   <%= csrf_meta_tags %>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <link rel="stylesheet" media="all" href="https://cdn.datatables.net/1.10.13/css/dataTables.semanticui.min.css" >
+  <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>  <!-- Latest compiled and minified CSS -->
+  <link href="https://cdn.bootcss.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet" >
+  <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.semanticui.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+  <!--<script src="/assets/bootstrap-table-editable.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+  <!--<script src="https://cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js"></script>-->
+  <!--<script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>-->
+
+  <style type="text/css">
+    body {
+      overflow: hidden;
+    }
+
+    .nav-list {
+      top: 50px;
+      left: 0;
+      width: 400px;
+      bottom: 0;
+      background-color: rgb(247, 247, 247);
+      border-right: 1px solid rgb(221, 221, 221);
+      z-index: 91;
+      transition: transform 0.2s ease;
+      -webkit-transition: transform 0.2s ease;
+      -webkit-transform: translate3d(-100%, 0, 0);
+      transform: translate3d(-100%, 0, 0);
+      position: fixed;
+      padding-top: 49px;
+    }
+
+    .nav-list.active {
+      transform: translate3d(0, 0, 0);
+      -webkit-transform: translate3d(0, 0, 0);
+    }
+
+    .nav-list .title {
+      line-height: 46px;
+      font-size: 18px;
+      padding-left: 10px;
+      text-shadow: rgb(255, 255, 255) 0 1px 0;
+      border-bottom: 1px solid rgb(229, 229, 229);
+      position: absolute;
+      height: 49px;
+      top: 0;
+      right: 0;
+      left: 0;
+    }
+
+    a.toggle {
+      position: absolute;
+      top: 9px;
+      right: -49px;
+    }
+
+    .nav-list.active a.toggle {
+      right: 9px;
+    }
+
+    a.toggle .glyphicon-chevron-left,
+    .nav-list.active a.toggle .glyphicon-chevron-right {
+      display: none;
+    }
+
+    a.toggle .glyphicon-chevron-right,
+    .nav-list.active a.toggle .glyphicon-chevron-left {
+      display: block;
+    }
+
+    .nav-list ul {
+      height: 100%;
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .navigation {
+      position: fixed;
+      top: 51px;
+      height: 30px;
+      text-align: center;
+    }
+
+    .navigation .previous,
+    .navigation .next {
+      display: none;
+      margin-left: 15px;
+      margin-right: 15px;
+      line-height: 30px;
+    }
+
+    .ribbon {
+      background-color: #a00;
+      overflow: hidden;
+      white-space: nowrap;
+      /* top left corner */
+      position: fixed;
+      right: -60px;
+      top: 90px;
+      /* 45 deg ccw rotation */
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg);
+      /* shadow */
+      -webkit-box-shadow: 0 0 10px #888;
+      -moz-box-shadow: 0 0 10px #888;
+      box-shadow: 0 0 10px #888;
+      z-index: 999;
+    }
+
+    .ribbon a {
+      border: 1px solid #faa;
+      color: #fff;
+      display: block;
+      font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 1px 0;
+      padding: 10px 50px;
+      text-align: center;
+      text-decoration: none;
+      /* shadow */
+      text-shadow: 0 0 5px #444;
+    }
+
+    .content {
+      position: fixed;
+      width: 100%;
+      top: 5em;
+      bottom: 0;
+    }
+
+    .fixed-table-body {
+      height: auto;
+    }
+  </style>
 
 </head>
 
