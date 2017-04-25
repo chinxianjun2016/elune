@@ -6,8 +6,7 @@ capybara-*.html
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /public/system
-/public/assets/*.css
-/public/assets/*.js
+/public/assets/*
 /coverage/
 /spec/tmp
 **.orig
@@ -25,7 +24,7 @@ config/secrets.yml
 
 ## Environment normalization:
 /.bundle
-/vendor/bundle
+/vendor/bundle/*
 
 # these should all be checked in to normalize the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
