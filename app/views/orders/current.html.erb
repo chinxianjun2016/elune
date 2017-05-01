@@ -32,14 +32,12 @@
         </button>
       </div>
     </div><!-- modal-content -->
-  </div><!-- modal -->
-</div>
-
-</div>
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
 
 <script type="text/javascript">
 
-  var map = new BMap.Map("baiduMap", {minZoom:10});            // 创建Map实例
+  var map = new BMap.Map("baiduMap", {minZoom:11});            // 创建Map实例
   var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
   var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
       offset: new BMap.Size(10, 25),
@@ -48,7 +46,7 @@
   map.centerAndZoom(point,13);
   map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
 
-  $.getJSON("/orders/baidu_map", function(json){
+  $.getJSON("/orders/current", function(json){
       var pointOffset = 0.00007;
       for(var i=0; i<json.length; i++){
           var objOrders = eval(json);

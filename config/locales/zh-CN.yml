@@ -147,6 +147,16 @@ zh-CN:
         name: "姓名"
         phone: "电话"
         plate_no: "车牌号"
+      order:
+        lading_no: "销售单号"
+        customer: "客户姓名"
+        address: "客户地址"
+        phone: "客户电话"
+        sale_name: "经销商名称"
+        note: "备注"
+        install_date: "安装日期"
+        item_name: "商品型号"
+        team_name: "安装工姓名"
     page_entries_info:
       one_page:
         display_entries:
