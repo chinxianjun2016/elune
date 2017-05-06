@@ -2,38 +2,34 @@
     <%#= date %>
 <%# end %>
 <div id="baiduMap" style="height:100%;width:100%;"></div>
-<div id="select-team" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</botton>
-        <h4 class="modal-titile" id="myModalLabel">选择安装工</h4>
-      </div>
-      <div class="modal-body" id="map_main" style="">
-        <div class="ui form" id="dispatch">
-          <div class="grouped fields">
-            <% @teams.each do |team| %>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="team_name" value="<%= team.name %>">
-                  <label><%= team.name %><div class="ui teal pointing label"><%= @counts["#{team.name}"] %></div></label>
-                </div>
-              </div>
-            <% end %>
+<div id="select-team" class="ui modal">
+  <i class="close icon"></i>
+  <div class="ui header">选择安装工</div>
+
+  <div class="ui content" id="dispatch">
+    <div class="grouped fields">
+      <% @teams.each do |team| %>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="team_name" value="<%= team.name %>">
+            <label><%= team.name %>
+              <div class="ui teal label"><%= @counts["#{team.name}"] %></div>
+            </label>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">
-          取消
-        </button>
-        <button type="button" class="btn btn-default" onclick="setMapValue()">
-          确定
-        </button>
-      </div>
-    </div><!-- modal-content -->
-  </div><!-- modal-dialog -->
-</div><!-- modal -->
+      <% end %>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      取消
+    </div>
+    <div type="submit" class="ui positive right labeled icon button">
+      确定
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
 

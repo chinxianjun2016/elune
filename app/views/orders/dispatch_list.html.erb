@@ -54,7 +54,7 @@
             </a>
           </td>
           <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
-          <td><a href="#">完工</a></td>
+          <td><a href="javascript:finished(<%= order.id %>)" class="finished" id="<%= order.id %>">完工</a></td>
         </tr>
       <% end %>
     </tbody>
@@ -199,7 +199,21 @@
               html.push('<p><b>' + key + ':</b> ' + value + '</p>');
           });
           return html.join('');
-      }
-  });
+      };
 
+      $(".finished").click(function (e) {
+         var oid = $(e.target).attr("id");
+         var data = {order: {"status": "派工已完工"}};
+         $.ajax({
+            async: false,
+            url: "/orders/" + oid,
+            type: "PUT",
+            data: data,
+            dataType: "json",
+            success: function (result) {
+                location.reload();
+            }
+         })
+      })
+  });
 </script>

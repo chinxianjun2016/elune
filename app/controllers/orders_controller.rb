@@ -54,6 +54,7 @@ class OrdersController < ApplicationController
     @teams = Team.order(name: :asc)
 
     @undispatch_all = Order.where("status='待网点派工'").count
+    @current_all = Order.where(install_date: Date.today).count
     @dispatched_all = Order.where("status='网点已派工'").count
     @dispatching_all = @orders.count
     @finished_all = Order.where("status='派工已完工'").count
@@ -61,7 +62,7 @@ class OrdersController < ApplicationController
     eom = Date.today.end_of_month
     @counts = {}
     @teams.each do |t|
-      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("install_date <= ? and install_date >= ?", eom, bom).count
+      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='派工已完工'").where("install_date <= ? and install_date >= ?", eom, bom).count
     end
 
     respond_to :html, :json
@@ -70,8 +71,6 @@ class OrdersController < ApplicationController
   end
 
   def current
-    # @orders = Order.order(address: :asc)
-
     @orders = Order.where(install_date: Date.today)
     @teams = Team.order(name: :asc)
 
@@ -84,12 +83,12 @@ class OrdersController < ApplicationController
     eom = Date.today.end_of_month
     @counts = {}
     @teams.each do |t|
-      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("install_date <= ? and install_date >= ?", eom, bom).count
+      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='派工已完工'").where("install_date <= ? and install_date >= ?", eom, bom).count
     end
 
     respond_to :html, :json
 
-    # render layout: "ordersemantic"
+    render layout: "ordersemantic"
   end
 
   # GET /orders/1
