@@ -127,7 +127,7 @@ class OrdersController < ApplicationController
     @finished_all = Order.where("status='派工已完工'").count
     respond_to :html, :json
 
-    # render layout: "print"
+    render layout: "print"
   end
 
   def finished_list
