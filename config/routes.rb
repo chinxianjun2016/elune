@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'baidu_map'
       get 'dispatch_list'
       get 'finished_list'
+      get 'current'
     end
   end
 

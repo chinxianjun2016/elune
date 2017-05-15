@@ -65,6 +65,10 @@
         地图派工
         <div class="ui <%= current_page?('/orders/baidu_map')? " teal left pointing " : "" %> label"><%= @dispatching_all %></div>
       </a>
+      <a class="item <%= current_page?('/orders/current')? " teal active" : "" %>" href="/orders/current">
+        今天的派工
+        <div class="ui <%= current_page?('/orders/current')? " teal left pointing " : "" %> label"><%= @current_all %></div>
+      </a>
       <a class="item " href="/orders/dispatch_list">
         已派工列表
         <div class="ui <%= current_page?('/orders/dispatch_list')? " teal left pointing " : "" %> label"><%= @dispatched_all %></div>

@@ -1,72 +1,69 @@
-<div class="row" style="margin-bottom: 10px;">
-  <div class="col-lg-2">
-    <%= form_tag "/orders/dispatch_list", method: "get" do %>
+<%= form_tag "/orders/dispatch_list", method: "get" do %>
+  <div class="row col-md-8" style="margin-bottom: 10px;">
+    <div class="col-lg-6">
       <div class="input-group">
         <%= search_field_tag "like", nil, class: "form-control" %>
         <span class="input-group-btn">
-          <%= submit_tag "搜", class: "btn btn-default" %>
+          <%= submit_tag "查询", class: "btn btn-default" %>
         </span>
       </div>
-    <% end %>
+    </div>
   </div>
-  <div class="col-lg-2">
-    <a href="javascript:prints()" class="btn btn-default">打印全部</a>
-  </div>
+<% end %>
+<div class="col-md-4">
+  <a href="javascript:prints()" class="btn btn-primary pull-right">打印全部</a>
 </div>
-  <table id="orders"
-         data-toggle="table"
-         data-detail-view="true"
-         data-detail-formatter="detailFormatter"
-         data-minimum-count-columns="2"
-         data-id-field="id">
-    <thead>
-    <tr>
-      <th>安装工</th>
-      <th>客户姓名</th>
-      <th>联系电话</th>
-      <th>详细地址</th>
-      <th>安装日期</th>
-      <th>商品型号</th>
-      <th>销售单号</th>
-      <th>备注</th>
-      <th class="single line" colspan="2">操作</th>
-    </tr>
-    </thead>
-    <tbody>
-      <% @orders.each do |order| %>
-        <tr>
-          <td><%= order.team_name %></td>
-          <td><%= order.customer %></td>
-          <td><%= order.phone %></td>
-          <td><%= order.address %></td>
-          <td><%= order.install_date %></td>
-          <td><%= order.item_type %></td>
-          <td><%= order.lading_no %></td>
-          <td><%= order.note %></td>
-          <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
-          <td><a href="#">完工</a></td>
-        </tr>
-      <% end %>
-    </tbody>
-    <tfoot>
+
+<table id="orders"
+       data-toggle="table"
+       data-detail-view="true"
+       data-detail-formatter="detailFormatter"
+       data-minimum-count-columns="2"
+       data-id-field="id">
+  <thead>
+  <tr>
+    <th>安装工</th>
+    <th>客户姓名</th>
+    <th>联系电话</th>
+    <th>详细地址</th>
+    <th>安装日期</th>
+    <th>商品型号</th>
+    <th>销售单号</th>
+    <th>备注</th>
+    <th class="single line" colspan="2">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
       <tr>
-        <th colspan="11">
-          <div class="ui right floated pagination menu">
-            <%= paginate @orders %>
-          </div>
-        </th>
+        <td><%= order.team_name %></td>
+        <td><%= order.customer %></td>
+        <td><%= order.phone %></td>
+        <td><%= order.address %></td>
+        <td><%= order.install_date %></td>
+        <td><%= order.item_type %></td>
+        <td><%= order.lading_no %></td>
+        <td><%= order.note %></td>
+        <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
+        <td><a href="javascript:finished(<%= order.id %>)" class="finished" id="<%= order.id %>">完工</a></td>
       </tr>
-    </tfoot>
-  </table>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="11">
+        <div class="ui right floated pagination menu">
+          <%= paginate @orders %>
+        </div>
+      </th>
+    </tr>
+  </tfoot>
+</table>
 
 <script>
-//  $(document).ready(function () {
-//      $('#orders').DataTable();
-//  });
-
   var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
   var oscript = document.createElement("script");
-  oscript.src = "http://localhost:8000/CLodopfuncs.js?priority=2";
+  oscript.src = "http://192.168.0.205:8000/CLodopfuncs.js?priority=2";
   head.insertBefore(oscript, head.firstChild);
 
   function getLodop(oOBJECT,oEMBED) {
@@ -163,4 +160,17 @@
       LODOP.SET_PRINT_STYLEA(8,"FontColor",0);
   };
 
+  function finished(oid) {
+      var data = {order: {"status": "派工已完工"}, "authenticity_token": "<%= form_authenticity_token %>"};
+      $.ajax({
+          async: false,
+          url: "/orders/" + oid,
+          type: "PUT",
+          data: data,
+          dataType: "json",
+          success: function (result) {
+              location.reload();
+          }
+      })
+  };
 </script>

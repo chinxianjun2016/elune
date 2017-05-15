@@ -204,6 +204,10 @@
           地图派工
           <div class="badge"><%= @dispatching_all %></div>
         </a>
+        <a class="list-group-item <%= current_page?('/orders/current')? " active" : "" %>" href="/orders/current">
+          现在派工
+          <div class="badge"> <%= @current_all %></div>
+        </a>
         <a class="list-group-item <%= current_page?('/orders/dispatch_list')? " active" : "" %>" href="/orders/dispatch_list">
           已派工列表
           <div class="badge"><%= @dispatched_all %></div>
@@ -240,49 +244,5 @@
 </div>
 <!--<nav class="navbar navbar-inverse navbar-fixed-bottom"><h5>power by elune.info</h5></nav>-->
 
-<script>
-  $('.ui.dropdown')
-      .dropdown({
-          on: 'hover',
-          action: 'hide'
-      });
-
-
-    $(function () {
-//        $.fn.bootstrapTable.defaults;
-
-        $("#orders").on('click-row.bs.table', function (e, row, $element) {
-            $('.success').removeClass('success');
-            $($element).addClass('success');
-        });
-
-//        $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
-//        $('.customer-click').editable();
-//        $('.phone-click').editable();
-//        $('.address-click').editable({mode: "inline"});
-//        $('.install_date-click').editable({
-//            type: 'date',
-//            clear: false,
-//            placement: 'left',
-//            datapicker: {
-//                language:'zh-CN'
-//            },
-//            format: 'yyyy/mm/dd',
-//            viewformat: 'yyyy-mm-dd'
-//        });
-//        $('.note-click').editable({
-//            mode: 'inline'
-//        });
-//
-//        function detailFormatter(index, row) {
-//            var html = [];
-//            $.each(row, function (key, value) {
-//                console.log(key);
-//                html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-//            });
-//            return html.join('');
-//        }
-    });
-</script>
 </body>
 </html>

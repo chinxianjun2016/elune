@@ -1,87 +1,50 @@
 <%= form_for(order) do |f| %>
-  <% if order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
+    <div class="form-group">
+      <% if order.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
 
-      <ul>
-      <% order.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+            <ul>
+              <% order.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
       <% end %>
-      </ul>
+
+      <div class="field">
+        <%= f.label :lading_no %>
+        <%= f.text_field :lading_no, class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :customer %>
+        <%= f.text_field :customer, class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :address %>
+        <%= f.text_field :address, class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :phone %>
+        <%= f.text_field :phone, class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :sale_name %>
+        <%= f.text_field :sale_name, class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :note %>
+        <%= f.text_field :note, class: "form-control" %>
+      </div>
+
+      <div class="btn btn-default">
+        <%= f.submit %>
+      </div>
+
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :lading_no %>
-    <%= f.text_field :lading_no %>
-  </div>
-
-  <div class="field">
-    <%= f.label :customer %>
-    <%= f.text_field :customer %>
-  </div>
-
-  <div class="field">
-    <%= f.label :sales %>
-    <%= f.text_field :sales %>
-  </div>
-
-  <div class="field">
-    <%= f.label :address %>
-    <%= f.text_field :address %>
-  </div>
-
-  <div class="field">
-    <%= f.label :telephone %>
-    <%= f.text_field :telephone %>
-  </div>
-
-  <div class="field">
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
-  </div>
-
-  <div class="field">
-    <%= f.label :item_name %>
-    <%= f.text_field :item_name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :demand %>
-    <%= f.text_field :demand %>
-  </div>
-
-  <div class="field">
-    <%= f.label :purchase_date %>
-    <%= f.date_select :purchase_date %>
-  </div>
-
-  <div class="field">
-    <%= f.label :count %>
-    <%= f.number_field :count %>
-  </div>
-
-  <div class="field">
-    <%= f.label :receiving_date %>
-    <%= f.date_select :receiving_date %>
-  </div>
-
-  <div class="field">
-    <%= f.label :installation_date %>
-    <%= f.date_select :installation_date %>
-  </div>
-
-  <div class="field">
-    <%= f.label :inside_no %>
-    <%= f.text_field :inside_no %>
-  </div>
-
-  <div class="field">
-    <%= f.label :outlet_no %>
-    <%= f.text_field :outlet_no %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

@@ -1,6 +1,6 @@
 <%= form_tag "/orders", method: "get" do %>
-    <div class="row" style="margin-bottom: 10px;">
-      <div class="col-lg-2">
+    <div class="row col-md-8" style="margin-bottom: 10px;">
+      <div class="col-lg-6">
         <div class="input-group">
           <%= search_field_tag "like", nil, class: "form-control" %>
           <span class="input-group-btn">
@@ -10,6 +10,9 @@
       </div>
     </div>
 <% end %>
+<div class="col-md-4">
+  <%= link_to "新建工单", new_order_path, class: "btn btn-primary pull-right" %>
+</div>
 
 <table id="orders"
        data-toggle="table"
@@ -84,6 +87,15 @@
   </tfoot>
 </table>
 
+<div class="modal hide fade in" id="new-order">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal"></a>
+    <h4>新建工单</h4>
+  </div>
+  <div class="modal-body">
+
+  </div>
+</div>
 
 <script>
     $(function () {
@@ -114,5 +126,9 @@
             });
             return html.join('');
         }
+
+        $('#new-order').modal({
+          show: false
+        })
     });
 </script>
