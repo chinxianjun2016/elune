@@ -26,7 +26,7 @@
       <th>客户姓名</th>
       <th>联系电话</th>
       <th>客户地址</th>
-      <th>安装时间</th>
+      <th class="col-sm-1">安装时间</th>
       <!--<th class="single line">安装工</th>-->
       <th>备注</th>
       <th>销售单位</th>
@@ -111,7 +111,7 @@
         $('.phone-click').editable();
         $('.address-click').editable({mode: "inline"});
         $('.install_date-click').editable({
-            placement:'left',
+            placement:'bottom',
             clear: false,
             format: 'yyyy/mm/dd',
             viewformat: 'yyyy-mm-dd'

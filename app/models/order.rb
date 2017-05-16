@@ -50,9 +50,12 @@ class Order < ApplicationRecord
                      "item_type3", "item_count3", "item_price3"]
     (3..spreadsheet.last_row).map do |i|
       row = Hash[[header2column, spreadsheet.row(i)].transpose]
-      unless Order.find_by(id: row["id"])
+      unless Order.find_by(lading_no: row["lading_no"])
         order = Order.new
         order.attributes = row.to_hash.slice(*row.to_hash.keys)
+        if Order.find_by(id: row["id"])
+          order.id = Order.last.id + 1
+        end
         order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
         order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
         order.save!
