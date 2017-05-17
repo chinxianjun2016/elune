@@ -5,12 +5,10 @@
 <div id="select-team" class="ui modal">
   <i class="close icon"></i>
   <div class="ui header">选择安装工</div>
-
-
   <div class="ui form" id="dispatch">
     <div class="ui grid">
       <% @teams.each do |team| %>
-          <div class="four wide column field">
+          <div class="four wide column">
             <div class="ui radio checkbox">
               <input type="radio" name="team_name" value="<%= team.name %>">
               <label><%= team.name %>

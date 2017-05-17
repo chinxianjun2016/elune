@@ -1,8 +1,11 @@
 <%= form_tag "/orders/dispatch_list", method: "get" do %>
   <div class="row col-md-8" style="margin-bottom: 10px;">
-    <div class="col-lg-6">
-      <div class="input-group">
+    <div class="col-lg-8">
         <%= search_field_tag "like", nil, class: "form-control" %>
+    </div>
+    <div class="col-lg-4">
+      <div class="input-group">
+        <input type="text" name="install_date" class="form-control" id="date-select">
         <span class="input-group-btn">
           <%= submit_tag "查询", class: "btn btn-default" %>
         </span>
@@ -36,14 +39,29 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= order.team_name %></td>
+        <td>
+          <a href="#" data-name="team_name" data-type="text" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.team_name %>"
+             class="team-click"><%= order.team_name %>
+          </a>
+        </td>
         <td><%= order.customer %></td>
         <td><%= order.phone %></td>
         <td><%= order.address %></td>
-        <td><%= order.install_date %></td>
+        <td>
+          <a href="#" data-name="install_date" data-type="date" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.install_date %>"
+             class="install_date-click"><%= order.install_date %>
+          </a>
+        </td>
         <td><%= order.item_type %></td>
         <td><%= order.lading_no %></td>
-        <td><%= order.note %></td>
+        <td>
+          <a href="#" data-name="note" data-type="textarea" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.note %>"
+             class="note-click"><%= order.note %>
+          </a>
+        </td>
         <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
         <td><a href="javascript:finished(<%= order.id %>)" class="finished" id="<%= order.id %>">完工</a></td>
       </tr>
@@ -173,4 +191,35 @@
           }
       })
   };
+
+  $("#orders").on('click-row.bs.table', function (e, row, $element) {
+      $('.success').removeClass('success');
+      $($element).addClass('success');
+  });
+
+  $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
+  $('.team-click').editable();
+  $('.phone-click').editable();
+  $('.address-click').editable({mode: "inline"});
+  $('.install_date-click').editable({
+      placement:'bottom',
+      clear: false,
+      format: 'yyyy/mm/dd',
+      viewformat: 'yyyy-mm-dd'
+  });
+  $('.note-click').editable({mode: "inline"});
+
+  function detailFormatter(index, row) {
+      var html = [];
+      $.each(row, function (key, value) {
+          console.log(key);
+          html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+      });
+      return html.join('');
+  };
+  $('#date-select').datepicker({
+      language: "zh-CN",
+      autoclose: true,
+      format: "yyyy-mm-dd"
+  })
 </script>

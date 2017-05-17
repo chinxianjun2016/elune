@@ -65,7 +65,7 @@
               var orderLat = objOrders[i].lat;
           }
           var point = new BMap.Point(orderLng, orderLat);
-          var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name) + "<br>" + objOrders[i].item_type, {offset:new BMap.Size(20, -10)});
+          var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name) + "<br>" + objOrders[i].item_type +  "<br>" + objOrders[i].note, {offset:new BMap.Size(20, -10)});
 
           if(objOrders[i].team_name == null) {
               var marker = new BMap.Marker(point);

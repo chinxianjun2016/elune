@@ -55,6 +55,8 @@ class Order < ApplicationRecord
         order.attributes = row.to_hash.slice(*row.to_hash.keys)
         if Order.find_by(id: row["id"])
           order.id = Order.last.id + 1
+        elsif  Order.last.id > row["id"]
+          order.id = Order.last.id + 1
         end
         order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
         order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]

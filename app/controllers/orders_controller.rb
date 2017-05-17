@@ -62,7 +62,7 @@ class OrdersController < ApplicationController
     eom = Date.today.end_of_month
     @counts = {}
     @teams.each do |t|
-      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='派工已完工'").where("install_date <= ? and install_date >= ?", eom, bom).count
+      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
     end
 
     respond_to :html, :json
@@ -71,7 +71,7 @@ class OrdersController < ApplicationController
   end
 
   def current
-    @orders = Order.where(install_date: Date.today)
+    @orders = Order.where(install_date: Date.today).where("status='网点已派工' OR status='待网点派工'")
     @teams = Team.order(name: :asc)
 
     @undispatch_all = Order.where("status='待网点派工'").count
@@ -83,7 +83,7 @@ class OrdersController < ApplicationController
     eom = Date.today.end_of_month
     @counts = {}
     @teams.each do |t|
-      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='派工已完工'").where("install_date <= ? and install_date >= ?", eom, bom).count
+      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
     end
 
     respond_to :html, :json
@@ -109,21 +109,35 @@ class OrdersController < ApplicationController
 
   def dispatch_list
     # @orders = Order.where("status = '网点已派工'").order(team_name: :asc).page params[:page]
+    @undispatch_all = Order.where("status='待网点派工'").count
+    @dispatched_all = Order.where("status='网点已派工'").count
+    @dispatching_all = Order.where(install_date: Date.tomorrow).count
+    @current_all = Order.where(install_date: Date.today).count
+    @finished_all = Order.where("status='派工已完工'").count
+
     if params["like"]
       like = params["like"]
     else
       like = ""
     end
 
+    unless params["install_date"].blank?
+      install_date = params["install_date"].to_date
+    else
+      install_date = Date.today
+    end
+
     @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
                            OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%",
                           "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-                  .where("status = '网点已派工'")
-                  .order(team_name: :asc).page params[:page]
+                  .where("status = '网点已派工'").where(install_date: install_date)
+                  .order(team_name: :asc)
+                  #.order(team_name: :asc).page params[:page]
 
     @undispatch_all = Order.where("status='待网点派工'").count
     @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
     @dispatched_all = @orders.count
+    @current_all = Order.where("install_date='#{Date.today}'").where("status='待网点已派工'").count
     @finished_all = Order.where("status='派工已完工'").count
     respond_to :html, :json
 
