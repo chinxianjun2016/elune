@@ -122,15 +122,15 @@ class OrdersController < ApplicationController
     end
 
     unless params["install_date"].blank?
-      install_date = params["install_date"].to_date
+      ins_date = params["install_date"].to_date
     else
-      install_date = Date.today
+      ins_date = Date.today
     end
 
     @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
                            OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%",
                           "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-                  .where("status = '网点已派工'").where(install_date: install_date)
+                  .where("status = '网点已派工'").where(install_date: ins_date)
                   .order(team_name: :asc)
                   #.order(team_name: :asc).page params[:page]
 
