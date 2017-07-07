@@ -23,6 +23,7 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>安装工</th>
       <th>客户姓名</th>
       <th>联系电话</th>
       <th>客户地址</th>
@@ -39,6 +40,12 @@
     <% @orders.each do |order| %>
       <tr>
         <td><%= order.id %></td>
+        <td class="teams">
+          <a href="#" data-name="team" data-type="text" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.team_name %>"
+             class="team-click"><%= order.team_name %>
+          </a>
+        </td>
         <td>
           <a href="#" data-name="customer" data-type="text" data-pk="<%= order.id %>"
              data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.customer %>"
@@ -96,7 +103,33 @@
 
   </div>
 </div>
-
+<div id="dispatch" class="ui modal">
+  <i class="close icon"></i>
+  <div class="ui header">选择安装工</div>
+  <div class="ui form" id="dispatch">
+    <div class="ui grid">
+      <% @teams.each do |team| %>
+          <div class="four wide column">
+            <div class="ui radio checkbox">
+              <input type="radio" name="team_name" value="<%= team.name %>">
+              <label><%= team.name %>
+                <div class="ui teal label"><%= @counts["#{team.name}"] %></div>
+              </label>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      取消
+    </div>
+    <div type="submit" class="ui positive right labeled icon button">
+      确定
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
 <script>
     $(function () {
 //        $.fn.bootstrapTable.defaults;
@@ -107,6 +140,7 @@
         });
 
         $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
+        $('.team-click').editable({mode: "inline"});
         $('.customer-click').editable();
         $('.phone-click').editable();
         $('.address-click').editable({mode: "inline"});
@@ -128,6 +162,9 @@
         }
 
         $('#new-order').modal({
+          show: false
+        });
+        $('#dispatch').modal({
           show: false
         })
     });

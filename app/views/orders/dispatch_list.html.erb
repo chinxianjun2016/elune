@@ -122,7 +122,7 @@
               var note = (objOrder.note == null)? "" : objOrder.note;
 
               LODOP.PRINT_INIT("");
-              LODOP.SET_PRINT_PAGESIZE(1,"241mm","93mm","派工单");
+              LODOP.SET_PRINT_PAGESIZE(1,"220mm","93mm","派工单");
               addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note);
               LODOP.PREVIEW();
       });
@@ -164,7 +164,7 @@
       LODOP.ADD_PRINT_TEXT(72,37,731,25,"工人：" + team_name + "                      派工时间：" + updated_at);
       LODOP.SET_PRINT_STYLEA(4,"FontSize",14);
       LODOP.SET_PRINT_STYLEA(4,"FontColor",0);
-      LODOP.ADD_PRINT_TEXT(99,37,631,25,"姓名：" + customer + "                        电话：" + phone);
+      LODOP.ADD_PRINT_TEXT(99,37,631,25,"姓名：" + customer + "               电话：" + phone);
       LODOP.SET_PRINT_STYLEA(5,"FontSize",14);
       LODOP.SET_PRINT_STYLEA(5,"FontColor",0);
       LODOP.ADD_PRINT_TEXT(126,37,631,25, "地址：" + address);

@@ -2,33 +2,7 @@
     <%#= date %>
 <%# end %>
 <div id="baiduMap" style="height:100%;width:100%;"></div>
-<div id="select-team" class="ui modal">
-  <i class="close icon"></i>
-  <div class="ui header">选择安装工</div>
-  <div class="ui form" id="dispatch">
-    <div class="ui grid">
-      <% @teams.each do |team| %>
-          <div class="four wide column">
-            <div class="ui radio checkbox">
-              <input type="radio" name="team_name" value="<%= team.name %>">
-              <label><%= team.name %>
-                <div class="ui teal label"><%= @counts["#{team.name}"] %></div>
-              </label>
-            </div>
-          </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="actions">
-    <div class="ui black deny button">
-      取消
-    </div>
-    <div type="submit" class="ui positive right labeled icon button">
-      确定
-      <i class="checkmark icon"></i>
-    </div>
-  </div>
-</div>
+
 
 <script type="text/javascript">
 
@@ -64,7 +38,9 @@
               var orderLat = objOrders[i].lat;
           }
           var point = new BMap.Point(orderLng, orderLat);
-          var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name) + "<br>" + objOrders[i].item_type + "<br>" + objOrders[i].note, {offset:new BMap.Size(20, -10)});
+          var item = objOrders[i].item_type;
+          var item_sub = item.substring(item.indexOf("("));
+          var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name) + "<br>" + item_sub + "<br>" + objOrders[i].note, {offset:new BMap.Size(20, -10)});
 
           if(objOrders[i].team_name == null) {
               var marker = new BMap.Marker(point);
@@ -104,14 +80,14 @@
                       var data = {order: {
                           "status":"网点已派工",
                           "dispatch_time": dispatch_time,
-                          "team_name":team_name,
-                          "lng":orderLng,
-                          "lat":orderLat
+                          "team_name":team_name
+//                          "lng":orderLng,
+//                          "lat":orderLat
                       }
                       };
 
                       $.ajax({
-                          async: false,
+                          async: true,
                           url: "/orders/" + orderId,
                           type: "PUT",
                           data: data,
@@ -127,7 +103,7 @@
                               });
                               marker.setIcon({icon:myIcon});
                               marker.setLabel(new_label);
-                              location.reload();
+//                              location.reload();
                           }
                       })
                   }

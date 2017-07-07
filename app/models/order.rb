@@ -53,11 +53,29 @@ class Order < ApplicationRecord
       unless Order.find_by(lading_no: row["lading_no"])
         order = Order.new
         order.attributes = row.to_hash.slice(*row.to_hash.keys)
+        puts "########### show id ##############"
+        puts row["id"]
+        puts row["id"].class
+
         if Order.find_by(id: row["id"])
           order.id = Order.last.id + 1
         elsif  Order.last.id > row["id"]
           order.id = Order.last.id + 1
         end
+
+        order.info_no = row["info_no"].to_s
+        order.lading_no = row["lading_no"].to_s
+        order.customer= row["customer"].to_s
+        order.phone = row["phone"].to_s
+        order.area_code=row["area_code"].to_s
+        order.phone = row["phone"].to_s
+        order.province=row["province"].to_s
+        order.city=row["city"].to_s
+        order.county=row["county"].to_s
+        order.street=row["street"].to_s
+        order.address=row["address"].to_s
+        order.note=row["note"].to_s
+        order.item_type=row["item_type"].to_s
         order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
         order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
         order.save!

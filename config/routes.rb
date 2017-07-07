@@ -18,5 +18,11 @@ Rails.application.routes.draw do
   # resources :items
   resources :teams
 
+  resource :user, only: [:edit] do
+    collection do
+      patch 'update_password'
+    end
+  end
+
   root 'homes#dashboard'
 end
