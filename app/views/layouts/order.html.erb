@@ -244,36 +244,6 @@
     </div>
 </div>
 <!--<nav class="navbar navbar-inverse navbar-fixed-bottom"><h5>power by elune.info</h5></nav>-->
-
-<div id="select-team" class="modal fade" tabindex="-1" role="dialog" aria-label="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-          &times;
-        </button>
-        <h4 class="modal-title" id="myModalLabel">选择安装工</h4>
-      </div>
-      <div class="modal-body" id="dispatch" style="height: 400px;">
-        <div>
-          <% @teams.each do |team| %>
-              <label class="checkbox-inline"><%= team.name %>
-                <input type="radio" name="team_name" value="<%= team.name %>">
-                <span class="label label-primary"><%= @counts["#{team.name}"] %></span>
-              </label>
-          <% end %>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
-          取消
-        </button>
-        <button type="button" class="btn btn-primary">
-          确定
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= yield :body_tail %>
 </body>
 </html>
