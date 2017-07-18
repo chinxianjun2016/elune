@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
     else
       like = ""
     end
-    @teams = Team.order(name: :asc)
+    # @teams = Team.order(name: :asc)
 
     # if params["sale_name"] != "全部"
     #   sale_name = params["sale_name"]
@@ -37,13 +37,13 @@ class OrdersController < ApplicationController
     @dispatched_all = Order.where("status='网点已派工'").count
     @finished_all = Order.where("status='派工已完工'").count
 
-    bom = Date.today.beginning_of_month
-    eom = Date.today.end_of_month
-    @counts = {}
-
-    @teams.each do |t|
-      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
-    end
+    # bom = Date.today.beginning_of_month
+    # eom = Date.today.end_of_month
+    # @counts = {}
+    #
+    # @teams.each do |t|
+    #   @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
+    # end
 
     respond_to :html, :json
 

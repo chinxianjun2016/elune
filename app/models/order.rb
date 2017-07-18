@@ -68,7 +68,6 @@ class Order < ApplicationRecord
         order.customer= row["customer"].to_s
         order.phone = row["phone"].to_s
         order.area_code=row["area_code"].to_s
-        order.phone = row["phone"].to_s
         order.province=row["province"].to_s
         order.city=row["city"].to_s
         order.county=row["county"].to_s
