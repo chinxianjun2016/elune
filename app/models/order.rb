@@ -57,10 +57,14 @@ class Order < ApplicationRecord
         puts row["id"]
         puts row["id"].class
 
-        if Order.find_by(id: row["id"])
-          order.id = Order.last.id + 1
-        elsif  Order.last.id > row["id"]
-          order.id = Order.last.id + 1
+        if Order.last.nil?
+          order.id = row["id"]
+        else
+          if Order.find_by(id: row["id"])
+            order.id = Order.last.id + 1
+          elsif  Order.last.id > row["id"]
+            order.id = Order.last.id + 1
+          end
         end
 
         order.info_no = row["info_no"].to_s
