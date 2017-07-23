@@ -91,7 +91,7 @@
               LODOP=getCLodop();
           } catch (err){};
           if(!LODOP && document.readyState!=="complete"){
-//              alert("C-Lodop没准备好，请稍候再试！");
+              alert("C-Lodop没准备好，请稍候再试！");
               return;
           }
           if(oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
@@ -133,7 +133,8 @@
           for(var i=0; i<json.length; i++){
               var objOrders = eval(json);
               var lading_no = objOrders[i].lading_no;
-              var item_type = objOrders[i].item_type.substring(item.indexOf("K"));
+              var item_type_p = objOrders[i].item_type;
+              var item_type = item_type_p.substring(item_type_p.indexOf("K"));
               var customer = objOrders[i].customer;
               var address = objOrders[i].address;
               var phone = objOrders[i].phone;
