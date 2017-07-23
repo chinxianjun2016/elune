@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Elune Tasks Manager</title>
+  <title>诚信工单管理</title>
   <!-- mobile meta -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
@@ -197,7 +197,7 @@
   <div class="col-md-2">
     <!-- Sidebar -->
     <div class="list-group">
-      <a class="list-group-item <%= current_page?('/orders')? " active" : "" %>" href="/orders">
+      <a class="list-group-item <%= current_page?('/orders/waiting')? " active" : "" %>" href="/orders/waiting">
         待派工列表
         <div class="badge"><%= @undispatch_all %></div>
       </a>
@@ -210,12 +210,16 @@
         <div class="badge"> <%= @current_all %></div>
       </a>
       <a class="list-group-item <%= current_page?('/orders/dispatch_list')? " active" : "" %>" href="/orders/dispatch_list">
-        已派工列表
+        打印列表
         <div class="badge"><%= @dispatched_all %></div>
       </a>
       <a class="list-group-item <%= current_page?('/orders/finished_list')? " active" : "" %>" href="/orders/finished_list">
         已完工列表
         <span class="badge"><%= @finished_all %></span>
+      </a>
+      <a class="list-group-item <%= current_page?('/orders')? " active" : "" %>" href="/orders">
+        所有工单列表
+        <span class="badge"><%= @all %></span>
       </a>
     </div>
     <div class="col-md-2">

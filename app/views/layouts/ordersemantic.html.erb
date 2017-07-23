@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Elune Tasks Manager</title>
+  <title>诚信工单管理</title>
   <!-- mobile meta -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
@@ -57,7 +57,7 @@
   <div class="three wide column">
     <!-- Sidebar -->
     <div class="ui vertical menu">
-      <a class="item <%= current_page?('/orders')? " teal active" : "" %>" href="/orders">
+      <a class="item <%= current_page?('/orders/waiting')? " teal active" : "" %>" href="/orders/waiting">
         待派工列表
         <div class="ui <%= current_page?('/orders')? " teal left pointing " : "" %> label"><%= @undispatch_all %></div>
       </a>
@@ -76,6 +76,10 @@
       <a class="item " href="/orders/finished_list">
         已完工列表
         <div class="ui <%= current_page?('/orders/finished_list')? " teal left pointing " : "" %> label"><%= @finished_all %></div>
+      </a>
+      <a class="item <%= current_page?('/orders')? " teal active" : "" %>" href="/orders">
+        所有工单列表
+        <div class="ui <%= current_page?('/orders')? " teal left pointing " : "" %> label"><%= @all %></div>
       </a>
     </div>
   </div>

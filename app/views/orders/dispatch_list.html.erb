@@ -112,7 +112,7 @@
       $.getJSON("/orders/" + oid, function(json){
               var objOrder = eval(json);
               var lading_no = objOrder.lading_no;
-              var item_type = objOrder.item_type;
+              var item_type = objOrder.item_type.substring(item.indexOf("K"));
               var customer = objOrder.customer;
               var address = objOrder.address;
               var phone = objOrder.phone;
@@ -133,7 +133,7 @@
           for(var i=0; i<json.length; i++){
               var objOrders = eval(json);
               var lading_no = objOrders[i].lading_no;
-              var item_type = objOrders[i].item_type;
+              var item_type = objOrders[i].item_type.substring(item.indexOf("K"));
               var customer = objOrders[i].customer;
               var address = objOrders[i].address;
               var phone = objOrders[i].phone;

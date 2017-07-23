@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get 'dispatch_list'
       get 'finished_list'
       get 'current'
+      get 'waiting'
     end
   end
 

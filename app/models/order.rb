@@ -16,6 +16,7 @@ class Order < ApplicationRecord
                      "item_type3", "item_count3", "item_price3"]
     (3..spreadsheet.last_row).map do |i|
       row = Hash[header2column, spreadsheet.row(i).transpose]
+
       order = Order.find_by(lading_no: row["id"]) || Order.new
       # order = Order.new
       order.attributes = row.to_hash.slice(*row.to_hash.keys)
@@ -50,38 +51,42 @@ class Order < ApplicationRecord
                      "item_type3", "item_count3", "item_price3"]
     (3..spreadsheet.last_row).map do |i|
       row = Hash[[header2column, spreadsheet.row(i)].transpose]
-      unless Order.find_by(lading_no: row["lading_no"])
-        order = Order.new
-        order.attributes = row.to_hash.slice(*row.to_hash.keys)
-        puts "########### show id ##############"
-        puts row["id"]
-        puts row["id"].class
+      puts "row ID: "
+      puts row["id"]
+      if (row["id"] != nil)
+        unless Order.find_by(lading_no: row["lading_no"])
+          order = Order.new
+          order.attributes = row.to_hash.slice(*row.to_hash.keys)
 
-        if Order.last.nil?
-          order.id = row["id"]
-        else
-          if Order.find_by(id: row["id"])
-            order.id = Order.last.id + 1
-          elsif  Order.last.id > row["id"]
-            order.id = Order.last.id + 1
+          if Order.last.nil?
+            order.id = row["id"].to_i
+          else
+            # if Order.find_by(id: row["id"])
+            #   order.id = Order.last.id + 1
+            # elsif  Order.last.id > row["id"]
+              order.id = Order.last.id + 1
+            # end
           end
-        end
 
-        order.info_no = row["info_no"].to_s
-        order.lading_no = row["lading_no"].to_s
-        order.customer= row["customer"].to_s
-        order.phone = row["phone"].to_s
-        order.area_code=row["area_code"].to_s
-        order.province=row["province"].to_s
-        order.city=row["city"].to_s
-        order.county=row["county"].to_s
-        order.street=row["street"].to_s
-        order.address=row["address"].to_s
-        order.note=row["note"].to_s
-        order.item_type=row["item_type"].to_s
-        order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
-        order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
-        order.save!
+          order.info_no = row["info_no"].to_s
+          order.lading_no = row["lading_no"].to_s
+          order.customer= row["customer"].to_s
+          order.phone = row["phone"].to_s
+          order.area_code=row["area_code"].to_s
+          order.province=row["province"].to_s
+          order.city=row["city"].to_s
+          order.county=row["county"].to_s
+          order.street=row["street"].to_s
+          order.address=row["address"].to_s
+          order.note=row["note"].to_s
+          order.item_type=row["item_type"].to_s
+          order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
+          order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
+          order.save!
+        end
+      else
+        puts "########"
+        puts "Error data ID is nil"
       end
     end
   end

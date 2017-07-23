@@ -1,162 +1,158 @@
 <%#= month_calendar do |date| %>
-    <%#= date %>
+<%#= date %>
 <%# end %>
 <div id="baiduMap" style="height:100%;width:100%;"></div>
-<% content_for :body_tail do %>
-    <div id="select-team" class="modal fade" tabindex="-1" role="dialog" aria-label="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              &times;
-            </button>
-            <h4 class="modal-title" id="myModalLabel">选择安装工</h4>
-          </div>
-          <div class="modal-body" id="dispatch" style="height: 400px;">
-            <div>
-              <% @teams.each do |team| %>
-                  <label class="checkbox-inline"><%= team.name %>
-                    <input type="radio" name="team_name" value="<%= team.name %>">
-                    <span class="label label-primary"><%= @counts["#{team.name}"] %></span>
-                  </label>
-              <% end %>
+<div id="select-team" class="ui modal">
+  <i class="close icon"></i>
+  <div class="ui header">选择安装工</div>
+  <div class="ui form" id="dispatch">
+    <div class="ui grid">
+      <% @teams.each do |team| %>
+          <div class="four wide column">
+            <div class="ui radio checkbox">
+              <input type="radio" name="team_name" value="<%= team.name %>">
+              <label><%= team.name %>
+                <div class="ui teal label"><%= @counts["#{team.name}"] %></div>
+              </label>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">
-              取消
-            </button>
-            <button type="button" class="btn btn-primary">
-              确定
-            </button>
-          </div>
-        </div>
-      </div>
+      <% end %>
     </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      取消
+    </div>
+    <div type="submit" class="ui positive right labeled icon button">
+      确定
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-      var map = new BMap.Map("baiduMap", {minZoom:10});            // 创建Map实例
-      var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
-      var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
-          offset: new BMap.Size(10, 25),
-          imageOffset: new BMap.Size(0, 0 - 10 * 25)
-      });
-      map.centerAndZoom(point,13);
-      map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
+    var map = new BMap.Map("baiduMap", {minZoom:10});            // 创建Map实例
+    var point = new BMap.Point(116.55951,39.985688); // 创建点坐标
+    var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
+        offset: new BMap.Size(10, 25),
+        imageOffset: new BMap.Size(0, 0 - 10 * 25)
+    });
+    map.centerAndZoom(point,13);
+    map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
 
-      $.getJSON("/orders/baidu_map", function(json){
-          var pointOffset = 0.00007;
-          for(var i=0; i<json.length; i++){
-              var objOrders = eval(json);
-              if(i>0){
-                  if(objOrders[i-1].lng == objOrders[i].lng){
-                      var orderLng = objOrders[i].lng + pointOffset;
-                      var orderLat = objOrders[i].lat + pointOffset;
-                      pointOffset += 0.00007;
-    //                  alert(orderLat);
-                  }
-                  else{
-                      var orderLng = objOrders[i].lng;
-                      var orderLat = objOrders[i].lat;
-                      pointOffset = 0.00007;
-                  }
+    $.getJSON("/orders/baidu_map", function(json){
+        var pointOffset = 0.00007;
+        for(var i=0; i<json.length; i++){
+            var objOrders = eval(json);
+            if(i>0){
+                if(objOrders[i-1].lng == objOrders[i].lng){
+                    var orderLng = objOrders[i].lng + pointOffset;
+                    var orderLat = objOrders[i].lat + pointOffset;
+                    pointOffset += 0.00007;
+//                  alert(orderLat);
+                }
+                else{
+                    var orderLng = objOrders[i].lng;
+                    var orderLat = objOrders[i].lat;
+                    pointOffset = 0.00007;
+                }
 
-              }
-              else{
-                  var orderLng = objOrders[i].lng;
-                  var orderLat = objOrders[i].lat;
-              }
-              var point = new BMap.Point(orderLng, orderLat);
-              var item = objOrders[i].item_type;
-              var item_sub = item.substring(item.indexOf("("));
-              var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name) + "<br>" + item_sub + "<br>" + objOrders[i].note, {offset:new BMap.Size(20, -10)});
+            }
+            else{
+                var orderLng = objOrders[i].lng;
+                var orderLat = objOrders[i].lat;
+            }
+            var point = new BMap.Point(orderLng, orderLat);
+            var item = objOrders[i].item_type;
+            var item_sub = item.substring(item.indexOf("("));
+            var team_count = 0;
+            var label = new BMap.Label((i+1)+":"+((objOrders[i].team_name == null) ? objOrders[i].address : objOrders[i].team_name) + "<br>" + item_sub + "<br>" + objOrders[i].note, {offset:new BMap.Size(20, -10)});
 
-              if(objOrders[i].team_name == null) {
-                  var marker = new BMap.Marker(point);
-              } else {
-                  var marker = new BMap.Marker(point, {icon:myIcon});
-              }
-              map.addOverlay(marker);
-              marker.setLabel(label);
-              //右键信息框
-              var content = "安装工："+objOrders[i].team_name+"<br/>"+ "客户地址："+objOrders[i].address;
-              var opts = {
-                  width: 300,
-                  height: 100,
-                  title: "工单信息"
-              };
-              RightClickHandler(content, marker, opts);
-    //          RightClick();
-              //左键派工
-              var orderId = parseFloat(objOrders[i].id);
-              addClickHandler(i, orderId, marker, orderLng, orderLat);
-          }
-      });
+            if(objOrders[i].team_name == null) {
+                var marker = new BMap.Marker(point);
+            } else {
+                var marker = new BMap.Marker(point, {icon:myIcon});
+            }
+            map.addOverlay(marker);
+            marker.setLabel(label);
+            //右键信息框
+            var content = "安装工："+objOrders[i].team_name+"<br/>"+ "客户地址："+objOrders[i].address;
+            var opts = {
+                width: 300,
+                height: 100,
+                title: "工单信息"
+            };
+            RightClickHandler(content, marker, opts);
+//          RightClick();
+            //左键派工
+            var orderId = parseFloat(objOrders[i].id);
+            addClickHandler(i, orderId, marker, orderLng, orderLat);
+        }
+    });
 
-      //鼠标左键单击marker事件
-      function addClickHandler(i, orderId, marker, orderLng, orderLat){
-          marker.addEventListener("click",function(e){
-              $("#select-team")
-                  .modal({
-    //                  closable: true,
-    //                  onDeny: function () {
-    //                      window.alert("是要放弃派工么？");
-    //                  },
-                      onApprove: function () {
-                          var team_name = $("input[name='team_name']:checked").val();
-                          var date_now = new Date();
-                          var dispatch_time = date_now.toDateString();
-                          var data = {order: {
-                              "status":"网点已派工",
-                              "dispatch_time": dispatch_time,
-                              "team_name":team_name
-    //                          "lng":orderLng,
-    //                          "lat":orderLat
-                          }
-                          };
+    //鼠标左键单击marker事件
+    function addClickHandler(i, orderId, marker, orderLng, orderLat){
+        marker.addEventListener("click",function(e){
+            $("#select-team")
+                .modal({
+//                  closable: true,
+//                  onDeny: function () {
+//                      window.alert("是要放弃派工么？");
+//                  },
+                    onApprove: function () {
+                        var team_name = $("input[name='team_name']:checked").val();
+                        var date_now = new Date();
+                        var dispatch_time = date_now.toDateString();
+                        var data = {order: {
+                            "status":"网点已派工",
+                            "dispatch_time": dispatch_time,
+                            "team_name":team_name
+//                          "lng":orderLng,
+//                          "lat":orderLat
+                        }
+                        };
 
-                          $.ajax({
-                              async: true,
-                              url: "/orders/" + orderId,
-                              type: "PUT",
-                              data: data,
-                              dataType: "json",
-                              success: function (result) {
-                                  var l_clean = marker.getLabel();
-                                  l_clean.setContent("");
-                                  l_clean.setStyle({borderWidth:"0px"});
-                                  var new_label = new BMap.Label((i+1) + ":" + team_name);
-                                  var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
-                                      offset: new BMap.Size(10, 25),
-                                      imageOffset: new BMap.Size(0, 0 - 10 * 25)
-                                  });
-                                  marker.setIcon({icon:myIcon});
-                                  marker.setLabel(new_label);
-    //                              location.reload();
-                              }
-                          })
-                      }
-                  })
-                  .modal("show");
-          });
-      }
-      //右键单击marker弹出窗口事件
-      function openInfo(content, e, opts){
-          var p = e.target;
-          var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-          var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
-          map.openInfoWindow(infoWindow,point);                  //开启信息窗口
-      }
+                        $.ajax({
+                            async: false,
+                            url: "/orders/" + orderId,
+                            type: "PUT",
+                            data: data,
+                            dataType: "json",
+                            success: function (result) {
+                                var l_clean = marker.getLabel();
+                                l_clean.setContent("");
+                                l_clean.setStyle({borderWidth:"0px"});
+                                var new_label = new BMap.Label((i+1) + ":" + team_name);
+                                var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
+                                    offset: new BMap.Size(10, 25),
+                                    imageOffset: new BMap.Size(0, 0 - 10 * 25)
+                                });
+                                marker.setIcon({icon:myIcon});
+                                marker.setLabel(new_label);
+//                              location.reload();
+                            }
+                        })
+                    }
+                })
+                .modal("show");
+        });
+    }
+    //右键单击marker弹出窗口事件
+    function openInfo(content, e, opts){
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+        map.openInfoWindow(infoWindow,point);                  //开启信息窗口
+    }
 
-      //右键单击marker出现右键菜单事件
-      function RightClickHandler(content, marker, opts){
-          var showMarker = function (marker) {
+    //右键单击marker出现右键菜单事件
+    function RightClickHandler(content, marker, opts){
+        var showMarker = function (marker) {
             openInfo(content, marker, opts);
-          };
-          var markerMenu=new BMap.ContextMenu();
-          markerMenu.addItem(new BMap.MenuItem(content,showMarker.bind(marker)));
-          marker.addContextMenu(markerMenu);//给标记添加右键菜单
-      }
-    </script>
-<% end %>
+        };
+        var markerMenu=new BMap.ContextMenu();
+        markerMenu.addItem(new BMap.MenuItem(content,showMarker.bind(marker)));
+        marker.addContextMenu(markerMenu);//给标记添加右键菜单
+    }
+</script>
