@@ -1,8 +1,11 @@
 <%= form_tag "/orders/dispatch_list", method: "get" do %>
   <div class="row col-md-8" style="margin-bottom: 10px;">
-    <div class="col-lg-6">
-      <div class="input-group">
+    <div class="col-lg-8">
         <%= search_field_tag "like", nil, class: "form-control" %>
+    </div>
+    <div class="col-lg-4">
+      <div class="input-group">
+        <input type="text" name="install_date" class="form-control" id="date-select">
         <span class="input-group-btn">
           <%= submit_tag "查询", class: "btn btn-default" %>
         </span>
@@ -26,7 +29,7 @@
     <th>客户姓名</th>
     <th>联系电话</th>
     <th>详细地址</th>
-    <th>安装日期</th>
+    <th class="col-sm-1">安装日期</th>
     <th>商品型号</th>
     <th>销售单号</th>
     <th>备注</th>
@@ -36,14 +39,29 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= order.team_name %></td>
+        <td>
+          <a href="#" data-name="team_name" data-type="text" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.team_name %>"
+             class="team-click"><%= order.team_name %>
+          </a>
+        </td>
         <td><%= order.customer %></td>
         <td><%= order.phone %></td>
         <td><%= order.address %></td>
-        <td><%= order.install_date %></td>
+        <td>
+          <a href="#" data-name="install_date" data-type="date" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.install_date %>"
+             class="install_date-click"><%= order.install_date %>
+          </a>
+        </td>
         <td><%= order.item_type %></td>
         <td><%= order.lading_no %></td>
-        <td><%= order.note %></td>
+        <td>
+          <a href="#" data-name="note" data-type="textarea" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.note %>"
+             class="note-click"><%= order.note %>
+          </a>
+        </td>
         <td><a href="javascript:print(<%= order.id %>)">打印</a></td>
         <td><a href="javascript:finished(<%= order.id %>)" class="finished" id="<%= order.id %>">完工</a></td>
       </tr>
@@ -53,7 +71,7 @@
     <tr>
       <th colspan="11">
         <div class="ui right floated pagination menu">
-          <%= paginate @orders %>
+          <%#= paginate @orders %>
         </div>
       </th>
     </tr>
@@ -63,7 +81,7 @@
 <script>
   var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
   var oscript = document.createElement("script");
-  oscript.src = "http://192.168.0.205:8000/CLodopfuncs.js?priority=2";
+  oscript.src = "http://192.168.0.205:8001/CLodopfuncs.js?priority=2";
   head.insertBefore(oscript, head.firstChild);
 
   function getLodop(oOBJECT,oEMBED) {
@@ -73,7 +91,7 @@
               LODOP=getCLodop();
           } catch (err){};
           if(!LODOP && document.readyState!=="complete"){
-//              alert("C-Lodop没准备好，请稍候再试！");
+              alert("C-Lodop没准备好，请稍候再试！");
               return;
           }
           if(oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
@@ -94,7 +112,7 @@
       $.getJSON("/orders/" + oid, function(json){
               var objOrder = eval(json);
               var lading_no = objOrder.lading_no;
-              var item_type = objOrder.item_type;
+              var item_type = objOrder.item_type.substring(item.indexOf("K"));
               var customer = objOrder.customer;
               var address = objOrder.address;
               var phone = objOrder.phone;
@@ -104,7 +122,7 @@
               var note = (objOrder.note == null)? "" : objOrder.note;
 
               LODOP.PRINT_INIT("");
-              LODOP.SET_PRINT_PAGESIZE(1,"241mm","93mm","派工单");
+              LODOP.SET_PRINT_PAGESIZE(1,"220mm","93mm","派工单");
               addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note);
               LODOP.PREVIEW();
       });
@@ -115,7 +133,8 @@
           for(var i=0; i<json.length; i++){
               var objOrders = eval(json);
               var lading_no = objOrders[i].lading_no;
-              var item_type = objOrders[i].item_type;
+              var item_type_p = objOrders[i].item_type;
+              var item_type = item_type_p.substring(item_type_p.indexOf("K"));
               var customer = objOrders[i].customer;
               var address = objOrders[i].address;
               var phone = objOrders[i].phone;
@@ -146,7 +165,7 @@
       LODOP.ADD_PRINT_TEXT(72,37,731,25,"工人：" + team_name + "                      派工时间：" + updated_at);
       LODOP.SET_PRINT_STYLEA(4,"FontSize",14);
       LODOP.SET_PRINT_STYLEA(4,"FontColor",0);
-      LODOP.ADD_PRINT_TEXT(99,37,631,25,"姓名：" + customer + "                        电话：" + phone);
+      LODOP.ADD_PRINT_TEXT(99,37,631,25,"姓名：" + customer + "               电话：" + phone);
       LODOP.SET_PRINT_STYLEA(5,"FontSize",14);
       LODOP.SET_PRINT_STYLEA(5,"FontColor",0);
       LODOP.ADD_PRINT_TEXT(126,37,631,25, "地址：" + address);
@@ -173,4 +192,35 @@
           }
       })
   };
+
+  $("#orders").on('click-row.bs.table', function (e, row, $element) {
+      $('.success').removeClass('success');
+      $($element).addClass('success');
+  });
+
+  $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
+  $('.team-click').editable();
+  $('.phone-click').editable();
+  $('.address-click').editable({mode: "inline"});
+  $('.install_date-click').editable({
+      placement:'bottom',
+      clear: false,
+      format: 'yyyy/mm/dd',
+      viewformat: 'yyyy-mm-dd'
+  });
+  $('.note-click').editable({mode: "inline"});
+
+  function detailFormatter(index, row) {
+      var html = [];
+      $.each(row, function (key, value) {
+          console.log(key);
+          html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+      });
+      return html.join('');
+  };
+  $('#date-select').datepicker({
+      language: "zh-CN",
+      autoclose: true,
+      format: "yyyy-mm-dd"
+  })
 </script>

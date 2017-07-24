@@ -11,12 +11,19 @@ Rails.application.routes.draw do
       get 'dispatch_list'
       get 'finished_list'
       get 'current'
+      get 'waiting'
     end
   end
 
   # get '/orders/dispatch/:id', to: 'orders#dispatch'
   # resources :items
   resources :teams
+
+  resource :user, only: [:edit] do
+    collection do
+      patch 'update_password'
+    end
+  end
 
   root 'homes#dashboard'
 end

@@ -23,10 +23,11 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>安装工</th>
       <th>客户姓名</th>
       <th>联系电话</th>
       <th>客户地址</th>
-      <th>安装时间</th>
+      <th class="col-sm-1">安装时间</th>
       <!--<th class="single line">安装工</th>-->
       <th>备注</th>
       <th>销售单位</th>
@@ -39,6 +40,12 @@
     <% @orders.each do |order| %>
       <tr>
         <td><%= order.id %></td>
+        <td class="teams">
+          <a href="#" data-name="team" data-type="text" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.team_name %>"
+             class="team-click"><%= order.team_name %>
+          </a>
+        </td>
         <td>
           <a href="#" data-name="customer" data-type="text" data-pk="<%= order.id %>"
              data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.customer %>"
@@ -78,9 +85,10 @@
   </tbody>
   <tfoot>
     <tr>
-      <th colspan="10">
+      <th colspan="11">
         <div class="">
           <%= paginate @orders %>
+          <%= page_entries_info @orders %>
         </div>
       </th>
     </tr>
@@ -107,11 +115,12 @@
         });
 
         $.fn.editable.defaults.ajaxOptions = {type: "PUT", headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }};
+        $('.team-click').editable({mode: "inline"});
         $('.customer-click').editable();
         $('.phone-click').editable();
         $('.address-click').editable({mode: "inline"});
         $('.install_date-click').editable({
-            placement:'left',
+            placement:'bottom',
             clear: false,
             format: 'yyyy/mm/dd',
             viewformat: 'yyyy-mm-dd'
@@ -128,6 +137,9 @@
         }
 
         $('#new-order').modal({
+          show: false
+        });
+        $('#dispatch').modal({
           show: false
         })
     });
