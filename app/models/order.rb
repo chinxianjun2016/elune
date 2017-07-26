@@ -19,6 +19,11 @@ class Order < ApplicationRecord
 
       order = Order.find_by(lading_no: row["id"]) || Order.new
       # order = Order.new
+      if row["street"]
+        order.install_date = row["streeat"].to_date
+      else
+        order.install_date = Date.tomorrow
+      end
       order.attributes = row.to_hash.slice(*row.to_hash.keys)
       order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
       order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]

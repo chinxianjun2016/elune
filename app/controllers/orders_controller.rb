@@ -184,7 +184,7 @@ class OrdersController < ApplicationController
     unless params["install_date"].blank?
      ins_date = params["install_date"].to_date
     else
-     ins_date = Date.today
+     ins_date = Date.tomorrow
     end
 
     @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
