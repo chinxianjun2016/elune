@@ -155,8 +155,8 @@ zh-CN:
         sale_name: "经销商名称"
         note: "备注"
         install_date: "安装日期"
-        item_name: "商品型号"
-        team_name: "安装工姓名"
+        item_type: "商品型号"
+        team_name: "安装工"
     page_entries_info:
       one_page:
         display_entries:

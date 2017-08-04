@@ -224,9 +224,15 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(params[:order_import])
+    @order = Order.new(order_params)
 
     respond_to do |format|
+      @order.lng = BaiduMap.geocoder(address: params[:order]["address"])["result"]["location"]["lng"]
+      @order.lat = BaiduMap.geocoder(address: params[:order]["address"])["result"]["location"]["lat"]
+      @order.status="待网点派工"
+      if Order.last
+        @order.id = Order.last.id + 1
+      end
       if @order.save
         format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
@@ -277,12 +283,12 @@ class OrdersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def order_params
 
-    params.require(:order).permit(:info_no, :lading_no, :create_time, :customer, :area_code, :phone, :province, :city,
+    params.require(:order).permit(:id, :info_no, :lading_no, :create_time, :customer, :area_code, :phone, :province, :city,
                                   :county, :street, :address, :category, :count, :uncount, :purchase_date, :customer_attribute,
                                   :sale_type, :sale_no, :sale_name, :expected_time, :create_network_no, :create_network,
                                   :service_date, :service_network_no, :service_network, :status, :note, :other_note,
                                   :finished_time, :item_type, :item_count, :item_price, :item_type2, :item_count2, :item_price2,
                                   :item_type3, :item_count3, :item_price3, :team_name, :install_date, :operator, :dispatch_time,
-                                  :recall_time, :recall_note)
+                                  :recall_time, :recall_note, :lng, :lat)
   end
 end
