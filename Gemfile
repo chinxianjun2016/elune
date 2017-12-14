@@ -74,4 +74,8 @@ gem 'devise-i18n'
 # Kaminari
 gem 'kaminari'
 # calendar
-gem "simple_calendar", "~> 2.0"
+gem 'simple_calendar', '~> 2.0'
+# RuCaptcha
+gem 'rucaptcha'
+# redis
+gem 'redis'

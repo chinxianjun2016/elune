@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
+
   get 'homes/dashborad'
 
-  devise_for :users
+  devise_for :users, controllers: { sessions: :sessions }
   resources :items
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :orders do
@@ -26,4 +27,6 @@ Rails.application.routes.draw do
   end
 
   root 'homes#dashboard'
+
+  # mount RuCaptcha::Engine, at: '/rucaptcha'
 end
