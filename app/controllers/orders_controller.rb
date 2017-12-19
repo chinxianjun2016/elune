@@ -255,6 +255,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.update(order_params)
+        if 
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
