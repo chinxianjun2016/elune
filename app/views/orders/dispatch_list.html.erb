@@ -91,7 +91,7 @@
               LODOP=getCLodop();
           } catch (err){};
           if(!LODOP && document.readyState!=="complete"){
-              alert("C-Lodop没准备好，请稍候再试！");
+//              alert("C-Lodop没准备好，请稍候再试！");
               return;
           }
           if(oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
@@ -112,7 +112,8 @@
       $.getJSON("/orders/" + oid, function(json){
               var objOrder = eval(json);
               var lading_no = objOrder.lading_no;
-              var item_type = objOrder.item_type.substring(item.indexOf("K"));
+              var item_type_p = objOrder.item_type;
+              var item_type = item_type_p.substring(item_type_p.indexOf("K"));
               var customer = objOrder.customer;
               var address = objOrder.address;
               var phone = objOrder.phone;

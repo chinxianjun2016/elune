@@ -16,5 +16,6 @@ module Elune
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths << "#{config.root}/lib"
     config.i18n.default_locale = :'zh-CN'
+    config.cache_store = :redis_cache_store, 'redis://localhost:6379/0', { expires_in: 2.minutes }
   end
 end

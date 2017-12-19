@@ -19,6 +19,11 @@ class Order < ApplicationRecord
 
       order = Order.find_by(lading_no: row["id"]) || Order.new
       # order = Order.new
+      if row["street"]
+        order.install_date = row["streeat"].to_date
+      else
+        order.install_date = Date.tomorrow
+      end
       order.attributes = row.to_hash.slice(*row.to_hash.keys)
       order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
       order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
@@ -61,11 +66,7 @@ class Order < ApplicationRecord
           if Order.last.nil?
             order.id = row["id"].to_i
           else
-            # if Order.find_by(id: row["id"])
-            #   order.id = Order.last.id + 1
-            # elsif  Order.last.id > row["id"]
-              order.id = Order.last.id + 1
-            # end
+            order.id = Order.last.id + 1
           end
 
           order.info_no = row["info_no"].to_s
@@ -82,6 +83,7 @@ class Order < ApplicationRecord
           order.item_type=row["item_type"].to_s
           order.lng = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lng"]
           order.lat = BaiduMap.geocoder(address: row["address"])["result"]["location"]["lat"]
+          order.install_date = row["street"]
           order.save!
         end
       else

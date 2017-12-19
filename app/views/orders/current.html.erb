@@ -2,34 +2,39 @@
     <%#= date %>
 <%# end %>
 <div id="baiduMap" style="height:100%;width:100%;"></div>
-<div id="select-team" class="ui modal">
-  <i class="close icon"></i>
-  <div class="ui header">选择安装工</div>
 
-  <div class="ui form" id="dispatch">
-    <div class="ui grid">
-      <% @teams.each do |team| %>
-        <div class="six column row">
-          <div class="ui radio checkbox column">
-            <input type="radio" name="team_name" value="<%= team.name %>">
-            <label><%= team.name %>
-              <div class="ui teal label"><%= @counts["#{team.name}"] %></div>
-            </label>
+<% content_for :body_tail do %>
+    <div id="select-team" class="modal fade" tabindex="-1" role="dialog" aria-label="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">选择安装工</h4>
+          </div>
+          <div class="modal-body" id="dispatch" style="height: 400px;">
+            <div>
+              <% @teams.each do |team| %>
+                  <label class="checkbox-inline"><%= team.name %>
+                    <input type="radio" name="team_name" value="<%= team.name %>">
+                    <span class="label label-primary"><%= @counts["#{team.name}"] %></span>
+                  </label>
+              <% end %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              取消
+            </button>
+            <button type="button" class="btn btn-primary">
+              确定
+            </button>
           </div>
         </div>
-      <% end %>
+      </div>
     </div>
-  </div>
-  <div class="actions">
-    <div class="ui black deny button">
-      取消
-    </div>
-    <div type="submit" class="ui positive right labeled icon button">
-      确定
-      <i class="checkmark icon"></i>
-    </div>
-  </div>
-</div>
+<% end %>
 
 <script type="text/javascript">
 
