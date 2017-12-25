@@ -37,7 +37,7 @@ development:
   <<: *default
   database: elune_dev
   username: postgres
-  password: kcb 2016
+  password: Elune 2017!
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -46,11 +46,11 @@ test:
   <<: *default
   database: elune_test
   username: postgres
-  password: kcb 2016
+  password: Elune 2017!
 
 production:
   <<: *default
   database: elune_prod
   username: postgres
-#  password: Elune 2017!
-  password: kcb 2016
+  password: Elune 2017!
+

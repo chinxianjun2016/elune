@@ -15,100 +15,100 @@ ActiveRecord::Schema.define(version: 20170414014510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "items", force: :cascade do |t|
-    t.string   "name"
-    t.string   "number"
-    t.string   "unit"
-    t.string   "model"
-    t.float    "price"
+  create_table "items", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "number"
+    t.string "unit"
+    t.string "model"
+    t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "orders", force: :cascade do |t|
-    t.string   "info_no"
-    t.string   "lading_no"
+  create_table "orders", id: :serial, force: :cascade do |t|
+    t.string "info_no"
+    t.string "lading_no"
     t.datetime "create_time"
-    t.string   "customer"
-    t.string   "area_code"
-    t.string   "phone"
-    t.string   "province"
-    t.string   "city"
-    t.string   "county"
-    t.string   "street"
-    t.string   "address"
-    t.string   "category"
-    t.integer  "count"
-    t.integer  "uncount"
+    t.string "customer"
+    t.string "area_code"
+    t.string "phone"
+    t.string "province"
+    t.string "city"
+    t.string "county"
+    t.string "street"
+    t.string "address"
+    t.string "category"
+    t.integer "count"
+    t.integer "uncount"
     t.datetime "purchase_date"
-    t.string   "customer_attribute"
-    t.string   "sale_type"
-    t.string   "sale_no"
-    t.string   "sale_name"
-    t.string   "expected_time"
-    t.string   "create_network_no"
-    t.string   "create_network"
+    t.string "customer_attribute"
+    t.string "sale_type"
+    t.string "sale_no"
+    t.string "sale_name"
+    t.string "expected_time"
+    t.string "create_network_no"
+    t.string "create_network"
     t.datetime "service_date"
-    t.string   "service_network_no"
-    t.string   "service_network"
-    t.string   "status"
-    t.string   "note"
-    t.string   "other_note"
-    t.string   "finished_time"
-    t.string   "item_type"
-    t.integer  "item_count"
-    t.float    "item_price"
-    t.string   "item_type2"
-    t.integer  "item_count2"
-    t.float    "item_price2"
-    t.string   "item_type3"
-    t.integer  "item_count3"
-    t.float    "item_price3"
+    t.string "service_network_no"
+    t.string "service_network"
+    t.string "status"
+    t.string "note"
+    t.string "other_note"
+    t.string "finished_time"
+    t.string "item_type"
+    t.integer "item_count"
+    t.float "item_price"
+    t.string "item_type2"
+    t.integer "item_count2"
+    t.float "item_price2"
+    t.string "item_type3"
+    t.integer "item_count3"
+    t.float "item_price3"
     t.datetime "dispatch_time"
     t.datetime "recall_time"
-    t.string   "recall_note"
-    t.string   "team_name"
-    t.string   "team_phone"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.float    "lng"
-    t.float    "lat"
-    t.date     "install_date"
-    t.string   "operator"
+    t.string "recall_note"
+    t.string "team_name"
+    t.string "team_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "lng"
+    t.float "lat"
+    t.date "install_date"
+    t.string "operator"
     t.datetime "finished_date"
   end
 
-  create_table "teams", force: :cascade do |t|
-    t.string   "name"
-    t.string   "phone"
-    t.string   "tel"
-    t.string   "note"
-    t.string   "area"
-    t.string   "address"
-    t.integer  "status"
+  create_table "teams", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "phone"
+    t.string "tel"
+    t.string "note"
+    t.string "area"
+    t.string "address"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "plate_no"
+    t.string "plate_no"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.boolean  "admin"
-    t.string   "username"
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "admin"
+    t.string "username"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
 end
