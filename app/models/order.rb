@@ -72,7 +72,7 @@ class Order < ApplicationRecord
           order.info_no = row["info_no"].to_s
           order.lading_no = row["lading_no"].to_s
           order.customer= row["customer"].to_s
-          order.phone = row["phone"].to_s
+          order.phone = row["phone"].to_i.to_s
           order.area_code=row["area_code"].to_s
           order.province=row["province"].to_s
           order.city=row["city"].to_s

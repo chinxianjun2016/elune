@@ -252,8 +252,17 @@ class OrdersController < ApplicationController
         params["order"] = { "#{params['name']}":params['value']  }
       end
     end
+    #update address auto updating lng&lat
+    if params['name'] == 'address'
+      params['order']['lng'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lng']
+      params['order']['lat'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lat']
+    else
+      params['order']['lng'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lng']
+      params['order']['lat'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lat']
+    end
 
     respond_to do |format|
+
       if @order.update(order_params)
         
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
