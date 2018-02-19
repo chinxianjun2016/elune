@@ -145,9 +145,9 @@ class OrdersController < ApplicationController
 
     respond_to :html, :json
 
-    # render layout: "ordersemantic"
+    render layout: "ordersemantic"
 
-    render layout: "order"
+    # render layout: "order"
   end
 
   # GET /orders/1
@@ -253,13 +253,13 @@ class OrdersController < ApplicationController
       end
     end
     #update address auto updating lng&lat
-    if params['name'] == 'address'
-      params['order']['lng'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lng']
-      params['order']['lat'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lat']
-    else
-      params['order']['lng'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lng']
-      params['order']['lat'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lat']
-    end
+    # if params['name'] == 'address'
+    #   params['order']['lng'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lng']
+    #   params['order']['lat'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lat']
+    # else
+    #   params['order']['lng'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lng']
+    #   params['order']['lat'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lat']
+    # end
 
     respond_to do |format|
 
