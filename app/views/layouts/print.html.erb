@@ -206,7 +206,7 @@
         <div class="badge"><%= @dispatching_all %></div>
       </a>
       <a class="list-group-item <%= current_page?('/orders/current')? " active" : "" %>" href="/orders/current">
-        现在派工
+        今天的派工
         <div class="badge"> <%= @current_all %></div>
       </a>
       <a class="list-group-item <%= current_page?('/orders/dispatch_list')? " active" : "" %>" href="/orders/dispatch_list">
@@ -268,4 +268,3 @@
 </script>
 </body>
 </html>
-
