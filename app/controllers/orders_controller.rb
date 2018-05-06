@@ -19,7 +19,7 @@ class OrdersController < ApplicationController
     @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
                            OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
                           "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-                  .order(phone: :asc).page params[:page]
+                  .order(install_date: :asc).page params[:page]
     # else
     #
     #   @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
