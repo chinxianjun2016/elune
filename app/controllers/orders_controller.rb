@@ -19,7 +19,7 @@ class OrdersController < ApplicationController
     @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
                            OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
                           "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-                  .order(phone: :asc).page params[:page]
+                  .order(install_date: :asc).page params[:page]
     # else
     #
     #   @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
@@ -145,9 +145,9 @@ class OrdersController < ApplicationController
 
     respond_to :html, :json
 
-    # render layout: "ordersemantic"
+    render layout: "ordersemantic"
 
-    render layout: "order"
+    # render layout: "order"
   end
 
   # GET /orders/1
@@ -252,10 +252,19 @@ class OrdersController < ApplicationController
         params["order"] = { "#{params['name']}":params['value']  }
       end
     end
+    #update address auto updating lng&lat
+    # if params['name'] == 'address'
+    #   params['order']['lng'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lng']
+    #   params['order']['lat'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lat']
+    # else
+    #   params['order']['lng'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lng']
+    #   params['order']['lat'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lat']
+    # end
 
     respond_to do |format|
+
       if @order.update(order_params)
-        if 
+
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else

@@ -42,20 +42,20 @@
     map.enableScrollWheelZoom(true);                 //启用滚轮放大缩小
 
     $.getJSON("/orders/baidu_map", function(json){
-        var pointOffset = 0.00007;
+        var pointOffset = 0.00008;
         for(var i=0; i<json.length; i++){
             var objOrders = eval(json);
             if(i>0){
                 if(objOrders[i-1].lng == objOrders[i].lng){
                     var orderLng = objOrders[i].lng + pointOffset;
                     var orderLat = objOrders[i].lat + pointOffset;
-                    pointOffset += 0.00007;
+                    pointOffset += 0.00008;
 //                  alert(orderLat);
                 }
                 else{
                     var orderLng = objOrders[i].lng;
                     var orderLat = objOrders[i].lat;
-                    pointOffset = 0.00007;
+                    pointOffset = 0.00008;
                 }
 
             }

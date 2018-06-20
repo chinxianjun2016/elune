@@ -55,7 +55,7 @@ Team.create!(:name => "苏建民",	:phone => "18910763297",	:plate_no  => "京1"
 Team.create!(:name => "张德志",	:phone => "18101289392",	:plate_no  => "冀0")
 Team.create!(:name => "左世坤",	:phone => "18910013695",	:plate_no  => "京2")
 Team.create!(:name => "苏强",	:phone => "17343063503",	:plate_no  => "蒙9")
-Team.create!(:name => "张伟丰",	:phone => "13683068187",	:plate_no  => "冀7")
+Team.create!(:name => "张伟丰",	:phone => "13683068187",	:plate_no  => "冀5")
 Team.create!(:name => "孔继伟",	:phone => "13671181669",	:plate_no  => "京8")
 Team.create!(:name => "赵少波",	:phone => "15300323208",	:plate_no  => "冀0")
 Team.create!(:name => "宋振伟",	:phone => "18210110275",	:plate_no  => "豫1")
