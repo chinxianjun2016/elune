@@ -79,3 +79,5 @@ gem 'simple_calendar', '~> 2.0'
 gem 'rucaptcha'
 # redis
 gem 'redis'
+# role_core
+gem 'role_core'

@@ -116,7 +116,11 @@ class OrdersController < ApplicationController
     eom = Date.today.end_of_month
     @counts = {}
     @teams.each do |t|
-      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
+      last_install = Order.where("team_name = ?", t.name).last
+      last_date = last_install ? last_install.install_date : bom
+      daley = (Date.today - last_date)
+      team_count = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
+      @counts["#{t.name}"] = "#{team_count}/#{daley}"
     end
 
     respond_to :html, :json
@@ -140,7 +144,11 @@ class OrdersController < ApplicationController
     eom = Date.today.end_of_month
     @counts = {}
     @teams.each do |t|
-      @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
+      last_install = Order.where("team_name = ?", t.name).last
+      last_date = last_install ? last_install.install_date : bom
+      daley = (Date.today - last_date)
+      team_count = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
+      @counts["#{t.name}"] = "#{team_count}/#{daley}"
     end
 
     respond_to :html, :json
