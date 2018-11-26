@@ -15,6 +15,7 @@
 <% end %>
 <div class="col-md-4">
   <a href="javascript:prints()" class="btn btn-primary pull-right">打印全部</a>
+  <%= link_to "Excel",  %>
 </div>
 
 <table id="orders"
@@ -109,22 +110,21 @@
   LODOP=getLodop();
 
   function print(oid) {
-      $.getJSON("/orders/" + oid, function(json){
-              var objOrder = eval(json);
+      $.getJSON("/orders/" + oid, function(objOrder){
               var lading_no = objOrder.lading_no;
               var item_type_p = objOrder.item_type;
               var item_type = item_type_p.substring(item_type_p.indexOf("K"));
               var customer = objOrder.customer;
               var address = objOrder.address;
               var phone = objOrder.phone;
-              var updated_at = objOrder.updated_at;
+              var install_date = objOrder.install_date;
               var sale_name = objOrder.sale_name;
               var team_name = objOrder.team_name;
               var note = (objOrder.note == null)? "" : objOrder.note;
 
               LODOP.PRINT_INIT("");
               LODOP.SET_PRINT_PAGESIZE(1,"220mm","93mm","派工单");
-              addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note);
+              addPrintContent(lading_no, item_type, customer, address, phone, install_date, sale_name, team_name, note);
               LODOP.PREVIEW();
       });
   };
@@ -139,20 +139,20 @@
               var customer = objOrders[i].customer;
               var address = objOrders[i].address;
               var phone = objOrders[i].phone;
-              var updated_at = objOrders[i].updated_at;
+              var install_date = objOrders[i].install_date;
               var sale_name = objOrders[i].sale_name;
               var team_name = objOrders[i].team_name;
               var note = (objOrders[i].note == null)? "" : objOrders[i].note;
 
               LODOP.PRINT_INIT("");
               LODOP.SET_PRINT_PAGESIZE(1,"241mm","93mm","派工单");
-              addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note);
+              addPrintContent(lading_no, item_type, customer, address, phone, install_date, sale_name, team_name, note);
               LODOP.PRINT();
           }
       });
   };
 
-  function addPrintContent(lading_no, item_type, customer, address, phone, updated_at, sale_name, team_name, note) {
+  function addPrintContent(lading_no, item_type, customer, address, phone, install_date, sale_name, team_name, note) {
       LODOP.SET_PRINT_STYLE("FontColor",16711680);
       LODOP.ADD_PRINT_RECT(31,16,459,217,0,1);
       LODOP.SET_PRINT_STYLE("Underline", 1);
@@ -163,7 +163,7 @@
       LODOP.ADD_PRINT_TEXT(45,37,731,25,"单号：" + lading_no + "         经销商："+ sale_name);
       LODOP.SET_PRINT_STYLEA(3,"FontSize",14);
       LODOP.SET_PRINT_STYLEA(3,"FontColor",0);
-      LODOP.ADD_PRINT_TEXT(72,37,731,25,"工人：" + team_name + "                      派工时间：" + updated_at);
+      LODOP.ADD_PRINT_TEXT(72,37,731,25,"工人：" + team_name + "                      派工时间：" + install_date);
       LODOP.SET_PRINT_STYLEA(4,"FontSize",14);
       LODOP.SET_PRINT_STYLEA(4,"FontColor",0);
       LODOP.ADD_PRINT_TEXT(99,37,631,25,"姓名：" + customer + "               电话：" + phone);

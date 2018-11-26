@@ -78,7 +78,11 @@
           </a>
         </td>
         <td><%= order.sale_name %></td>
-        <td><%= order.item_type %></td>
+        <td>
+          <a href="#" data-name="item_type" data-type="text" data-pk="<%= order.id %>"
+             data-url="/orders/<%= order.id.to_s + ".json" %>" data-value="<%= order.item_type %>"
+             class="install_date-click"><%= order.item_type %>
+          </a></td>
         <td><%= order.lading_no %></td>
       </tr>
     <% end %>

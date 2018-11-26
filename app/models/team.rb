@@ -1,5 +1,5 @@
 class Team < ApplicationRecord
-  # has_many :orders
+  has_many :orders
 
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
