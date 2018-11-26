@@ -70,9 +70,9 @@ class Order < ApplicationRecord
           end
 
           order.info_no = row["info_no"].to_s
-          order.lading_no = row["lading_no"].to_s
+          order.lading_no = row["lading_no"].is_a?(Numeric) ? row["lading_no"].to_i.to_s : row["lading_no"]
           order.customer= row["customer"].to_s
-          order.phone = row["phone"].to_i.to_s
+          order.phone = row["phone"].is_a?(Numeric) ? row["phone"].to_i.to_s : row["phone"]
           order.area_code=row["area_code"].to_s
           order.province=row["province"].to_s
           order.city=row["city"].to_s
@@ -104,5 +104,14 @@ class Order < ApplicationRecord
 
   def self.dispatch
     Order.where("status = '网点已派工'")
+  end
+
+  def self.to_csv(options = {})
+    CSV.generate(orders) do |csv|
+      csv << column_names
+      all.each do |order|
+        csv << order.attributes.values_at(*column_names)
+      end
+    end
   end
 end

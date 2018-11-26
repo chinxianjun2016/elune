@@ -11,38 +11,17 @@ class OrdersController < ApplicationController
     else
       like = ""
     end
-    # @teams = Team.order(name: :asc)
-
-    # if params["sale_name"] != "全部"
-    #   sale_name = params["sale_name"]
 
     @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
                            OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
                           "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-                  .order(install_date: :asc).page params[:page]
-    # else
-    #
-    #   @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
-    #                        OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
-    #                         "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-    #                 .where("status = '待网点派工'")
-    #                 .order(create_time: :asc).page params[:page]
-    # end
+                  .order(install_date: :desc).page params[:page]
 
-    # @orders = Order.where("status = '待网点派工'").order(create_time: :asc)
     @all = Order.all.count
     @undispatch_all = Order.where("status = '待网点派工'").count
     @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
     @dispatched_all = Order.where("status='网点已派工'").count
     @finished_all = Order.where("status='派工已完工'").count
-
-    # bom = Date.today.beginning_of_month
-    # eom = Date.today.end_of_month
-    # @counts = {}
-    #
-    # @teams.each do |t|
-    #   @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
-    # end
 
     respond_to :html, :json
 
@@ -54,40 +33,18 @@ class OrdersController < ApplicationController
     else
       like = ""
     end
-    # @teams = Team.order(name: :asc)
 
-    # if params["sale_name"] != "全部"
-    #   sale_name = params["sale_name"]
-
-      @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
-                           OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
-                            "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-                    .where("status = '待网点派工'")
-                    .order(:phone, :address).page params[:page]
-    # else
-    #
-    #   @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
-    #                        OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
-    #                         "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
-    #                 .where("status = '待网点派工'")
-    #                 .order(create_time: :asc).page params[:page]
-    # end
-
-    # @orders = Order.where("status = '待网点派工'").order(create_time: :asc)
+    @orders = Order.where("lading_no LIKE ? OR customer LIKE ? OR item_type LIKE ? OR sale_name LIKE ? OR team_name LIKE ?
+                         OR address LIKE ? OR phone LIKE ? OR note LIKE ?", "%#{like}%", "%#{like}%", "%#{like}%",
+                          "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%", "%#{like}%")
+                  .where("status = '待网点派工'")
+                  .order(:phone, :address).page params[:page]
 
     @all = Order.all.count
     @undispatch_all = Order.where("status = '待网点派工'").count
     @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
     @dispatched_all = Order.where("status='网点已派工'").count
     @finished_all = Order.where("status='派工已完工'").count
-
-    # bom = Date.today.beginning_of_month
-    # eom = Date.today.end_of_month
-    # @counts = {}
-    #
-    # @teams.each do |t|
-    #   @counts["#{t.name}"] = Order.where("team_name = ?", t.name).where("status='网点已派工'").where("install_date <= ? and install_date >= ?", eom, bom).count
-    # end
 
     respond_to :html, :json
 
@@ -151,7 +108,7 @@ class OrdersController < ApplicationController
       @counts["#{t.name}"] = "#{team_count}/#{daley}"
     end
 
-    respond_to :html, :json
+    respond_to :html, :json, :xls
 
     render layout: "ordersemantic"
 
@@ -202,7 +159,7 @@ class OrdersController < ApplicationController
                   .order(:team_name, :phone)
                   #.order(team_name: :asc).page params[:page]
 
-    respond_to :html, :json
+    respond_to :html, :json, :xls
 
     render layout: "print"
   end
@@ -224,7 +181,7 @@ class OrdersController < ApplicationController
     @dispatching_all = Order.where("install_date='#{Date.tomorrow}'").count
     @dispatched_all = Order.where("status='派工已派工'").count
     @finished_all = @orders.count
-    respond_to :html, :json
+    respond_to :html, :json, :xls
 
     # render layout: "ordersemantic"
   end
@@ -261,13 +218,13 @@ class OrdersController < ApplicationController
       end
     end
     #update address auto updating lng&lat
-    # if params['name'] == 'address'
-    #   params['order']['lng'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lng']
-    #   params['order']['lat'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lat']
-    # else
-    #   params['order']['lng'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lng']
-    #   params['order']['lat'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lat']
-    # end
+    if params['name'] == 'address'
+      params['order']['lng'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lng']
+      params['order']['lat'] = BaiduMap.geocoder(address: params['value'])['address']['result']['location']['lat']
+    else
+      params['order']['lng'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lng']
+      params['order']['lat'] = BaiduMap.geocoder(address: params['order']['address'])['address']['result']['location']['lat']
+    end
 
     respond_to do |format|
 
